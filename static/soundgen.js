@@ -11,22 +11,26 @@ class WaveGenerator extends AudioWorkletProcessor {
             const [id, value] = msg.data;
             switch (id) {
                 case 'srate':
-                    this.srate = Number(value);
+                    this.voice.setSrate(value);
                     break;
                 case 'freq':
                     this.voice.setFrequency(value);
                     break;
                 case 'stop':
-                    this.voice.stop = true;
+                    this.stop = true;
                     break;
                 case 'modDepth':
                     this.voice.modDepth = value;
+                    break;
+                case 'carPitchRatio':
+                    this.voice.setCarPitchRatio(value);
                     break;
                 default: throw new Error ('Unknown value');
             }
         }
     }
     process (inputs, outputs, parameters) {
+        if (this.stop) return;
         this.voice.writeWave(outputs[0]);
         return true;
     }
@@ -35,7 +39,6 @@ class WaveGenerator extends AudioWorkletProcessor {
 registerProcessor('wave-generator', WaveGenerator);
 
 class Voice {
-    stop = false;
     srate = 48000;
     numOscillators = 2;
     oscillators = [];
@@ -45,55 +48,52 @@ class Voice {
         for (let i=0; i<this.numOscillators; ++i) {
             this.oscillators.push(new SineWave());
         }
-        this.oscillators[1].freqMultiply = 0.5;
+        this.oscillators[1].freqMultiply = 0.4;
     }
 
     // Given an array of channels, write the voice into a buffer
     writeWave (channels) {
-        if (this.stop) return;
         channels.forEach(channel => {
             for (let i=0; i<channel.length; ++i) {
+                this.oscillators[0].modulateWith(this.oscillators[1], this.modDepth);
                 channel[i] = this.oscillators[0].getSample();
-                this.oscillators[0].tensionMod =
-                    this.modDepth * this.oscillators[1].getSample() / this.srate ;
             }
         });
     }
 
+    setSrate (srate) {
+        this.oscillators.forEach((osc) => osc.srate = srate);
+    }
+
     setFrequency (freq) {
-        this.oscillators.forEach((osc) => osc.setFrequency(freq / this.srate));
+        this.oscillators.forEach((osc) => osc.setFrequency(freq));
+    }
+
+    setCarPitchRatio (r) {
+        this.oscillators[1].freqMultiply = r;
     }
 }
 
 class SineWave {
-    pos = 1;
-    vel = 0;
-    tension = 0;
-    tensionMod = 0;
+    srate = 48000;
+    phase = 0;
+    phaseadd = 1;
     freqMultiply = 1;
 
     constructor () {
     }
 
-    // Given a desired frequency, return a spring tension value which will result in a wave at this frequency.
-    static tensionFromFrequency (freq) {
-        // Piecewise approximation to compensate for error at higher frequencies
-        const div = freq > 0.04 ? 0.1564 + 0.0565 * freq : 0.16;
-        return Math.pow(freq / div, 2.0)
-    }
-
-    // Set frequency in hz
-    setFrequency (freq) {
-        this.tension = SineWave.tensionFromFrequency(freq * this.freqMultiply);
+    setFrequency (pitch) {
+        this.phaseadd = Math.PI * 2.0 * pitch / this.srate;
     }
 
     getSample () {
-        const tension = (this.tension + this.tensionMod);
-        [this.pos, this.vel] = [
-            Math.min(1.0, this.pos - this.vel),
-            this.vel * (1 - tension) + this.pos * tension,
-        ];
-        return this.pos;
+        this.phase += (this.phaseadd * this.freqMultiply);
+        return Math.sin(this.phase);
+    }
+
+    modulateWith (other, modDepth) {
+        this.phase += other.getSample() * modDepth / this.srate * 100;
     }
 }
 
