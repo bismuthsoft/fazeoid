@@ -1,8 +1,10 @@
 <script lang="ts">
 	import Slider from "$lib/Slider.svelte"
+	import Knob from "$lib/Knob.svelte"
+
     import { onMount, onDestroy } from 'svelte'
     let stop = false;
-    let pitch = 440;
+    let pitch = 2200;
     let pitchRatio = 0.5;
     let depth = 1;
 
@@ -23,7 +25,7 @@
                 p.postMessage('stop');
                 window.clearInterval(iv);
             }
-        }, 40);
+        }, 16);
     });
 
     onDestroy(() => {
@@ -31,6 +33,7 @@
     });
 </script>
 
-<Slider bind:value="{pitch}" label="Pitch" min="{20}" max="{8000}" log=true/>
+<!--<Slider bind:value="{pitch}" label="Pitch" min="{20}" max="{8000}" log=true/>-->
+<Knob bind:value="{pitch}" label="Pitch" min="{20}" max="{8000}" log=true/>
 <Slider bind:value="{depth}" label="Depth" min="{0}" max="{1000}" log=true/>
 <Slider bind:value="{pitchRatio}" label="PitchRatio" min="{0.01}" max="{10}" log=true/>
