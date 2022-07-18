@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Slider from "$lib/Slider.svelte"
 	import Knob from "$lib/Knob.svelte"
+	import soundgen from "$lib/soundgen.js?url";
 
     import { onMount, onDestroy } from 'svelte'
     let stop = false;
@@ -10,7 +11,7 @@
 
     onMount(async () => {
         const ac = new AudioContext();
-        await ac.audioWorklet.addModule('soundgen.js', { type: 'module' });
+        await ac.audioWorklet.addModule(soundgen);
         const waveNode = new AudioWorkletNode(ac, 'wave-generator');
         waveNode.connect(ac.destination);
         const p = waveNode.port;
