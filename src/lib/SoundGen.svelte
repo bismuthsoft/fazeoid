@@ -1,36 +1,42 @@
 <script lang="ts">
     import Slider from "$lib/Slider.svelte"
     import Knob from "$lib/Knob.svelte"
+ import Slider from "$lib/Slider.svelte"
+ import Knob from "$lib/Knob.svelte"
 
-    import { onMount, onDestroy } from 'svelte'
-    let stop = false;
-    let pitch = 2200;
-    let pitchRatio = 0.5;
-    let depth = 1;
+ // import for HMR ??? TODO
+ import SoundGenWorker from "$lib/SoundGenWorker.js"
 
-    onMount(async () => {
-        const ac = new AudioContext();
-        await ac.audioWorklet.addModule('soundgen.bundle.js');
-        const waveNode = new AudioWorkletNode(ac, 'wave-generator');
-        waveNode.connect(ac.destination);
-        const p = waveNode.port;
-        p.postMessage(['srate', ac.sampleRate]);
 
-        let iv = window.setInterval(() => {
-//            p.postMessage(['freq', 400]);
-            p.postMessage(['freq', pitch]);
-            p.postMessage(['modDepth', depth]);
-            p.postMessage(['carPitchRatio', pitchRatio]);
-            if (stop) {
-                p.postMessage('stop');
-                window.clearInterval(iv);
-            }
-        }, 16);
-    });
+ import { onMount, onDestroy } from 'svelte'
+ let stop = false;
+ let pitch = 2200;
+ let pitchRatio = 0.5;
+ let depth = 1;
 
-    onDestroy(() => {
-        stop = true;
-    });
+ onMount(async () => {
+     const ac = new AudioContext();
+     await ac.audioWorklet.addModule('soundgen.bundle.js');
+     const waveNode = new AudioWorkletNode(ac, 'wave-generator');
+     waveNode.connect(ac.destination);
+     const p = waveNode.port;
+     p.postMessage(['srate', ac.sampleRate]);
+
+     let iv = window.setInterval(() => {
+         //            p.postMessage(['freq', 400]);
+         p.postMessage(['freq', pitch]);
+         p.postMessage(['modDepth', depth]);
+         p.postMessage(['carPitchRatio', pitchRatio]);
+         if (stop) {
+             p.postMessage('stop');
+             window.clearInterval(iv);
+         }
+     }, 16);
+ });
+
+ onDestroy(() => {
+     stop = true;
+ });
 </script>
 
 <!--<Slider bind:value="{pitch}" label="Pitch" min="{20}" max="{8000}" log=true/>-->
