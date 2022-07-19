@@ -1,6 +1,4 @@
-<script lang="ts">
-    import Slider from "$lib/Slider.svelte"
-    import Knob from "$lib/Knob.svelte"
+<script lang="js">
  import Slider from "$lib/Slider.svelte"
  import Knob from "$lib/Knob.svelte"
 
@@ -10,9 +8,43 @@
 
  import { onMount, onDestroy } from 'svelte'
  let stop = false;
- let pitch = 2200;
- let pitchRatio = 0.5;
- let depth = 1;
+
+ let basePitch = 600;
+ let volume = 1.0;
+
+ function mkDefaultParams(numOscs) {
+     return {
+         numOscs: numOscs,
+         oscs: Array(numOscs).fill().map((_, i) => ({
+             modulation: Array(i).fill().map(() => 1),
+             pitchRatio: 1,
+         })),
+     };
+ }
+
+ let synthParams = mkDefaultParams(3);
+
+ function writeSynthParams(p) {
+     let params = {
+         ...synthParams,
+         volume: volume,
+         oscs: synthParams.oscs.map((v) => ({
+             modulation: v.modulation,
+             pitch: basePitch * v.pitchRatio,
+         }))
+     };
+     p.postMessage(['params', params]);
+ }
+
+ function randomize() {
+     basePitch = Math.random()*440 + 220;
+     synthParams.oscs.forEach((osc, i) => {
+         osc.modulation = Array(i).fill().map(() =>
+             Math.pow(10, Math.random()*6-3));
+         osc.pitchRatio = Math.pow(Math.random(), 2) * 10;
+     });
+     synthParams = synthParams;
+ }
 
  onMount(async () => {
      const ac = new AudioContext();
@@ -23,10 +55,7 @@
      p.postMessage(['srate', ac.sampleRate]);
 
      let iv = window.setInterval(() => {
-         //            p.postMessage(['freq', 400]);
-         p.postMessage(['freq', pitch]);
-         p.postMessage(['modDepth', depth]);
-         p.postMessage(['carPitchRatio', pitchRatio]);
+         writeSynthParams(p);
          if (stop) {
              p.postMessage('stop');
              window.clearInterval(iv);
@@ -39,7 +68,19 @@
  });
 </script>
 
-<!--<Slider bind:value="{pitch}" label="Pitch" min="{20}" max="{8000}" log=true/>-->
-<Knob bind:value="{pitch}" label="Pitch" min="{20}" max="{8000}" log=true/>
-<Slider bind:value="{depth}" label="Depth" min="{0}" max="{1000}" log=true/>
-<Slider bind:value="{pitchRatio}" label="PitchRatio" min="{0.01}" max="{10}" log=true/>
+<Slider bind:value="{volume}" label="Volume" min="{0}" max="{1}" log=false/>
+<Slider bind:value="{basePitch}" label="Base Pitch" min="{20}" max="{8000}" log=true/>
+{#each synthParams.oscs as osc, oscIndex}
+    {#each osc.modulation as depth, modIndex}
+        <Slider bind:value="{synthParams.oscs[oscIndex].modulation[modIndex]}"
+                label="{`Modulation from ${modIndex} to ${oscIndex}`}"
+                min="{0}" max="{1000}" log=true/>
+    {/each}
+{/each}
+{#each synthParams.oscs as osc, oscIndex}
+    <Slider bind:value="{synthParams.oscs[oscIndex].pitchRatio}"
+            label="{"PitchRatio of osc" + oscIndex}"
+            min="{0.01}" max="{10}" log=true/>
+{/each}
+
+<button on:click="{randomize}">Randomize</button>
