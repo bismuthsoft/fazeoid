@@ -1,5 +1,5 @@
 <script>
-	import SoundGen from "$lib/SoundGen.svelte"
+	import ControlPanel from "$lib/ControlPanel.svelte"
 </script>
 
-<SoundGen/>
+<ControlPanel />
