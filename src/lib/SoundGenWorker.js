@@ -1,7 +1,4 @@
 class WaveGenerator extends AudioWorkletProcessor {
-    pos = 1;
-    vel = 0;
-    tension = 0;
     stop = false;
 
     constructor () {
@@ -34,9 +31,7 @@ registerProcessor('wave-generator', WaveGenerator);
 
 class Voice {
     srate = 48000;
-    numOscs = 2;
     oscs = [];
-    modDepth = 0;
 
     constructor () {
         this.oscs = [];
