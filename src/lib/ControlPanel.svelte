@@ -2,10 +2,6 @@
  import Slider from "$lib/Slider.svelte"
  import Knob from "$lib/Knob.svelte"
 
- // import for HMR ??? TODO
- // import SoundGenWorker from "$lib/soundgen"
-
-
  import { onMount, onDestroy } from 'svelte'
  let stop = false;
 
