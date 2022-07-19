@@ -39,27 +39,3 @@ class WaveGenerator extends AudioWorkletProcessor {
 }
 
 registerProcessor('wave-generator', WaveGenerator);
-
-class SineWave {
-    srate = 48000;
-    phase = 0;
-    phaseadd = 1;
-    freqMultiply = 1;
-
-    constructor () {
-    }
-
-    setFrequency (pitch) {
-        this.phaseadd = Math.PI * 2.0 * pitch / this.srate;
-    }
-
-    getSample () {
-        this.phase += (this.phaseadd * this.freqMultiply);
-        return Math.sin(this.phase);
-    }
-
-    modulateWith (other, modDepth) {
-        this.phase += other.getSample() * modDepth / this.srate * 100;
-    }
-}
-
