@@ -1,36 +1,76 @@
-export default class Voice {
+class WaveGenerator extends AudioWorkletProcessor {
+    pos = 1;
+    vel = 0;
+    tension = 0;
+    stop = false;
+
+    constructor () {
+        super();
+        this.voice = new Voice();
+        this.port.onmessage = (msg) => {
+            const [id, value] = msg.data;
+            switch (id) {
+                case 'srate':
+                    this.voice.setSrate(value);
+                    break;
+                case 'params':
+                    this.voice.setParams(value);
+                    break;
+                case 'stop':
+                    this.stop = true;
+                    break;
+                default: throw new Error ('Unknown value');
+            }
+        }
+    }
+    process (inputs, outputs, parameters) {
+        if (this.stop) return;
+        this.voice.writeWave(outputs[0]);
+        return true;
+    }
+}
+
+registerProcessor('wave-generator', WaveGenerator);
+
+class Voice {
     srate = 48000;
-    numOscillators = 2;
-    oscillators = [];
+    numOscs = 2;
+    oscs = [];
     modDepth = 0;
 
     constructor () {
-        for (let i=0; i<this.numOscillators; ++i) {
-            this.oscillators.push(new SineWave());
-        }
-        this.oscillators[1].freqMultiply = 0.4;
+        this.oscs = [];
     }
 
     // Given an array of channels, write the voice into a buffer
     writeWave (channels) {
         channels.forEach(channel => {
+            const oscCache = [];
             for (let i=0; i<channel.length; ++i) {
-                this.oscillators[0].modulateWith(this.oscillators[1], this.modDepth);
-                channel[i] = this.oscillators[0].getSample();
+                this.oscs.forEach((osc, i) => {
+                    oscCache[i] = osc.getSample();
+                    osc.modulation.forEach((depth, i) =>
+                        osc.modulateWith(oscCache[i], depth))
+                })
+                channel[i] = oscCache[this.oscs.length-1] * this.volume;
             }
         });
     }
 
     setSrate (srate) {
-        this.oscillators.forEach((osc) => osc.srate = srate);
+        this.oscs.forEach((osc) => osc.srate = srate);
     }
 
-    setFrequency (freq) {
-        this.oscillators.forEach((osc) => osc.setFrequency(freq));
-    }
-
-    setCarPitchRatio (r) {
-        this.oscillators[1].freqMultiply = r;
+    setParams ({numOscs, oscs, volume}) {
+        this.volume = volume;
+        if (this.oscs.length !== numOscs) {
+            this.oscs = Array(numOscs).fill().map(() => new SineWave());
+        }
+        oscs.forEach((osc, index) => {
+            const o = this.oscs[index];
+            o.setFrequency(osc.pitch);
+            o.modulation = osc.modulation;
+        });
     }
 }
 
@@ -38,7 +78,6 @@ class SineWave {
     srate = 48000;
     phase = 0;
     phaseadd = 1;
-    freqMultiply = 1;
 
     constructor () {
     }
@@ -48,11 +87,11 @@ class SineWave {
     }
 
     getSample () {
-        this.phase += (this.phaseadd * this.freqMultiply);
+        this.phase += this.phaseadd;
         return Math.sin(this.phase);
     }
 
-    modulateWith (other, modDepth) {
-        this.phase += other.getSample() * modDepth / this.srate * 100;
+    modulateWith (sample, modDepth) {
+        this.phase += sample * modDepth / this.srate * 100;
     }
 }
