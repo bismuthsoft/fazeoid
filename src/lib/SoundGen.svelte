@@ -3,7 +3,7 @@
  import Knob from "$lib/Knob.svelte"
 
  // import for HMR ??? TODO
- import SoundGenWorker from "$lib/SoundGenWorker.js"
+ // import SoundGenWorker from "$lib/soundgen"
 
 
  import { onMount, onDestroy } from 'svelte'
