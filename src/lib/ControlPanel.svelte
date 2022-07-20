@@ -7,7 +7,7 @@
  let stop = false;
 
  let basePitch = 600;
- let volume = 1.0;
+ let volume = 0.5;
 
  function mkDefaultParams(numOscs) {
      return {
