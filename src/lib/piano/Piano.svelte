@@ -56,10 +56,14 @@
  .whiteKey {
      transform: translate(0%, -50%);
      height: 200%;
+     background: white;
+     border-radius: 5px;
  }
  .blackKey {
      transform: translate(50%, 0%);
      z-index: 1;
+     background: black;
+     border-radius: 10px;
  }
  #piano {
      grid-template-rows: 60px 50px;
