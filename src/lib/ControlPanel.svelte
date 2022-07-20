@@ -1,6 +1,7 @@
 <script lang="js">
  import Slider from "$lib/Slider.svelte"
  import Knob from "$lib/Knob.svelte"
+ import Piano from "$lib/piano/Piano.svelte"
 
  import { onMount, onDestroy } from 'svelte'
  let stop = false;
@@ -64,6 +65,7 @@
  });
 </script>
 
+<Piano bind:basePitch="{basePitch}"/>
 <Slider bind:value="{volume}" label="Volume" min="{0}" max="{1}" log=false/>
 <Slider bind:value="{basePitch}" label="Base Pitch" min="{20}" max="{8000}" log=true/>
 {#each synthParams.oscs as osc, oscIndex}
