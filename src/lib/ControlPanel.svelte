@@ -1,6 +1,6 @@
 <script lang="js">
+ import Knob from "svelte-dj-knob/Knob.svelte";
  import Slider from "$lib/Slider.svelte"
- import Knob from "$lib/Knob.svelte"
  import Piano from "$lib/piano/Piano.svelte"
 
  import { onMount, onDestroy } from 'svelte'
@@ -66,19 +66,35 @@
 </script>
 
 <Piano bind:basePitch="{basePitch}"/>
-<Slider bind:value="{volume}" label="Volume" min="{0}" max="{1}" log=false/>
-<Slider bind:value="{basePitch}" label="Base Pitch" min="{20}" max="{8000}" log=true/>
-{#each synthParams.oscs as osc, oscIndex}
-    {#each osc.modulation as depth, modIndex}
-        <Slider bind:value="{synthParams.oscs[oscIndex].modulation[modIndex]}"
-                label="{`Modulation from ${modIndex} to ${oscIndex}`}"
-                min="{0}" max="{1000}" log=true/>
+<Knob bind:value="{volume}" label="Volume" min="{0}" max="{1}" size="5rem" />
+<Knob bind:value="{basePitch}" label="Base Pitch" min="{20}" max="{8000}" log=true/>
+<section>
+    <heading>
+        Modulations:
+    </heading>
+    {#each synthParams.oscs as osc, oscIndex}
+        {#each osc.modulation as depth, modIndex}
+            <Knob bind:value="{synthParams.oscs[oscIndex].modulation[modIndex]}"
+                  label="{`${modIndex} to ${oscIndex}`}"
+                  min="{0}" max="{1000}" log=true/>
+        {/each}
     {/each}
-{/each}
-{#each synthParams.oscs as osc, oscIndex}
-    <Slider bind:value="{synthParams.oscs[oscIndex].pitchRatio}"
-            label="{"PitchRatio of osc" + oscIndex}"
-            min="{0.01}" max="{10}" log=true/>
-{/each}
+</section>
+<section>
+    <heading>
+        Pitch ratios:
+    </heading>
+    {#each synthParams.oscs as osc, oscIndex}
+        <Knob bind:value="{synthParams.oscs[oscIndex].pitchRatio}"
+              label="{"osc" + oscIndex}"
+              min="{0.01}" max="{10}" log=true/>
+    {/each}
+</section>
 
 <button on:click="{randomize}">Randomize</button>
+
+<style>
+ section heading {
+     display: block;
+ }
+</style>
