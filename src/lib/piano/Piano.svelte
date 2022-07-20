@@ -24,7 +24,22 @@
          return {isWhite, row, column};
      })
  }
+
+ function handleKey(ev) {
+     if (ev.altKey | ev.ctrlKey | ev.shiftKey) {
+         return;
+     }
+     const mapping = 'ZSXDCVGBHNJMQ2W3ER5T6Y7UI9O0P';
+     const k = ev.code.charAt(ev.code.length - 1);
+     const index = mapping.indexOf(k);
+     if (index >= 0) {
+         ev.preventDefault();
+         hitKey(48 + index);
+     }
+ }
 </script>
+
+<svelte:window on:keydown="{handleKey}"/>
 
 <div id="piano" bind:clientWidth="{elemWidth}">
     {#each generateKeys(numKeys) as {isWhite, row, column}, index}
