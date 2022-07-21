@@ -29,7 +29,8 @@
         {#each osc.modulation as depth, modIndex}
             <Knob bind:value="{sp.oscs[oscIndex].modulation[modIndex]}"
                   label="{`${modIndex} to ${oscIndex}`}"
-                  min="{0}" max="{1000}"/>
+                  min="{0}" max="{10}"
+            />
         {/each}
     {/each}
 </section>
@@ -40,7 +41,8 @@
     {#each sp.oscs as osc, oscIndex}
         <Knob bind:value="{sp.oscs[oscIndex].pitchRatio}"
               label="{"osc" + oscIndex}"
-              min="{0.01}" max="{10}"/>
+              min="{0.01}" max="{10}"
+        />
     {/each}
 </section>
 
