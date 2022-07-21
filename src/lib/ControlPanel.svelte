@@ -1,5 +1,5 @@
 <script lang="js">
- import Knob from "svelte-dj-knob/Knob.svelte";
+ import Knob from "@bismuthsoft/svelte-dj-knob/Knob.svelte";
  import Slider from "$lib/Slider.svelte"
  import Piano from "$lib/piano/Piano.svelte"
 
