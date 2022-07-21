@@ -1,14 +1,14 @@
-<script lang="js">
+<script lang="ts">
  import Knob from "@bismuthsoft/svelte-dj-knob/Knob.svelte";
  import Piano from "$lib/piano/Piano.svelte"
- import {SoundGenController, defaultParams} from "$lib/SoundGenController.ts"
+ import {SoundGenController} from "$lib/SoundGenController.js"
 
  import { onMount, onDestroy } from 'svelte'
 
  let ctrl = new SoundGenController();
  onMount(() => {
      ctrl.setupWorklet();
-     onDestroy(() => controller.stop());
+     onDestroy(() => ctrl.stop());
  });
  function randomize () {
      ctrl.randomize();
@@ -24,7 +24,7 @@
         Modulations:
     </heading>
     {#each ctrl.params.oscs as osc, oscIndex}
-        {#each osc.modulation as depth, modIndex}
+        {#each osc.modulation as _, modIndex}
             <Knob bind:value="{ctrl.params.oscs[oscIndex].modulation[modIndex]}"
                   label="{`${modIndex} to ${oscIndex}`}"
                   min="{0}" max="{10}"
@@ -36,7 +36,7 @@
     <heading>
         Pitch ratios:
     </heading>
-    {#each ctrl.params.oscs as osc, oscIndex}
+    {#each ctrl.params.oscs as _osc, oscIndex}
         <Knob bind:value="{ctrl.params.oscs[oscIndex].pitchRatio}"
               label="{"osc" + oscIndex}"
               min="{0.01}" max="{10}"
