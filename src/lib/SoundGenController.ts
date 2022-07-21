@@ -88,11 +88,9 @@ export function defaultParams (numOscs = 4): SynthParams {
 export function randomizedParams (params: SynthParams): SynthParams {
     return {
         ...params,
-        basePitch: Math.random()*440 + 220,
         oscs: Array(params.numOscs).fill(0).map((_, i) => ({
             ...params.oscs[i],
-            modulation: Array(i).fill(0).map(() =>
-                Math.pow(10, Math.random()*6-3)),
+            modulation: Array(i).fill(0).map(() => Math.pow(Math.random(),3)*10),
             pitchRatio: Math.pow(Math.random(), 2) * 10,
         })),
     }

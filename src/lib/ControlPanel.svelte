@@ -1,7 +1,7 @@
 <script lang="js">
  import Knob from "@bismuthsoft/svelte-dj-knob/Knob.svelte";
  import Piano from "$lib/piano/Piano.svelte"
- import {SoundGenController, defaultParams, randomizedParams} from "$lib/SoundGenController.ts"
+ import {SoundGenController, defaultParams} from "$lib/SoundGenController.ts"
 
  import { onMount, onDestroy } from 'svelte'
 
@@ -11,7 +11,8 @@
      onDestroy(() => controller.stop());
  });
  function randomize () {
-     ctrl.params = randomizedParams(ctrl.params);
+     ctrl.randomize();
+     ctrl = ctrl;
  }
 </script>
 
