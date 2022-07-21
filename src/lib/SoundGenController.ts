@@ -63,7 +63,7 @@ export class SoundGenController {
             ...sp,
             volume: decibelToScale(sp.volume),
             oscs: sp.oscs.map((v) => ({
-                modulation: v.modulation,
+                modulation: v.modulation.map(scaleOscillation),
                 pitch: sp.basePitch * v.pitchRatio,
             }))
         };
@@ -104,3 +104,7 @@ function decibelToScale (db: number) :number {
     return Math.pow(2.0, db/6.0) / 2.0;
 }
 
+// Depth 0-10 scaled to number 0-1020
+function scaleOscillation (depth: number) :number {
+    return Math.pow(2, depth) * 4 - 4;
+}
