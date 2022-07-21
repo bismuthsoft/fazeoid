@@ -1,7 +1,7 @@
 import Voice from './Voice.js';
 
 class WaveGenerator extends AudioWorkletProcessor {
-    stop = false;
+    voice: Voice;
 
     constructor () {
         super();
@@ -15,15 +15,15 @@ class WaveGenerator extends AudioWorkletProcessor {
                 case 'params':
                     this.voice.setParams(value);
                     break;
-                case 'stop':
-                    this.stop = true;
-                    break;
                 default: throw new Error ('Unknown value');
             }
         }
     }
-    process (inputs, outputs, parameters) {
-        if (this.stop) return;
+    process (_inputs: Float32Array[][],
+             outputs: Float32Array[][],
+             _parameters: Record<string, Float32Array>)
+    : boolean
+    {
         this.voice.writeWave(outputs[0]);
         return true;
     }
