@@ -1,32 +1,32 @@
-<script>
- export let basePitch;
- let elemWidth = 800;
+<script lang="ts">
+ export let basePitch: number;
+ let elemWidth: number = 800;
  $: numKeys = Math.floor(elemWidth / 15);
  $: firstOctave = 5 - Math.floor(numKeys / 12.0 / 2.0);
  $: firstNote = firstOctave * 12;
 
- function hitKey(index) {
+ function hitKey(index: number) {
      basePitch = 440 * Math.pow(2, (index-60)/12)
  }
 
- function generateKeys (numKeys) {
-     function isWhiteNote(index) {
-         return [1,0,1,0,1,1,0,1,0,1,0,1][index % 12];
+ function generateKeys (numKeys: number) {
+     function isWhiteNote(index: number) : boolean {
+         return [1,0,1,0,1,1,0,1,0,1,0,1][index % 12] === 1;
      }
-     function collapseColumn(index) {
+     function collapseColumn(index: number) : number {
          const octave = Math.floor(index / 12) * 7;
          return [1,1,2,2,3,4,4,5,5,6,6,7][index % 12] + octave;
      }
-     return Array(numKeys).fill().map((_, index) => {
-         let isWhite = isWhiteNote(index);
-         let row = isWhite ? 0 : 1;
-         let column = collapseColumn(index);
+     return Array(numKeys).fill(0).map((_, index: number) => {
+         const isWhite = isWhiteNote(index);
+         const row = isWhite ? 0 : 1;
+         const column = collapseColumn(index);
          return {isWhite, row, column};
      })
  }
 
- function handleKey(ev) {
-     if (ev.altKey | ev.ctrlKey | ev.shiftKey) {
+ function handleKey(ev: KeyboardEvent) {
+     if (ev.altKey || ev.ctrlKey || ev.shiftKey) {
          return;
      }
      const mapping = 'ZSXDCVGBHNJMQ2W3ER5T6Y7UI9O0P';
