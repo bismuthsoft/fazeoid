@@ -16,6 +16,7 @@
 		"lint": "eslint ."
 	},
 	"devDependencies": {
+		"@bismuthsoft/svelte-dj-knob": "^0.0.1",
 		"@sveltejs/adapter-auto": "next",
 		"@sveltejs/kit": "next",
 		"@typescript-eslint/eslint-plugin": "^5.30.7",
