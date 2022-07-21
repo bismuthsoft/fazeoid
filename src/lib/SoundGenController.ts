@@ -21,44 +21,46 @@ type InnerOscillatorParams = {
 }
 
 export class SoundGenController {
-    synthParams: SynthParams;
+    params: SynthParams;
 
-    private ac: AudioContext;
+    private audioContext?: AudioContext;
     private waveNode?: AudioWorkletNode;
     private messagePort?: MessagePort;
     private intervalId?: number;
 
     constructor () {
-        this.ac = new AudioContext();
-        this.synthParams = defaultParameters(4);
-        async function addModule (t: SoundGenController) {
-            await t.ac.audioWorklet.addModule('soundgen.bundle.js');
-        }
-        addModule(this).then(() => {
-            this.waveNode = new AudioWorkletNode(this.ac, 'wave-generator');
-            this.waveNode.connect(this.ac.destination);
+        this.params = defaultParams(4);
+        // MUST CALL setupWorklet() within onMount for this to be usable
+    }
 
-            this.messagePort = this.waveNode.port;
-            this.messagePort.postMessage(['srate', this.ac.sampleRate]);
+    async setupWorklet () {
+        this.audioContext = new AudioContext();
+        await this.audioContext.audioWorklet.addModule('soundgen.bundle.js');
+        this.waveNode = new AudioWorkletNode(this.audioContext, 'wave-generator');
+        this.waveNode.connect(this.audioContext.destination);
 
-            this.intervalId = window.setInterval(() => this.writeSynthParams(), 16);
-        });
+        this.messagePort = this.waveNode.port;
+        this.messagePort.postMessage(['srate', this.audioContext.sampleRate]);
+
+        this.intervalId = window.setInterval(() => this.writeSynthParams(), 16);
     }
 
     randomize() {
-        this.synthParams = randomizedParameters(this.synthParams);
+        this.params = randomizedParams(this.params);
     }
 
     stop() {
-        this.ac.close();
-        window.clearInterval(this.intervalId);
+        if (this.audioContext) {
+            this.audioContext.close();
+            window.clearInterval(this.intervalId);
+        }
     }
 
     writeSynthParams() {
-        if (!this.synthParams || !this.messagePort) {
+        if (!this.params || !this.messagePort) {
             return;
         }
-        const sp = this.synthParams;
+        const sp = this.params;
         let params: Required<InnerSynthParams> = {
             ...sp,
             volume: decibelToScale(sp.volume),
@@ -69,13 +71,9 @@ export class SoundGenController {
         };
         this.messagePort.postMessage(['params', params]);
     }
-
-    async setupWorklet () {
-    }
-
 }
 
-export function defaultParameters (numOscs = 4): SynthParams {
+export function defaultParams (numOscs = 4): SynthParams {
     return {
         numOscs: numOscs,
         basePitch: 600,
@@ -87,7 +85,7 @@ export function defaultParameters (numOscs = 4): SynthParams {
     }
 }
 
-export function randomizedParameters (params: SynthParams): SynthParams {
+export function randomizedParams (params: SynthParams): SynthParams {
     return {
         ...params,
         basePitch: Math.random()*440 + 220,
