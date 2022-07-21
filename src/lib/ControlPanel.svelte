@@ -1,33 +1,30 @@
 <script lang="js">
  import Knob from "@bismuthsoft/svelte-dj-knob/Knob.svelte";
  import Piano from "$lib/piano/Piano.svelte"
- import {SoundGenController, defaultParameters, randomizedParameters} from "$lib/SoundGenController.ts"
+ import {SoundGenController, defaultParams, randomizedParams} from "$lib/SoundGenController.ts"
 
  import { onMount, onDestroy } from 'svelte'
 
- let controller;
- let sp = defaultParameters(1);
+ let ctrl = new SoundGenController();
  onMount(() => {
-     controller = new SoundGenController();
-     sp = controller.synthParams;
+     ctrl.setupWorklet();
      onDestroy(() => controller.stop());
  });
  function randomize () {
-     controller.synthParams = randomizedParameters(sp);
-     sp = controller.synthParams;
+     ctrl.params = randomizedParams(ctrl.params);
  }
 </script>
 
-<Piano bind:basePitch="{sp.basePitch}"/>
-<Knob bind:value="{sp.volume}" label="Volume" min="{-72}" max="{0}"/>
-<Knob bind:value="{sp.basePitch}" label="Base Pitch" min="{20}" max="{8000}"/>
+<Piano bind:basePitch="{ctrl.params.basePitch}"/>
+<Knob bind:value="{ctrl.params.volume}" label="Volume" min="{-72}" max="{0}"/>
+<Knob bind:value="{ctrl.params.basePitch}" label="Base Pitch" min="{20}" max="{8000}"/>
 <section>
     <heading>
         Modulations:
     </heading>
-    {#each sp.oscs as osc, oscIndex}
+    {#each ctrl.params.oscs as osc, oscIndex}
         {#each osc.modulation as depth, modIndex}
-            <Knob bind:value="{sp.oscs[oscIndex].modulation[modIndex]}"
+            <Knob bind:value="{ctrl.params.oscs[oscIndex].modulation[modIndex]}"
                   label="{`${modIndex} to ${oscIndex}`}"
                   min="{0}" max="{10}"
             />
@@ -38,8 +35,8 @@
     <heading>
         Pitch ratios:
     </heading>
-    {#each sp.oscs as osc, oscIndex}
-        <Knob bind:value="{sp.oscs[oscIndex].pitchRatio}"
+    {#each ctrl.params.oscs as osc, oscIndex}
+        <Knob bind:value="{ctrl.params.oscs[oscIndex].pitchRatio}"
               label="{"osc" + oscIndex}"
               min="{0.01}" max="{10}"
         />
