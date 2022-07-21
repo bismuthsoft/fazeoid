@@ -1,27 +1,19 @@
-export type SynthParams = {
+import type {VoiceParams} from '$lib/soundgen/Voice';
+
+export type ControllerParams = {
     volume: number; // Decibel number. -120 or less = muted.
     numOscs: number; // Number of oscillators
     basePitch: number;
-    oscs: OscillatorParams[];
+    oscs: ControllerOscParams[];
 }
 
-export type OscillatorParams = {
+export type ControllerOscParams = {
     modulation: number[]; // How much to mix from previous oscillators
     pitchRatio: number; // Pitch relative to basePitch
 }
 
-type InnerSynthParams = {
-    volume: number; // Volume amount 0.0 thru 1.0.
-    oscs: InnerOscillatorParams[];
-}
-
-type InnerOscillatorParams = {
-    modulation: number[]; // How much to mix from previous oscillators
-    pitch: number; // Actual pitch
-}
-
 export class SoundGenController {
-    params: SynthParams;
+    params: ControllerParams;
 
     private audioContext?: AudioContext;
     private waveNode?: AudioWorkletNode;
@@ -42,7 +34,7 @@ export class SoundGenController {
         this.messagePort = this.waveNode.port;
         this.messagePort.postMessage(['srate', this.audioContext.sampleRate]);
 
-        this.intervalId = window.setInterval(() => this.writeSynthParams(), 16);
+        this.intervalId = window.setInterval(() => this.sendParams(), 16);
     }
 
     randomize() {
@@ -56,12 +48,12 @@ export class SoundGenController {
         }
     }
 
-    writeSynthParams() {
+    private sendParams() {
         if (!this.params || !this.messagePort) {
             return;
         }
         const sp = this.params;
-        let params: Required<InnerSynthParams> = {
+        let params: Required<VoiceParams> = {
             ...sp,
             volume: decibelToScale(sp.volume),
             oscs: sp.oscs.map((v) => ({
@@ -73,7 +65,7 @@ export class SoundGenController {
     }
 }
 
-export function defaultParams (numOscs = 4): SynthParams {
+export function defaultParams (numOscs = 4): ControllerParams {
     return {
         numOscs: numOscs,
         basePitch: 600,
@@ -85,7 +77,7 @@ export function defaultParams (numOscs = 4): SynthParams {
     }
 }
 
-export function randomizedParams (params: SynthParams): SynthParams {
+export function randomizedParams (params: ControllerParams): ControllerParams {
     return {
         ...params,
         oscs: Array(params.numOscs).fill(0).map((_, i) => ({
