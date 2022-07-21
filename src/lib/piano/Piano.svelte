@@ -30,9 +30,10 @@
          return;
      }
      const mapping = 'ZSXDCVGBHNJMQ2W3ER5T6Y7UI9O0P';
+     const valid = ev.code.startsWith('Digit') || ev.code.startsWith('Key');
      const k = ev.code.charAt(ev.code.length - 1);
      const index = mapping.indexOf(k);
-     if (index >= 0) {
+     if (valid && index >= 0) {
          ev.preventDefault();
          hitKey(48 + index);
      }
