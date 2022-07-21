@@ -4,6 +4,7 @@ specifiers:
   '@bismuthsoft/svelte-dj-knob': ^0.0.1
   '@sveltejs/adapter-auto': next
   '@sveltejs/kit': next
+  '@types/audioworklet': ^0.0.29
   '@typescript-eslint/eslint-plugin': ^5.30.7
   '@typescript-eslint/parser': ^5.30.7
   concurrently: ^7.3.0
@@ -17,10 +18,13 @@ specifiers:
   typescript: ^4.7.4
   vite: ^3.0.2
 
+dependencies:
+  '@types/audioworklet': 0.0.29
+
 devDependencies:
   '@bismuthsoft/svelte-dj-knob': 0.0.1
   '@sveltejs/adapter-auto': 1.0.0-next.63
-  '@sveltejs/kit': 1.0.0-next.386_svelte@3.49.0+vite@3.0.2
+  '@sveltejs/kit': 1.0.0-next.388_svelte@3.49.0+vite@3.0.2
   '@typescript-eslint/eslint-plugin': 5.30.7_6wltbjakwuqm7awqswigmiuhd4
   '@typescript-eslint/parser': 5.30.7_he2ccbldppg44uulnyq4rwocfa
   concurrently: 7.3.0
@@ -181,8 +185,8 @@ packages:
       - supports-color
     dev: true
 
-  /@sveltejs/kit/1.0.0-next.386_svelte@3.49.0+vite@3.0.2:
-    resolution: {integrity: sha512-7Olw/QoZ0lvcjRqMNnR8vM7FCy8NN6NwNEhWTO8/J39yR6li1Q0aV0vW4Fh/7LetoVtyZqEyrqaUypgmbeH9rQ==}
+  /@sveltejs/kit/1.0.0-next.388_svelte@3.49.0+vite@3.0.2:
+    resolution: {integrity: sha512-RSAVN3PykiCHcXOioO1JlTk9WSRIk9oHv4b4qzh8h4q5UoFrYVHcbVK7laxSrrIfl58nvfbZBBm5RGzqTjJuzg==}
     engines: {node: '>=16.9'}
     hasBin: true
     peerDependencies:
@@ -221,6 +225,10 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /@types/audioworklet/0.0.29:
+    resolution: {integrity: sha512-wNc0CgKOKOIsAf8kH7ICn76H+Zp9GlR5FdP3PXMLcMtSAQdHDaKM3ESVQX9ueTyNm1/UfJCGlcDsN5NdwByrOQ==}
+    dev: false
 
   /@types/json-schema/7.0.11:
     resolution: {integrity: sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ==}
