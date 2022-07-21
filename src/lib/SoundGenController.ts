@@ -79,7 +79,7 @@ export function defaultParameters (numOscs = 4): SynthParams {
     return {
         numOscs: numOscs,
         basePitch: 600,
-        volume: 0.5,
+        volume: 0,
         oscs: Array(numOscs).fill(0).map((_, i) => ({
             modulation: Array(i).fill(0).map(() => 1),
             pitchRatio: 1,
