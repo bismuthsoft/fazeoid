@@ -15,7 +15,7 @@
      ctrl = ctrl;
  }
 
- function pianoKey (ev) {
+ function pianoKey (ev: CustomEvent) {
      ctrl.params.gate = ev.detail.down;
      ctrl.params.note = ev.detail.note;
  }
