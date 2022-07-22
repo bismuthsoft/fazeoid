@@ -3,7 +3,9 @@ import type {VoiceParams} from '$lib/soundgen/Voice';
 export type ControllerParams = {
     volume: number; // Decibel number. -120 or less = muted.
     numOscs: number; // Number of oscillators
-    basePitch: number;
+    basePitch: number; // Middle C frequency
+    note: number; // MIDI note number (can be fractional)
+    gate: boolean; // true = note on, false = note off
     oscs: ControllerOscParams[];
 }
 
@@ -52,24 +54,31 @@ export class SoundGenController {
         if (!this.params || !this.messagePort) {
             return;
         }
-        const sp = this.params;
         let params: Required<VoiceParams> = {
-            ...sp,
-            volume: decibelToScale(sp.volume),
-            oscs: sp.oscs.map((v) => ({
+            ...this.params,
+            volume: this.params.gate ? decibelToScale(this.params.volume) : 0,
+            oscs: this.params.oscs.map((v) => ({
                 modulation: v.modulation.map(scaleOscillation),
-                pitch: sp.basePitch * v.pitchRatio,
+                pitch: this.calcPitch() * v.pitchRatio,
             }))
         };
+//        console.log(this.params.volume, this.params.gate, params.volume)
         this.messagePort.postMessage(['params', params]);
+    }
+
+    private calcPitch() {
+        const {basePitch, note} = this.params;
+        return basePitch * Math.pow(2.0, (note - 60)/12.0);
     }
 }
 
 export function defaultParams (numOscs = 4): ControllerParams {
     return {
         numOscs: numOscs,
-        basePitch: 600,
+        note: 72,
+        basePitch: 440,
         volume: -12,
+        gate: false,
         oscs: Array(numOscs).fill(0).map((_, i) => ({
             modulation: Array(i).fill(0).map(() => 1),
             pitchRatio: 1,
