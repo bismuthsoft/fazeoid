@@ -3,20 +3,20 @@
  $: numKeys = Math.floor(elemWidth / 15);
  $: firstOctave = 5 - Math.floor(numKeys / 12.0 / 2.0);
  $: firstNote = firstOctave * 12;
- const keyboardState = [];
+
 
  import { createEventDispatcher } from 'svelte';
 
- const dispatch = createEventDispatcher();
+ let keyboardState: boolean[] = [];
  let keysDown = 0;
 
+ const dispatch = createEventDispatcher();
  function pressKey(index: number) {
      keysDown++;
      keyboardState[index] = true;
      keyboardState = keyboardState;
      dispatch('noteEvent', {down: true, note: index});
  }
-
  function releaseKey(index: number) {
      if (keyboardState[index]) {
          keysDown--;
