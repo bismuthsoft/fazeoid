@@ -14,11 +14,16 @@
      ctrl.randomize();
      ctrl = ctrl;
  }
+
+ function pianoKey (ev) {
+     ctrl.params.gate = ev.detail.down;
+     ctrl.params.note = ev.detail.note;
+ }
 </script>
 
-<Piano bind:basePitch="{ctrl.params.basePitch}"/>
+<Piano on:noteEvent={pianoKey}/>
 <Knob bind:value="{ctrl.params.volume}" label="Volume" min="{-72}" max="{0}"/>
-<Knob bind:value="{ctrl.params.basePitch}" label="Base Pitch" min="{20}" max="{8000}"/>
+<Knob bind:value="{ctrl.params.basePitch}" label="Base Pitch" min="{0}" max="{880}"/>
 <section>
     <heading>
         Modulations:
