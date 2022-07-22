@@ -16,6 +16,7 @@
 		"lint": "eslint ."
 	},
 	"devDependencies": {
+		"@types/audioworklet": "^0.0.29",
 		"@bismuthsoft/svelte-dj-knob": "^0.0.3",
 		"@sveltejs/adapter-auto": "next",
 		"@sveltejs/kit": "next",
@@ -32,8 +33,5 @@
 		"typescript": "^4.7.4",
 		"vite": "^3.0.2"
 	},
-	"type": "module",
-	"dependencies": {
-		"@types/audioworklet": "^0.0.29"
-	}
+	"type": "module"
 }
