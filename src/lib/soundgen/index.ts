@@ -1,19 +1,25 @@
-import Voice from './Voice.js';
+import {Mixer} from './Mixer';
 
 class WaveGenerator extends AudioWorkletProcessor {
-    voice: Voice;
+    mixer: Mixer;
 
     constructor () {
         super();
-        this.voice = new Voice();
+        this.mixer = new Mixer();
         this.port.onmessage = (msg) => {
             const [id, value] = msg.data;
             switch (id) {
                 case 'srate':
-                    this.voice.setSrate(value);
+                    this.mixer.setSrate(value);
                     break;
-                case 'params':
-                    this.voice.setParams(value);
+                case 'setInstrument':
+                    this.mixer.setInstrument(0, value);
+                    break;
+                case 'noteDown':
+                    this.mixer.noteDown(value);
+                    break;
+                case 'noteUp':
+                    this.mixer.noteUp(value);
                     break;
                 default: throw new Error ('Unknown value');
             }
@@ -24,7 +30,7 @@ class WaveGenerator extends AudioWorkletProcessor {
              _parameters: Record<string, Float32Array>)
     : boolean
     {
-        this.voice.writeWave(outputs[0]);
+        this.mixer.writeWave(outputs[0]);
         return true;
     }
 }

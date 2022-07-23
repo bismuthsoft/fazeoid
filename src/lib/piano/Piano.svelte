@@ -1,30 +1,37 @@
 <script lang="ts">
+ import type {Note} from '$lib/soundgen/Mixer'
+
  let elemWidth: number = 800;
  $: numKeys = Math.floor(elemWidth / 15);
  $: firstOctave = 5 - Math.floor(numKeys / 12.0 / 2.0);
  $: firstNote = firstOctave * 12;
 
+ let noteuid = 0;
 
  import { createEventDispatcher } from 'svelte';
 
- let keyboardState: boolean[] = [];
- let keysDown = 0;
+ let pressedNotes: Note[] = [];
+ let notesDown = [];
 
  const dispatch = createEventDispatcher();
  function pressKey(index: number) {
-     keysDown++;
-     keyboardState[index] = true;
-     keyboardState = keyboardState;
-     dispatch('noteEvent', {down: true, note: index});
+     const pressed: Note = {
+         note: index,
+         uid: noteuid++,
+         instrumentIndex: 0,
+     }
+     dispatch('noteDown', pressed);
+     pressedNotes.push(pressed);
+     notesDown[index] = true;
  }
- function releaseKey(index: number) {
-     if (keyboardState[index]) {
-         keysDown--;
-         keyboardState[index] = false;
-         keyboardState = keyboardState;
-         if (keysDown === 0) {
-             dispatch('noteEvent', {down: false, note: index});
-         }
+
+ function releaseKey(note: number) {
+     const index = pressedNotes.findIndex(({note: n}) => note === n);
+     if (index > -1) {
+         dispatch('noteUp', pressedNotes[index].uid);
+         pressedNotes.splice(index, 1)
+         pressedNotes = pressedNotes;
+         notesDown[note] = false;
      }
  }
 
@@ -86,8 +93,8 @@
             on:mouseleave="{() => releaseKey(index+firstNote)}"
             class="{isWhite ? 'whiteKey' : 'blackKey'}
                    {isWhite ?
-                   (keyboardState[index+firstNote] ? 'whiteKeyDown' : 'whiteKeyUp') :
-                   (keyboardState[index+firstNote] ? 'blackKeyDown' : 'blackKeyUp')}"
+                   (notesDown[index+firstNote] ? 'whiteKeyDown' : 'whiteKeyUp') :
+                   (notesDown[index+firstNote] ? 'blackKeyDown' : 'blackKeyUp')}"
         >
         </div>
     {/each}

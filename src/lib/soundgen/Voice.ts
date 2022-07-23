@@ -1,5 +1,8 @@
 export type VoiceParams = {
+    srate: number;
     volume: number; // Volume amount 0.0 thru 1.0.
+    uid: number;
+    instrumentIndex: number;
     oscs: OscillatorParams[];
 }
 
@@ -9,44 +12,26 @@ export type OscillatorParams = {
 }
 
 export default class Voice {
-    srate = 48000;
-    private oscs: Oscillator[];
-    private params: VoiceParams;
+    params: VoiceParams;
+    private oscs!: Oscillator[];
 
-    constructor () {
-        this.oscs = [];
-        this.params = {volume: 0, oscs: []};
+    constructor (params: VoiceParams) {
+        this.params = params;
+        this.oscs = params.oscs.map((osc) => new Oscillator(this, osc));
     }
 
-    // Given an array of channels, write the voice into a buffer
-    writeWave (channels: Float32Array[]) {
+    addWave (channels: Float32Array[]) {
         channels.forEach(channel => {
             const oscCache: number[] = [];
             for (let i=0; i<channel.length; ++i) {
                 this.oscs.forEach((osc: Oscillator, i: number) => {
                     oscCache[i] = osc.getSample();
-                    this.oscs[i].params.modulation.forEach((depth: number, i: number) =>
+                    osc.params.modulation.forEach((depth: number, i: number) =>
                         osc.modulateWith(oscCache[i], depth))
                 })
-                channel[i] = oscCache[this.oscs.length-1] * this.params.volume;
+                channel[i] += oscCache[this.oscs.length-1] * this.params.volume;
             }
         });
-    }
-
-    setParams (params: Required<VoiceParams>) {
-        const numOscs = params.oscs.length;
-        if (this.oscs.length !== numOscs) {
-            this.oscs = Array(numOscs).fill(0).map(() => new Oscillator(this));
-        }
-        this.oscs.forEach((osc: Oscillator, index: number) => {
-            osc.params = params.oscs[index];
-            osc.calcFrequency();
-        });
-        this.params = params;
-    }
-
-    setSrate (srate: number) {
-        this.srate = srate;
     }
 }
 
@@ -56,13 +41,14 @@ class Oscillator {
     params: OscillatorParams;
     parent: Voice;
 
-    constructor (parent: Voice) {
+    constructor (parent: Voice, params: OscillatorParams) {
         this.parent = parent;
-        this.params = {pitch: 0, modulation: []};
+        this.params = params;
+        this.calcFrequency();
     }
 
     calcFrequency () {
-        this.phaseadd = Math.PI * 2.0 * this.params.pitch / this.parent.srate;
+        this.phaseadd = Math.PI * 2.0 * this.params.pitch / this.parent.params.srate;
     }
 
     getSample () {
@@ -71,6 +57,6 @@ class Oscillator {
     }
 
     modulateWith (sample: number, modDepth: number) {
-        this.phase += sample * modDepth / this.parent.srate * 100;
+        this.phase += sample * modDepth / this.parent.params.srate * 100;
     }
 }
