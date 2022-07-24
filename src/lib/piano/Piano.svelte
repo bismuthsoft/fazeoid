@@ -62,16 +62,18 @@
  }
 
  function handleKey(ev: KeyboardEvent, down: boolean) {
-     if (ev.altKey || ev.ctrlKey || ev.shiftKey || ev.repeat) {
+     if (ev.altKey || ev.ctrlKey || ev.shiftKey) {
          return;
      }
      const index = getKeyCodeIndex(ev.code);
      if (index !== undefined) {
          ev.preventDefault();
-         if (down) {
-             pressKey(48 + index);
-         } else {
-             releaseKey(48 + index);
+         if (!ev.repeat) {
+             if (down) {
+                 pressKey(48 + index);
+             } else {
+                 releaseKey(48 + index);
+             }
          }
      }
  }
