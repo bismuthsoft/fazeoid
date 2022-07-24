@@ -1,24 +1,31 @@
 <script lang="ts">
  import Piano from "$lib/piano/Piano.svelte"
+ import {defaultInstrument} from "$lib/Instrument"
  import InstrumentPanel from "$lib/InstrumentPanel.svelte"
- import {SoundGenController} from "$lib/SoundGenController.js"
+ import WorkletWrapper from "$lib/WorkletWrapper"
 
  import { onMount, onDestroy } from 'svelte'
 
- let ctrl = new SoundGenController();
+ let instrument = defaultInstrument(4);
+
+ let ctrl = new WorkletWrapper();
  onMount(() => {
      ctrl.setupWorklet();
-     onDestroy(() => ctrl.stop());
+     window.setInterval(() => {
+         ctrl.postMessage('setInstrument', 0, instrument);
+     }, 16)
  });
 
+ onDestroy(() => ctrl && ctrl.stop());
+
  function noteUp (ev: CustomEvent) {
-     ctrl.noteUp(ev.detail);
+     ctrl.postMessage('noteUp', ev.detail);
  }
 
  function noteDown (ev: CustomEvent) {
-     ctrl.noteDown(ev.detail);
+     ctrl.postMessage('noteDown', ev.detail);
  }
 </script>
 
 <Piano on:noteUp="{noteUp}" on:noteDown="{noteDown}"/>
-<InstrumentPanel bind:params="{ctrl.params.instruments[0]}"/>
+<InstrumentPanel bind:params="{instrument}"/>

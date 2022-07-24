@@ -27,8 +27,12 @@ export class Mixer {
 
     noteDown (note: Note) {
         const instrument = this.instruments[note.instrumentIndex];
-        const params = this.createVoiceParams(instrument, note);
-        this.voices.push(new Voice(params));
+        if (instrument) {
+            const params = this.createVoiceParams(instrument, note);
+            this.voices.push(new Voice(params));
+        } else {
+            console.log(`Cannot play note with uninitialized instrument: ${note}`);
+        }
     }
 
     noteUp (uid: number) {
