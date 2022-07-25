@@ -18,12 +18,12 @@
 	"devDependencies": {
 		"@bismuthsoft/svelte-dj-knob": "^0.0.4",
 		"@sveltejs/adapter-auto": "next",
-		"@sveltejs/kit": "next",
+		"@sveltejs/kit": "1.0.0-next.392",
 		"@types/audioworklet": "^0.0.29",
 		"@typescript-eslint/eslint-plugin": "^5.30.7",
 		"@typescript-eslint/parser": "^5.30.7",
 		"concurrently": "^7.3.0",
-		"esbuild": "^0.14.49",
+		"esbuild": "^0.14.50",
 		"eslint": "^8.20.0",
 		"eslint-plugin-svelte3": "^4.0.0",
 		"svelte": "^3.49.0",
@@ -31,7 +31,7 @@
 		"svelte-preprocess": "^4.10.7",
 		"tslib": "^2.4.0",
 		"typescript": "^4.7.4",
-		"vite": "3.0.0"
+		"vite": "^3.0.3"
 	},
 	"type": "module"
 }
