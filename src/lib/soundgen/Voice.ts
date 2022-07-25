@@ -1,9 +1,5 @@
 import type {EnvelopeParams} from '$lib/Instrument'
 
-const ENV_STEP_PERIOD = 64; /* How many samples to wait before updating envelopes
-                               Smaller = smoother envelopes, more CPU consumption
-                            */
-
 export type VoiceParams = {
     srate: number;
     volume: number; // Volume amount 0.0 thru 1.0.
@@ -39,9 +35,7 @@ export default class Voice {
                         osc.modulateWith(oscCache[i], depth))
                 })
                 channel[i] += oscCache[this.oscs.length-1] * this.params.volume * this.envelope.position;
-                if (i % ENV_STEP_PERIOD === 0) {
-                    this.envelope.stepPosition();
-                }
+                this.envelope.stepPosition();
             }
         });
     }
@@ -64,7 +58,7 @@ class Envelope {
     {
         this.state = 'normal';
         this.position = this.params.points[0].y;
-        this.stepRate = ENV_STEP_PERIOD / this.parent.params.srate;
+        this.stepRate = 1.0 / this.parent.params.srate;
         this.nextPoint();
     }
 
