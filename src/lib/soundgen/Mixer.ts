@@ -13,6 +13,8 @@ export class Mixer {
     writeWave (channels: Float32Array[]) {
         channels.forEach((c) => c.fill(0));
         this.voices.map((voice) => voice.addWave(channels));
+        // Deallocate stopped notes. Doesn't need to run often.
+        this.voices = this.voices.filter((v) => !v.isStopped());
     }
 
     setSrate (srate: number) {
@@ -32,7 +34,7 @@ export class Mixer {
     noteUp (uid: number) {
         const index = this.voices.findIndex((v) => v.params.uid === uid);
         if (index > -1) {
-            this.voices.splice(index, 1);
+            this.voices[index].params.gate = false;
         } else {
             console.log(`Bad note up ${uid}`);
         }
@@ -46,12 +48,14 @@ export class Mixer {
         return {
             srate: this.srate,
             volume: decibelToScale(instrument.volume),
+            envelope: instrument.envelope,
             oscs: instrument.oscs.map((osc) => ({
                 modulation: osc.modulation.map(scaleOscillation),
                 pitch: instrument.basePitch * osc.pitchRatio * calcPitch(note.note),
             })),
             uid: note.uid,
             instrumentIndex: note.instrumentIndex,
+            gate: true,
         }
     }
 }
