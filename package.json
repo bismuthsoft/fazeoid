@@ -16,10 +16,10 @@
 		"lint": "eslint ."
 	},
 	"devDependencies": {
-		"@types/audioworklet": "^0.0.29",
-		"@bismuthsoft/svelte-dj-knob": "^0.0.3",
+		"@bismuthsoft/svelte-dj-knob": "^0.0.4",
 		"@sveltejs/adapter-auto": "next",
 		"@sveltejs/kit": "next",
+		"@types/audioworklet": "^0.0.29",
 		"@typescript-eslint/eslint-plugin": "^5.30.7",
 		"@typescript-eslint/parser": "^5.30.7",
 		"concurrently": "^7.3.0",
