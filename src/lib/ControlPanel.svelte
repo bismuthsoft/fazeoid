@@ -27,5 +27,5 @@
  }
 </script>
 
-<Piano on:noteUp="{noteUp}" on:noteDown="{noteDown}"/>
 <InstrumentPanel bind:params="{instrument}"/>
+<Piano on:noteUp="{noteUp}" on:noteDown="{noteDown}"/>
