@@ -56,7 +56,7 @@
      if (ev.altKey || ev.ctrlKey || ev.shiftKey) {
          return;
      }
-     const index = keyBinds.get(ev.code);
+     const index = keyBinds[ev.code];
      if (index !== undefined) {
          ev.preventDefault();
          if (!ev.repeat) {
