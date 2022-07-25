@@ -1,12 +1,6 @@
-import type {Instrument} from '$lib/Instrument'
+import type {Note, Instrument} from '$lib/Instrument'
 import Voice from './Voice.js'
 import type {VoiceParams} from './Voice.js'
-
-export type Note  = {
-    note: number; // Frequency
-    instrumentIndex: number;
-    uid: number;
-}
 
 export class Mixer {
     srate = 48000;
