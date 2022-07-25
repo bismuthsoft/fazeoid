@@ -7,9 +7,9 @@ class WaveGenerator extends AudioWorkletProcessor {
         super();
         this.mixer = new Mixer();
         this.port.onmessage = (msg: MessageEvent) => {
-            const method = msg.data[0];
+            const method: keyof Mixer = msg.data[0];
             if (typeof this.mixer[method] === 'function') {
-                this.mixer[method](...msg.data.splice(1));
+                (this.mixer[method] as Function)(...msg.data.splice(1));
             } else {
                 console.log(`Bad message: ${msg.data}`)
             }
