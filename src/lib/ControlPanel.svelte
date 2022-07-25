@@ -16,7 +16,7 @@
      }, 16)
  });
 
- onDestroy(() => ctrl && ctrl.stop());
+ onDestroy(() => ctrl.stop());
 
  function noteUp (ev: CustomEvent) {
      ctrl.postMessage('noteUp', ev.detail);

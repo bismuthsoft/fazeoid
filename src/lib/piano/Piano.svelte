@@ -1,5 +1,5 @@
 <script lang="ts">
- import type {Note} from '$lib/soundgen/Mixer'
+ import type {Note} from '$lib/Instrument'
 
  let elemWidth: number = 800;
  $: numKeys = Math.floor(elemWidth / 15);
@@ -11,7 +11,7 @@
  import { createEventDispatcher } from 'svelte';
 
  let pressedNotes: Note[] = [];
- let notesDown = [];
+ let notesDown: boolean[] = [];
 
  const dispatch = createEventDispatcher();
  function pressKey(index: number) {

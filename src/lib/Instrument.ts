@@ -11,6 +11,11 @@ export type OscillatorParams = {
     pitchRatio: number; // Ratio of pitch from the base pitch.
 }
 
+export type Note  = {
+    note: number; // Frequency
+    instrumentIndex: number;
+    uid: number;
+}
 export function defaultInstrument (numOscs = 4) : Instrument {
     return {
         basePitch: 440,
