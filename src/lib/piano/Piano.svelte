@@ -1,5 +1,6 @@
 <script lang="ts">
  import type {Note} from '$lib/Instrument'
+ import keyBinds from './keyBinds'
 
  let elemWidth: number = 800;
  $: numKeys = Math.floor(elemWidth / 15);
@@ -51,21 +52,11 @@
      })
  }
 
- function getKeyCodeIndex(code: string) : number | undefined {
-     const mapping = 'ZSXDCVGBHNJMQ2W3ER5T6Y7UI9O0P';
-     const valid = code.startsWith('Digit') || code.startsWith('Key');
-     const k = code.charAt(code.length - 1);
-     const index = mapping.indexOf(k);
-     if (valid && index >= 0) {
-         return index;
-     }
- }
-
  function handleKey(ev: KeyboardEvent, down: boolean) {
      if (ev.altKey || ev.ctrlKey || ev.shiftKey) {
          return;
      }
-     const index = getKeyCodeIndex(ev.code);
+     const index = keyBinds[ev.code];
      if (index !== undefined) {
          ev.preventDefault();
          if (!ev.repeat) {
