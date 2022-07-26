@@ -1,5 +1,5 @@
 <script>
-	import ControlPanel from "$lib/ControlPanel.svelte"
+	import App from "$lib/App.svelte"
 </script>
 
-<ControlPanel />
+<App />

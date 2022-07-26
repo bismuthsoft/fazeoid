@@ -87,6 +87,11 @@
     on:keyup="{(ev) => handleKey(ev, false)}"
 />
 
+<div id="controlPanel">
+    <button on:click={scaleUp}>+</button>
+    <button on:click={scaleDown}>-</button>
+</div>
+
 <div id="piano" bind:clientWidth="{elemWidth}">
     {#each generateKeys(numKeys) as {isWhite, row, column}, index}
         <div
@@ -107,10 +112,6 @@
             {keyWidth >= 20 ? noteNames[index % 12] : ''}
         </div>
     {/each}
-</div>
-<div id="controlPanel">
-    <button on:click={scaleUp}>+</button>
-    <button on:click={scaleDown}>-</button>
 </div>
 
 <style>
@@ -161,5 +162,6 @@
      grid-template-rows: 60px 50px;
      grid-auto-flow: row;
      display: grid;
+     width: 100%;
  }
 </style>
