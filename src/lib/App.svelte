@@ -26,5 +26,18 @@
  }
 </script>
 
-<InstrumentPanel bind:params="{instrument}"/>
-<Piano on:noteUp="{noteUp}" on:noteDown="{noteDown}"/>
+<div class="container">
+    <InstrumentPanel bind:params="{instrument}"/>
+    <Piano on:noteUp="{noteUp}" on:noteDown="{noteDown}"/>
+</div>
+
+<style>
+ .container {
+     display: flex;
+     flex-direction: column;
+     height: 100vh;
+     width: 100vw;
+     align-items: center;
+     justify-content: space-between;
+ }
+</style>
