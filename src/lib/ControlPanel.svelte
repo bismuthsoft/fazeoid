@@ -11,18 +11,17 @@
  let ctrl = new WorkletWrapper();
  onMount(() => {
      ctrl.setupWorklet();
-     window.setInterval(() => {
-         ctrl.postMessage('setInstrument', 0, instrument);
-     }, 16)
  });
 
  onDestroy(() => ctrl.stop());
 
  function noteUp (ev: CustomEvent) {
+     ctrl.postMessage('setInstrument', 0, instrument)
      ctrl.postMessage('noteUp', ev.detail);
  }
 
  function noteDown (ev: CustomEvent) {
+     ctrl.postMessage('setInstrument', 0, instrument)
      ctrl.postMessage('noteDown', ev.detail);
  }
 </script>
