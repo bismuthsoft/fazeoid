@@ -147,6 +147,7 @@
      position: absolute;
      justify-self: center;
      z-index: 2;
+     user-select: none;
  }
  .keyLabelWhite {
      align-self: middle;
