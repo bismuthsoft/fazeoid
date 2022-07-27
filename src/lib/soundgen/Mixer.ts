@@ -61,7 +61,7 @@ export class Mixer {
 }
 
 function calcPitch(note: number) {
-    return Math.pow(2.0, (note - 60)/12.0);
+    return Math.pow(2.0, (note - 69)/12.0);
 }
 
 function decibelToScale (db: number) :number {
