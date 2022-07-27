@@ -8,7 +8,7 @@ const noteNames: string[] = [
     'F♯',
     'G',
     'G♯',
-    'G',
+    'A',
     'A♯',
     'B',
 ];
