@@ -13,23 +13,23 @@
  const knobSize = '5rem';
 </script>
 
-<div id="knobGrid" style="width: calc({knobSize} * {params.oscs.length-1})">
+<div id="knobGrid">
     {#each params.oscs as _osc, index}
-        <div class="rowLabel" style="grid-area: {index+2}/1">{index}</div>
+        <div class="rowLabel" style:grid-area="{index+2}/1">{index}</div>
     {/each}
 
-    <heading style="grid-area: 1/{volumeX}">
+    <heading style:grid-area="1/{volumeX}">
         Volume
     </heading>
-    <div class="knobCell" style="grid-area: {params.oscs.length+1}/2">
+    <div class="knobCell" style:grid-area="{params.oscs.length+1}/2">
         <Knob bind:value="{params.volume}" label="" min="{-72}" max="{0}" size="{knobSize}"/>
     </div>
 
-    <heading style="grid-area: 1/{ratioX}">
+    <heading style:grid-area=" 1/{ratioX}">
         Pitch ratio
     </heading>
     {#each params.oscs as _osc, oscIndex}
-        <div class="knobCell" style="grid-area: {oscIndex+2}/{ratioX}">
+        <div class="knobCell" style:grid-area="{oscIndex+2}/{ratioX}">
             <Knob bind:value="{params.oscs[oscIndex].pitchRatio}"
                   label=""
                   min="{0.01}" max="{10}"
@@ -37,14 +37,14 @@
             />
         </div>
     {/each}
-    <heading style="grid-area: 1/{modX}/1/{modX+params.oscs.length-1}">
+    <heading style:grid-area="1/{modX}/1/{modX+params.oscs.length-1}">
         Modulation
     </heading>
-    <div class="knobRegion" style="grid-area: 2/{modX}/{2+params.oscs.length}/{modX+params.oscs.length-1}">
+    <div class="knobRegion" style:grid-area="2/{modX}/{2+params.oscs.length}/{modX+params.oscs.length-1}">
     </div>
     {#each params.oscs as osc, oscIndex}
         {#each osc.modulation as _, modIndex}
-            <div class="knobCell" style="grid-area: {2+oscIndex}/{modX+modIndex}">
+            <div class="knobCell" style:grid-area="{2+oscIndex}/{modX+modIndex}">
                 <Knob bind:value="{params.oscs[oscIndex].modulation[modIndex]}"
                       label="{`←${modIndex}`}"
                       min="{0}" max="{10}"
@@ -55,10 +55,18 @@
     {/each}
 </div>
 
-
 <button on:click="{randomize}">Randomize</button>
 
 <style>
+ #knobGrid {
+     display: grid;
+     border: solid black 0.2rem;
+     margin: 1rem;
+     padding: 1rem;
+ }
+ heading {
+     font-weight: bold;
+ }
  .rowLabel {
      text-align: center;
      align-self: center;
@@ -68,10 +76,7 @@
      justify-self: center;
  }
  .knobRegion {
-     border: 1px solid black;
- }
- #knobGrid {
-     display: grid;
+     border: solid black 0.2rem;
  }
  heading {
      display: block;
