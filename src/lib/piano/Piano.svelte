@@ -118,9 +118,10 @@
 />
 
 <div id="controlPanel">
-    <button on:click={scaleUp}>+</button>
+    Key width<br/>
     <button on:click={scaleDown}>-</button>
-        {keyWidth}
+    {keyWidth}
+    <button on:click={scaleUp}>+</button>
 </div>
 
 <div class="pianoContainer" bind:this="{container}" bind:clientWidth="{elemWidth}">
@@ -196,5 +197,9 @@
  .pianoContainer {
      overflow: scroll hidden;
      width: 100%;
+ }
+ #controlPanel {
+     text-align: center;
+     font-weight: bold;
  }
 </style>
