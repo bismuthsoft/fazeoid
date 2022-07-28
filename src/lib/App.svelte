@@ -1,6 +1,6 @@
 <script lang="ts">
  import Piano from "$lib/piano/Piano.svelte"
- import {defaultInstrument} from "$lib/Instrument"
+ import {defaultInstrument} from "$lib/soundgen/instrument"
  import InstrumentPanel from "$lib/InstrumentPanel.svelte"
  import WorkletWrapper from "$lib/WorkletWrapper"
 
