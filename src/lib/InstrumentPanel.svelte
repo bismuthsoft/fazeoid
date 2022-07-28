@@ -1,6 +1,6 @@
 <script lang="ts">
  import Knob from "@bismuthsoft/svelte-dj-knob/Knob.svelte";
- import { defaultInstrument, randomizeInstrument } from "$lib/Instrument"
+ import { defaultInstrument, randomizeInstrument } from "$lib/soundgen/instrument"
  export let params = defaultInstrument(4);
 
  function randomize () {

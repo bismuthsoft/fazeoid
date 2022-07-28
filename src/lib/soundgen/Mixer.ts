@@ -1,6 +1,5 @@
-import type {Note, Instrument} from '$lib/Instrument'
+import type {Note, Instrument} from './instrument'
 import Voice from './Voice.js'
-import type {VoiceParams} from './Voice.js'
 
 export class Mixer {
     srate = 48000;
@@ -24,17 +23,16 @@ export class Mixer {
     noteDown (note: Note) {
         const instrument = this.instruments[note.instrumentIndex];
         if (instrument) {
-            const params = this.createVoiceParams(instrument, note);
-            this.voices.push(new Voice(params));
+            this.voices.push(new Voice(instrument, note, this.srate));
         } else {
             console.log(`Cannot play note with uninitialized instrument: ${note}`);
         }
     }
 
     noteUp (uid: number) {
-        const index = this.voices.findIndex((v) => v.params.uid === uid);
+        const index = this.voices.findIndex((v) => v.uid === uid);
         if (index > -1) {
-            this.voices[index].params.gate = false;
+            this.voices[index].gate = false;
         } else {
             console.log(`Bad note up ${uid}`);
         }
@@ -43,32 +41,5 @@ export class Mixer {
     setInstrument (index: number, instrument: Instrument) {
         this.instruments[index] = instrument;
     }
-
-    createVoiceParams (instrument: Instrument, note: Note) : VoiceParams {
-        return {
-            srate: this.srate,
-            volume: decibelToScale(instrument.volume),
-            envelope: instrument.envelope,
-            oscs: instrument.oscs.map((osc) => ({
-                modulation: osc.modulation.map(scaleOscillation),
-                pitch: instrument.basePitch * osc.pitchRatio * calcPitch(note.note),
-            })),
-            uid: note.uid,
-            instrumentIndex: note.instrumentIndex,
-            gate: true,
-        }
-    }
 }
 
-function calcPitch(note: number) {
-    return Math.pow(2.0, (note - 69)/12.0);
-}
-
-function decibelToScale (db: number) :number {
-    return Math.pow(2.0, db/6.0) / 2.0;
-}
-
-// Depth 0-10 scaled to number 0-1020
-function scaleOscillation (depth: number) :number {
-    return Math.pow(2, depth) * 4 - 4;
-}

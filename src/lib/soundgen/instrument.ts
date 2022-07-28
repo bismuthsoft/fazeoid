@@ -1,3 +1,6 @@
+import type {EnvelopeParams} from './envelope';
+import {adsrEnvelope} from './envelope';
+
 export type Instrument = {
     basePitch: number; // Base pitch in Hz
     volume: number; // Volume in decibels
@@ -12,33 +15,10 @@ export type OscillatorParams = {
     pitchRatio: number; // Ratio of pitch from the base pitch.
 }
 
-export type EnvelopeParams = {
-    points: {dx: number, y: number}[]; // List of envelope points.
-    sustainPoint: number; // Which point (1-indexed) will sustain. 0 = none
-    release: number; // Rate of release (amplitude per second)
-}
-
 export type Note  = {
     note: number; // Frequency
     instrumentIndex: number;
     uid: number;
-}
-
-export function adsrEnvelope (attack: number, // Attack rate (amplitude per second)
-                              decay: number,  // Decay rate
-                              sustain: number,// Sustain level
-                              release: number,// Release rate
-                             ) : EnvelopeParams
-{
-    return {
-        points: [
-            {dx: 0, y: 0},
-            {dx: 1 / attack, y: 1},
-            {dx: (1-sustain) / decay, y: sustain},
-        ],
-        sustainPoint: 3,
-        release,
-    }
 }
 
 export function defaultInstrument (numOscs = 4) : Instrument {
