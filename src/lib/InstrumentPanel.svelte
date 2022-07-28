@@ -14,6 +14,8 @@
 </script>
 
 <div id="knobGrid">
+    <button on:click="{randomize}">Randomize</button>
+
     {#each params.oscs as _osc, index}
         <div class="rowLabel" style:grid-area="{index+2}/1">{index}</div>
     {/each}
@@ -55,7 +57,6 @@
     {/each}
 </div>
 
-<button on:click="{randomize}">Randomize</button>
 
 <style>
  #knobGrid {
