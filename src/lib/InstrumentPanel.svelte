@@ -16,21 +16,16 @@
 <div id="knobGrid">
     <button on:click="{randomize}">Randomize</button>
 
-    {#each params.oscs as _osc, index}
-        <div class="rowLabel" style:grid-area="{index+2}/1">{index}</div>
-    {/each}
+    <heading style:grid-area="1/{volumeX}"> Volume </heading>
+    <heading style:grid-area="1/{ratioX}"> Pitch ratio </heading>
+    <heading style:grid-area="1/{modX}/1/{modX+params.oscs.length-1}"> Modulation </heading>
 
-    <heading style:grid-area="1/{volumeX}">
-        Volume
-    </heading>
     <div class="knobCell" style:grid-area="{params.oscs.length+1}/2">
         <Knob bind:value="{params.volume}" label="" min="{-72}" max="{0}" size="{knobSize}"/>
     </div>
 
-    <heading style:grid-area=" 1/{ratioX}">
-        Pitch ratio
-    </heading>
-    {#each params.oscs as _osc, oscIndex}
+    {#each params.oscs as osc, oscIndex}
+        <div class="rowLabel" style:grid-area="{oscIndex+2}/1">{oscIndex}</div>
         <div class="knobCell" style:grid-area="{oscIndex+2}/{ratioX}">
             <Knob bind:value="{params.oscs[oscIndex].pitchRatio}"
                   label=""
@@ -38,13 +33,6 @@
                   size="{knobSize}"
             />
         </div>
-    {/each}
-    <heading style:grid-area="1/{modX}/1/{modX+params.oscs.length-1}">
-        Modulation
-    </heading>
-    <div class="knobRegion" style:grid-area="2/{modX}/{2+params.oscs.length}/{modX+params.oscs.length-1}">
-    </div>
-    {#each params.oscs as osc, oscIndex}
         {#each osc.modulation as _, modIndex}
             <div class="knobCell" style:grid-area="{2+oscIndex}/{modX+modIndex}">
                 <Knob bind:value="{params.oscs[oscIndex].modulation[modIndex]}"
@@ -55,6 +43,8 @@
             </div>
         {/each}
     {/each}
+
+    <div class="knobRegion" style:grid-area="2/{modX}/{2+params.oscs.length}/{modX+params.oscs.length-1}"/>
 </div>
 
 
