@@ -4,14 +4,11 @@
  import InstrumentPanel from "$lib/InstrumentPanel.svelte"
  import WorkletWrapper from "$lib/WorkletWrapper"
 
- import { onMount, onDestroy } from 'svelte'
+ import { onDestroy } from 'svelte'
 
  let instrument = defaultInstrument(4);
 
  let ctrl = new WorkletWrapper();
- onMount(() => {
-     ctrl.setupWorklet();
- });
 
  onDestroy(() => ctrl.stop());
 
@@ -21,6 +18,9 @@
  }
 
  function noteDown (ev: CustomEvent) {
+     if (!ctrl.started) {
+         ctrl.setupWorklet().then(() => noteDown(ev));
+     }
      ctrl.postMessage('setInstrument', 0, instrument)
      ctrl.postMessage('noteDown', ev.detail);
  }
