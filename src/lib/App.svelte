@@ -27,11 +27,21 @@
 </script>
 
 <div class="container">
+    <h1>
+        FMSite
+    </h1>
     <InstrumentPanel bind:params="{instrument}"/>
     <Piano on:noteUp="{noteUp}" on:noteDown="{noteDown}"/>
 </div>
 
 <style>
+ h1 {
+     margin: 0;
+     padding: 1em;
+     background: #eee;
+     width: 100%;
+     text-align: center;
+ }
  .container {
      display: flex;
      flex-direction: column;
