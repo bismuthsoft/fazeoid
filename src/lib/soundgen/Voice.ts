@@ -3,36 +3,40 @@ import {Envelope} from './envelope';
 
 export default class Voice {
     gate: boolean;
-    volume: number; // Volume amount 0.0 thru 1.0.
+    volume!: number; // Volume amount 0.0 thru 1.0.
+    instrument!: Instrument;
     instrumentIndex: number;
     srate: number;
     uid: number;
 
-    private oscs: Oscillator[];
-    private envelope: Envelope;
-    private modMatrix: number[][];
+    private oscs!: Oscillator[];
+    private envelope!: Envelope;
+    private modMatrix!: number[][];
 
     constructor (
         instrument: Instrument,
-        note: Note,
+        private note: Note,
         srate: number)
     {
-        this.volume = decibelToScale(instrument.volume);
-        this.envelope = new Envelope(instrument.envelope, srate);
         this.instrumentIndex = note.instrumentIndex;
         this.srate = srate;
         this.gate = true;
         this.uid = note.uid;
 
-        this.modMatrix = instrument.oscs.map((osc: OscillatorParams) =>
-            osc.modulation.map(scaleOscillation));
+        this.setInstrument(instrument);
+    }
 
+    setInstrument (instrument: Instrument) {
+        this.instrument = instrument;
+        this.volume = decibelToScale(instrument.volume);
+        this.envelope = new Envelope(instrument.envelope, this.srate);
         this.oscs = instrument.oscs.map(
             (osc: OscillatorParams) => {
-                const pitch = instrument.basePitch * osc.pitchRatio * calcPitch(note.note);
-                return new Oscillator(pitch, srate);
+                const pitch = instrument.basePitch * osc.pitchRatio * calcPitch(this.note.note);
+                return new Oscillator(pitch, this.srate);
             });
-
+        this.modMatrix = instrument.oscs.map((osc: OscillatorParams) =>
+            osc.modulation.map(scaleOscillation));
     }
 
     addWave (channels: Float32Array[]) {
