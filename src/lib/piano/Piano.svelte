@@ -73,7 +73,9 @@
  }
 
  function handleKey(ev: KeyboardEvent, down: boolean) {
-     if (ev.altKey || ev.ctrlKey || ev.shiftKey) {
+     if (ev.altKey || ev.ctrlKey || ev.shiftKey ||
+         document.activeElement instanceof HTMLInputElement)
+     {
          return;
      }
      const index = keyBinds[ev.code];
