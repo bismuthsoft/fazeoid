@@ -34,9 +34,7 @@
  // }, 1000 / shiftRate);
 </script>
 
-<div class="panel"
-     style:grid-template-rows="repeat(1fr, {instrument.oscs.length-1})"
->
+<div class="panel">
     {#each oscData as data, index}
         <Oscilloscope waveData="{data}" gridrow="{index+1}"/>
     {/each}
@@ -46,5 +44,6 @@
  .panel {
      display: inline-grid;
      height: 100%;
+     grid-auto-rows: 1fr;
  }
 </style>

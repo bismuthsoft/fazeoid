@@ -13,7 +13,7 @@
  const volumeX = 2; // Grid X position of volumes
  const ratioX = 3; // grid X position of pitch ratios
  const modX = 4; // grid X position of modulation matrix
- const scopeX = modX + numOscs;
+ const scopeX = modX + numOscs - 1;
  const knobSize = '5rem';
 </script>
 
@@ -63,6 +63,7 @@
      border: solid black 0.2rem;
      margin: 1rem;
      padding: 1rem;
+     grid-gap: .5rem;
  }
  heading {
      font-weight: bold;
