@@ -21,7 +21,7 @@
  .container {
      height: 5rem;
      width: 8rem;
-     outline: 2px solid black;
+     border: 0.125rem solid black;
      align-self: center;
  }
  .scope {
@@ -31,7 +31,8 @@
  .scopeLine {
      fill: none;
      stroke: black;
-     stroke-width: 0.02px;
+     vector-effect: non-scaling-stroke;
+     stroke-width: .125rem;
      stroke-linecap: round;
      stroke-linejoin: round;
  }
