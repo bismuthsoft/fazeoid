@@ -28,12 +28,23 @@
 
  $: keys = generateKeys(numKeys);
 
- let pressedNotes: Note[] = [];
- let notesDown: boolean[] = [];
+ let pressedNotes: Note[] = []; // Currently held notes list
+ let notesDown: Record<number, boolean> = {}; // Mapping between piano keys and state
+ let releasedNotes: number[] = []; /* Notes which were released and not yet
+                                      pressed. Used to fix unpredictable browser
+                                      events firing out of order. */
 
  let noteuid = 0;
  const dispatch = createEventDispatcher();
  function pressKey(note: number) {
+     // Check if key has already been lifted out of order
+     const released = releasedNotes.findIndex((n) => n === note);
+     if (released > -1) {
+         releasedNotes.splice(released, 1);
+         return;
+     }
+
+     // Standard note event
      const pressed: Note = {
          note,
          uid: noteuid++,
@@ -44,12 +55,17 @@
      notesDown[note] = true;
  }
 
- function releaseKey(note: number) {
+ // Preemptive flag means that this key was certainly raised and should cancel
+ // out future note up events.
+ function releaseKey(note: number, preemptive: boolean) {
      const index = pressedNotes.findIndex(({note: n}) => note === n);
      if (index > -1) {
          dispatch('noteUp', pressedNotes[index].uid);
          pressedNotes.splice(index, 1)
          notesDown[note] = false;
+     } else if (preemptive) {
+         // Key has been lifted out of order
+         releasedNotes.push(note);
      }
  }
 
@@ -85,7 +101,7 @@
              if (down) {
                  pressKey(index+60);
              } else {
-                 releaseKey(index+60);
+                 releaseKey(index+60, true);
              }
          }
      }
@@ -101,7 +117,7 @@
      container.scrollBy(-numKeys, 0);
  }
 
- function keyColor (notesDown: boolean[], index: number) {
+ function keyColor (notesDown: Record<number, boolean>, index: number) {
      const isWhite = isWhiteNote(index);
      const isDown = notesDown[index];
 
@@ -139,9 +155,9 @@
 
                 draggable=false
                 on:mousedown="{() => pressKey(note)}"
-                on:mouseup="{() => releaseKey(note)}"
+                on:mouseup="{() => releaseKey(note, true)}"
                 on:mouseenter="{(ev) => {if (ev.buttons > 0) pressKey(note);}}"
-                on:mouseleave="{() => releaseKey(note)}"
+                on:mouseleave="{() => releaseKey(note, false)}"
             >
                 <div class='keyLabel {isWhite ? 'keyLabelWhite' : 'keyLabelBlack'}'>
                     {(keyWidth >= 20 ? noteNames[note % 12] : '') +
