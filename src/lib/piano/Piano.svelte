@@ -88,7 +88,8 @@
      if (index !== undefined) {
          const note = index + 60;
          ev.preventDefault();
-         if (!ev.repeat && down &&
+         if (ev.repeat) return;
+         if (down &&
              keyboardNotes.findIndex((n) => n.note === note) === -1)
          {
              keyboardNotes.push(pressNote(note));
