@@ -41,7 +41,6 @@
 
  const dispatch = createEventDispatcher();
  function pressNote(note: number) : Note {
-     console.log('down', note)
      const pressed: Note = {
          note,
          uid: noteuid++,
@@ -52,7 +51,6 @@
  }
 
  function releaseNote(note: Note) {
-     console.log('up', note)
      dispatch('noteUp', note.uid);
  }
 
