@@ -28,45 +28,32 @@
 
  $: keys = generateKeys(numKeys);
 
- let pressedNotes: Note[] = []; // Currently held notes list
- let notesDown: Record<number, boolean> = {}; // Mapping between piano keys and state
- let releasedNotes: number[] = []; /* Notes which were released and not yet
-                                      pressed. Used to fix unpredictable browser
-                                      events firing out of order. */
-
+ let keyboardNotes: Note[] = [];
+ let mouseNotes: Note[] = [];
  let noteuid = 0;
- const dispatch = createEventDispatcher();
- function pressKey(note: number) {
-     // Check if key has already been lifted out of order
-     const released = releasedNotes.findIndex((n) => n === note);
-     if (released > -1) {
-         releasedNotes.splice(released, 1);
-         return;
-     }
+ $: notesDown = calcNotesDown(keyboardNotes, mouseNotes);
 
-     // Standard note event
+ function calcNotesDown(...args: Note[][]) : Record<number, boolean> {
+     return [...args].flat()
+                     .reduce((acc, x) => (acc[x.note] = true, acc),
+                             {} as Record<number, boolean>);
+ }
+
+ const dispatch = createEventDispatcher();
+ function pressNote(note: number) : Note {
+     console.log('down', note)
      const pressed: Note = {
          note,
          uid: noteuid++,
          instrumentIndex: 0,
      }
      dispatch('noteDown', pressed);
-     pressedNotes.push(pressed);
-     notesDown[note] = true;
+     return pressed;
  }
 
- // Preemptive flag means that this key was certainly raised and should cancel
- // out future note up events.
- function releaseKey(note: number, preemptive: boolean) {
-     const index = pressedNotes.findIndex(({note: n}) => note === n);
-     if (index > -1) {
-         dispatch('noteUp', pressedNotes[index].uid);
-         pressedNotes.splice(index, 1)
-         notesDown[note] = false;
-     } else if (preemptive) {
-         // Key has been lifted out of order
-         releasedNotes.push(note);
-     }
+ function releaseNote(note: Note) {
+     console.log('up', note)
+     dispatch('noteUp', note.uid);
  }
 
  function isWhiteNote(index: number) : boolean {
@@ -88,7 +75,10 @@
      })
  }
 
- function handleKey(ev: KeyboardEvent, down: boolean) {
+ function keyboardDown (ev: KeyboardEvent) { return handleKeyboard(ev, true); }
+ function keyboardUp (ev: KeyboardEvent) { return handleKeyboard(ev, false); }
+
+ function handleKeyboard(ev: KeyboardEvent, down: boolean) {
      if (ev.altKey || ev.ctrlKey || ev.shiftKey ||
          document.activeElement instanceof HTMLInputElement)
      {
@@ -96,14 +86,35 @@
      }
      const index = keyBinds[ev.code];
      if (index !== undefined) {
+         const note = index + 60;
          ev.preventDefault();
-         if (!ev.repeat) {
-             if (down) {
-                 pressKey(index+60);
+         if (!ev.repeat && down &&
+             keyboardNotes.findIndex((n) => n.note === note) === -1)
+         {
+             keyboardNotes.push(pressNote(note));
+             keyboardNotes = keyboardNotes;
+         } else if (!down) {
+             const index = keyboardNotes.findIndex((n) => n.note === note);
+             if (index > -1) {
+                 releaseNote(keyboardNotes.splice(index, 1)[0]);
+                 keyboardNotes = keyboardNotes;
              } else {
-                 releaseKey(index+60, true);
+                 console.log('Bad keyboard note up ' + note);
              }
          }
+     }
+ }
+
+ function mouseDown (note: number) {
+     mouseNotes.push(pressNote(note));
+     mouseNotes = mouseNotes;
+ }
+
+ function mouseUp(note: number) {
+     const index = mouseNotes.findIndex((x) => x.note === note);
+     if (index > -1) {
+         releaseNote(mouseNotes.splice(index, 1)[0]);
+         mouseNotes = mouseNotes;
      }
  }
 
@@ -131,8 +142,8 @@
 </script>
 
 <svelte:window
-    on:keydown="{(ev) => handleKey(ev, true)}"
-    on:keyup="{(ev) => handleKey(ev, false)}"
+    on:keydown="{keyboardDown}"
+    on:keyup="{keyboardUp}"
 />
 
 <div id="controlPanel">
@@ -154,10 +165,10 @@
                 class="{isWhite ? 'whiteKey' : 'blackKey'}"
 
                 draggable=false
-                on:mousedown="{() => pressKey(note)}"
-                on:mouseup="{() => releaseKey(note, true)}"
-                on:mouseenter="{(ev) => {if (ev.buttons > 0) pressKey(note);}}"
-                on:mouseleave="{() => releaseKey(note, false)}"
+                on:mousedown="{() => mouseDown(note)}"
+                on:mouseup="{() => mouseUp(note)}"
+                on:mouseenter="{(ev) => {if (ev.buttons > 0) mouseDown(note);}}"
+                on:mouseleave="{() => mouseUp(note)}"
             >
                 <div class='keyLabel {isWhite ? 'keyLabelWhite' : 'keyLabelBlack'}'>
                     {(keyWidth >= 20 ? noteNames[note % 12] : '') +
