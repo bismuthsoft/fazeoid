@@ -5,23 +5,27 @@
  import WorkletWrapper from "$lib/WorkletWrapper"
 
  import { onDestroy } from 'svelte'
+ import { writable } from 'svelte/store'
 
- let instrument = defaultInstrument(4);
+ let instrument = writable(defaultInstrument(4));
 
  let ctrl = new WorkletWrapper();
 
  onDestroy(() => ctrl.stop());
 
  function noteUp (ev: CustomEvent) {
-     ctrl.postMessage('setInstrument', 0, instrument)
      ctrl.postMessage('noteUp', ev.detail);
  }
 
  function noteDown (ev: CustomEvent) {
      if (!ctrl.started) {
-         ctrl.setupWorklet().then(() => noteDown(ev));
+         ctrl.setupWorklet().then(() => {
+             instrument.subscribe((value) => {
+                 ctrl.postMessage('setInstrument', 0, value);
+             });
+             noteDown(ev);
+         });
      }
-     ctrl.postMessage('setInstrument', 0, instrument)
      ctrl.postMessage('noteDown', ev.detail);
  }
 </script>
@@ -30,7 +34,7 @@
     <h1>
         FMSite
     </h1>
-    <InstrumentPanel bind:params="{instrument}"/>
+    <InstrumentPanel bind:params="{$instrument}"/>
     <Piano on:noteUp="{noteUp}" on:noteDown="{noteDown}"/>
 </div>
 
