@@ -28,16 +28,9 @@
 
  $: keys = generateKeys(numKeys);
 
- let keyboardNotes: Note[] = [];
- let mouseNotes: Note[] = [];
+ let keyboardNotes = new Map<number, Note>;
+ let mouseNotes = new Map<number, Note>;
  let noteuid = 0;
- $: notesDown = calcNotesDown(keyboardNotes, mouseNotes);
-
- function calcNotesDown(...args: Note[][]) : Record<number, boolean> {
-     return [...args].flat()
-                     .reduce((acc, x) => (acc[x.note] = true, acc),
-                             {} as Record<number, boolean>);
- }
 
  const dispatch = createEventDispatcher();
  function pressNote(note: number) : Note {
@@ -87,15 +80,13 @@
          const note = index + 60;
          ev.preventDefault();
          if (ev.repeat) return;
-         if (down &&
-             keyboardNotes.findIndex((n) => n.note === note) === -1)
-         {
-             keyboardNotes.push(pressNote(note));
+         if (down && !keyboardNotes.has(note)) {
+             keyboardNotes.set(note, pressNote(note));
              keyboardNotes = keyboardNotes;
          } else if (!down) {
-             const index = keyboardNotes.findIndex((n) => n.note === note);
-             if (index > -1) {
-                 releaseNote(keyboardNotes.splice(index, 1)[0]);
+             if (keyboardNotes.has(note)) {
+                 releaseNote(keyboardNotes.get(note) as Note);
+                 keyboardNotes.delete(note);
                  keyboardNotes = keyboardNotes;
              } else {
                  console.log('Bad keyboard note up ' + note);
@@ -105,14 +96,14 @@
  }
 
  function mouseDown (note: number) {
-     mouseNotes.push(pressNote(note));
+     mouseNotes.set(note, pressNote(note));
      mouseNotes = mouseNotes;
  }
 
  function mouseUp(note: number) {
-     const index = mouseNotes.findIndex((x) => x.note === note);
-     if (index > -1) {
-         releaseNote(mouseNotes.splice(index, 1)[0]);
+     if (mouseNotes.has(note)) {
+         releaseNote(mouseNotes.get(note) as Note);
+         mouseNotes.delete(note);
          mouseNotes = mouseNotes;
      }
  }
@@ -127,9 +118,9 @@
      container.scrollBy(-numKeys, 0);
  }
 
- function keyColor (notesDown: Record<number, boolean>, index: number) {
+ function keyColor (index: number, ...args: Map<number, Note>[]) {
      const isWhite = isWhiteNote(index);
-     const isDown = notesDown[index];
+     const isDown = args.reduce((acc,x) => acc || x.has(index), false);
 
      return colors[
          (isWhite ? (
@@ -160,7 +151,7 @@
         {#each keys as {isWhite, row, column, note}}
             <div
                 style:grid-area="{row} / {column}"
-                style:background="{keyColor(notesDown, note)}"
+                style:background="{keyColor(note, keyboardNotes, mouseNotes)}"
                 class="{isWhite ? 'whiteKey' : 'blackKey'}"
 
                 draggable=false
