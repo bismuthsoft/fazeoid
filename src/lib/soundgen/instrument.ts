@@ -4,11 +4,11 @@ import {adsrEnvelope} from './envelope';
 export type Instrument = {
     basePitch: number; // Base pitch in Hz
     volume: number; // Volume in decibels
-    envelope: EnvelopeParams; // Volume envelope
     oscs: OscillatorParams[]; // Oscillator config
 }
 
 export type OscillatorParams = {
+    envelope: EnvelopeParams; // Volume envelope
     modulation: number[]; /* How much to modulate phase from previous oscillators.
                              Expected value 0 to 10. Real modulation is 2^x.
                              */
@@ -25,10 +25,10 @@ export function defaultInstrument (numOscs = 4) : Instrument {
     return {
         basePitch: 440,
         volume: -12,
-        envelope: adsrEnvelope(8, 5, 0.5, 5),
         oscs: Array(numOscs).fill(0).map((_, i) => ({
             modulation: Array(i).fill(0).map(() => 1),
             pitchRatio: 1,
+            envelope: adsrEnvelope(8, 5, 0.5, 5),
         })),
     }
 }
