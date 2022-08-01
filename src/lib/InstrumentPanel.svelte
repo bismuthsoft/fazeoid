@@ -13,6 +13,22 @@
      params = randomizeInstrument(params);
  }
 
+ function download(filename: string, type: string, data: string) {
+     const a = document.createElement('a');
+     a.href = window.URL.createObjectURL(
+         new Blob([data], {type})
+     );
+     a.download = filename;
+     a.style.display = 'none';
+     document.body.appendChild(a);
+     a.click();
+     document.body.removeChild(a);
+ }
+
+ function downloadInstrument() {
+     download('instrument.json', 'application/json', JSON.stringify(params, null, 2));
+ }
+
  const envelopesX = 2; // Grid X position of volumes
  const ratioX = 3; // grid X position of pitch ratios
  const modX = 4; // grid X position of modulation matrix
@@ -26,7 +42,10 @@
 </script>
 
 <div id="knobGrid">
-    <button on:click="{randomize}">Randomize</button>
+    <div style:display="flex" style:flex-direction="column">
+        <button on:click="{randomize}">Randomize</button>
+        <button on:click="{downloadInstrument}">Download</button>
+    </div>
 
     <heading style:grid-area="1/{envelopesX}"> ADSR </heading>
     <heading style:grid-area="1/{ratioX}"> Pitch ratio </heading>
