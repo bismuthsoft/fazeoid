@@ -4,12 +4,12 @@ export type EnvelopeParams = {
     release: number; // Rate of release (amplitude per second)
 }
 
-export function adsrEnvelope (attack: number, // Attack rate (amplitude per second)
-                              decay: number,  // Decay rate
-                              sustain: number,// Sustain level
-                              release: number,// Release rate
-                             ) : EnvelopeParams
-{
+export function adsrEnvelope (
+    attack: number, // Attack rate (amplitude per second)
+    decay: number,  // Decay rate
+    sustain: number,// Sustain level
+    release: number,// Release rate
+) : EnvelopeParams {
     return {
         points: [
             {dx: 0, y: 0},
@@ -24,7 +24,7 @@ export function adsrEnvelope (attack: number, // Attack rate (amplitude per seco
 export function flatEnvelope(level: number = 1.0, rampTime: number = 0.05) {
     return {
         points: [{dx:0, y:0}, {dx: rampTime, y: level}],
-        sustainPoint: 1,
+        sustainPoint: 2,
         release: 1.0 / rampTime,
     }
 }
