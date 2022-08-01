@@ -40,6 +40,10 @@ export class Mixer {
 
     setInstrument (index: number, instrument: Instrument) {
         this.instruments[index] = instrument;
+        this.voices.forEach(v => {
+            // Live update
+            if (v.instrumentIndex === index) v.updateInstrument(instrument);
+        });
     }
 }
 
