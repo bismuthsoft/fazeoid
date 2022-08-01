@@ -1,5 +1,6 @@
 <script lang="ts">
  import type {Instrument, Note} from '$lib/soundgen/instrument';
+ import {flatEnvelope} from '$lib/soundgen/envelope';
  import Voice from '$lib/soundgen/Voice';
  import Oscilloscope from './Oscilloscope.svelte';
 
@@ -18,7 +19,14 @@
  }
 
  const note: Note = {note: 69, instrumentIndex: 0, uid: 0}
- $: voice = new Voice(instrument, note, sampleRate);
+ $: flatInstrument = {
+     ...instrument,
+     oscs: instrument.oscs.map((o) => ({
+         ...o,
+         envelope: flatEnvelope(1, 0),
+     }))
+ }
+ $: voice = new Voice(flatInstrument, note, sampleRate);
  $: oscData = getOscillators(voice);
 
  // Maybe useful: shifting

@@ -10,7 +10,6 @@ export default class Voice {
     uid: number;
 
     private oscs!: Oscillator[];
-    private envelope!: Envelope;
     private modMatrix!: number[][];
 
     constructor (
@@ -29,11 +28,11 @@ export default class Voice {
     setInstrument (instrument: Instrument) {
         this.instrument = instrument;
         this.volume = decibelToScale(instrument.volume);
-        this.envelope = new Envelope(instrument.envelope, this.srate);
         this.oscs = instrument.oscs.map(
             (osc: OscillatorParams) => {
                 const pitch = instrument.basePitch * osc.pitchRatio * calcPitch(this.note.note);
-                return new Oscillator(pitch, this.srate);
+                const envelope = new Envelope(osc.envelope, this.srate);
+                return new Oscillator(pitch, envelope, this.srate);
             });
         this.modMatrix = instrument.oscs.map((osc: OscillatorParams) =>
             osc.modulation.map(scaleOscillation));
@@ -43,8 +42,7 @@ export default class Voice {
         channels.forEach(channel => {
             for (let i=0; i<channel.length; ++i) {
                 const oscs = this.getOscillators();
-                channel[i] += oscs[this.oscs.length-1] * this.volume * this.envelope.getPosition();
-                this.envelope.stepPosition(this.gate);
+                channel[i] += oscs[this.oscs.length-1] * this.volume;
             }
         });
     }
@@ -55,12 +53,13 @@ export default class Voice {
             oscCache[i] = osc.getSample();
             this.modMatrix[i].forEach((depth: number, i: number) =>
                 osc.modulateWith(oscCache[i], depth))
+            osc.envelope.stepPosition(this.gate);
         })
         return oscCache;
     }
 
     isStopped () : boolean {
-        return this.envelope.isStopped();
+        return this.oscs[this.oscs.length-1].envelope.isStopped();
     }
 }
 
@@ -82,6 +81,7 @@ class Oscillator {
     phaseadd = 1;
 
     constructor (public pitch: number,
+                 public envelope: Envelope,
                  public srate: number)
     {
         this.calcFrequency();
@@ -93,7 +93,7 @@ class Oscillator {
 
     getSample () {
         this.phase += this.phaseadd;
-        return Math.sin(this.phase);
+        return Math.sin(this.phase) * this.envelope.getPosition();
     }
 
     modulateWith (sample: number, modDepth: number) {
