@@ -3,11 +3,12 @@ export default class WorkletWrapper {
     private audioContext?: AudioContext;
     private waveNode?: AudioWorkletNode;
     private messagePort?: MessagePort;
+    private messageQueue: {name:string, values:any[]}[] = [];
 
-    constructor () {
+    constructor() {
     }
 
-    async setupWorklet () {
+    async setupWorklet() {
         this.started = true;
         this.audioContext = new AudioContext();
         await this.audioContext.audioWorklet.addModule('soundgen.bundle.js');
@@ -16,11 +17,14 @@ export default class WorkletWrapper {
 
         this.messagePort = this.waveNode.port;
         this.messagePort.postMessage(['setSrate', this.audioContext.sampleRate]);
+        this.pushQueue();
     }
 
     postMessage(name: string, ...values: any[]) {
         if (this.messagePort) {
             this.messagePort.postMessage([name, ...values]);
+        } else {
+            this.messageQueue.push({name, values});
         }
     }
 
@@ -28,5 +32,11 @@ export default class WorkletWrapper {
         if (this.audioContext) {
             this.audioContext.close();
         }
+    }
+
+    private pushQueue () {
+        this.messageQueue.forEach(({name, values}) => {
+            this.postMessage(name, ...values);
+        });
     }
 }
