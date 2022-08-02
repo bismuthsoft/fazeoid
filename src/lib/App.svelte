@@ -10,6 +10,9 @@
  let instrument = writable(defaultInstrument(4));
 
  let ctrl = new WorkletWrapper();
+ instrument.subscribe((value) => {
+     ctrl.postMessage('setInstrument', 0, value);
+ });
 
  onDestroy(() => ctrl.stop());
 
@@ -19,12 +22,7 @@
 
  function noteDown (ev: CustomEvent) {
      if (!ctrl.started) {
-         ctrl.setupWorklet().then(() => {
-             instrument.subscribe((value) => {
-                 ctrl.postMessage('setInstrument', 0, value);
-             });
-             noteDown(ev);
-         });
+         ctrl.setupWorklet();
      }
      ctrl.postMessage('noteDown', ev.detail);
  }
