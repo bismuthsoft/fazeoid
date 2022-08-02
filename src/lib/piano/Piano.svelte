@@ -5,7 +5,7 @@
  import { onMount, createEventDispatcher } from 'svelte';
 
  const colors: Record<string, string> = {
-     middleC: 'rgb(255, 0.0, 0.0)',
+     middleC: '#8D8',
      whiteUpEven: 'white',
      whiteUpOdd: '#ddd',
      whiteDown: 'blue',
