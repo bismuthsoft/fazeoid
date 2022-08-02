@@ -155,8 +155,8 @@
                 class="{isWhite ? 'whiteKey' : 'blackKey'}"
 
                 draggable=false
-                on:mousedown="{() => mouseDown(note)}"
-                on:mouseup="{() => mouseUp(note)}"
+                on:pointerdown="{() => mouseDown(note)}"
+                on:pointerup="{() => mouseUp(note)}"
                 on:mouseenter="{(ev) => {if (ev.buttons > 0) mouseDown(note);}}"
                 on:mouseleave="{() => mouseUp(note)}"
             >
@@ -211,6 +211,7 @@
      grid-template-rows: 60px 50px;
      grid-auto-flow: row;
      display: grid;
+     touch-action: none;
  }
 
  .pianoContainer {
