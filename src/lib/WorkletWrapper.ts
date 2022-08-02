@@ -38,5 +38,6 @@ export default class WorkletWrapper {
         this.messageQueue.forEach(({name, values}) => {
             this.postMessage(name, ...values);
         });
+        this.messageQueue = [];
     }
 }
