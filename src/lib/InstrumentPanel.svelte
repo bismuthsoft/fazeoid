@@ -1,9 +1,10 @@
 <script lang="ts">
  import Knob from "@bismuthsoft/svelte-dj-knob/MinimalKnob.svelte";
- import { defaultInstrument, randomizeInstrument } from "$lib/soundgen/instrument"
+ import { randomizeInstrument } from "$lib/soundgen/instrument"
+ import type { Instrument } from "$lib/soundgen/instrument"
  import OscilloscopePanel from "$lib/OscilloscopePanel.svelte"
 
- export let params = defaultInstrument(4);
+ export let params: Instrument;
  let numOscs = params.oscs.length;
 
  function randomize () {
