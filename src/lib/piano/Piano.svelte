@@ -1,6 +1,5 @@
 <script lang="ts">
  import type {Note} from '$lib/soundgen/instrument'
- import Button from '$lib/Button.svelte';
  import keyBinds from './keyBinds'
  import noteNames from './noteNames'
  import { onMount, createEventDispatcher } from 'svelte';
@@ -139,9 +138,9 @@
 
 <div id="controlPanel">
     Key width<br/>
-    <Button on:click={scaleDown}>–</Button>
+    <button on:click={scaleDown}>-</button>
     {keyWidth}
-    <Button on:click={scaleUp}>+</Button>
+    <button on:click={scaleUp}>+</button>
 </div>
 
 <div class="pianoContainer" bind:this="{container}" bind:clientWidth="{elemWidth}">

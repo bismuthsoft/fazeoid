@@ -1,6 +1,5 @@
 <script lang="ts">
  import Knob from "@bismuthsoft/svelte-dj-knob/Knob.svelte";
- import Button from "$lib/Button.svelte";
  import { defaultInstrument, randomizeInstrument } from "$lib/soundgen/instrument"
  import OscilloscopePanel from "$lib/OscilloscopePanel.svelte"
 
@@ -19,7 +18,7 @@
 </script>
 
 <div id="knobGrid">
-    <Button on:click="{randomize}">Randomize</Button>
+    <button on:click="{randomize}">Randomize</button>
 
     <heading style:grid-area="1/{volumeX}"> Volume </heading>
     <heading style:grid-area="1/{ratioX}"> Pitch ratio </heading>
