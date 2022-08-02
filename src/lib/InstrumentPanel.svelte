@@ -1,5 +1,5 @@
 <script lang="ts">
- import Knob from "@bismuthsoft/svelte-dj-knob/Knob.svelte";
+ import Knob from "@bismuthsoft/svelte-dj-knob/MinimalKnob.svelte";
  import { defaultInstrument, randomizeInstrument } from "$lib/soundgen/instrument"
  import OscilloscopePanel from "$lib/OscilloscopePanel.svelte"
 
@@ -14,7 +14,11 @@
  const ratioX = 3; // grid X position of pitch ratios
  const modX = 4; // grid X position of modulation matrix
  const scopeX = modX + numOscs - 1;
- const knobSize = '5rem';
+ const knobProps = {
+     size: '5rem',
+     fgColor: '#8D8',
+     bgColor: '#333'
+ };
 </script>
 
 <div id="knobGrid">
@@ -26,7 +30,7 @@
     <heading style:grid-area="1/{scopeX}"> Scope </heading>
 
     <div class="knobCell" style:grid-area="{numOscs+1}/2">
-        <Knob bind:value="{params.volume}" label="" min="{-72}" max="{0}" size="{knobSize}"/>
+        <Knob bind:value="{params.volume}" min="{-72}" max="{0}" {...knobProps} />
     </div>
 
     <div style:grid-area="2/{scopeX}/{2+numOscs}/{scopeX}">
@@ -38,18 +42,17 @@
         <div class="rowLabel" style:grid-area="{oscIndex+2}/1">{oscIndex}</div>
         <div class="knobCell" style:grid-area="{oscIndex+2}/{ratioX}">
             <Knob bind:value="{params.oscs[oscIndex].pitchRatio}"
-                  label=""
                   min="{0}" max="{10}"
-                  size="{knobSize}"
+                  {...knobProps}
             />
         </div>
         {#each osc.modulation as _, modIndex}
             <div class="knobCell" style:grid-area="{2+oscIndex}/{modX+modIndex}">
                 <Knob bind:value="{params.oscs[oscIndex].modulation[modIndex]}"
-                      label="{`←${modIndex}`}"
                       min="{0}" max="{6}"
-                      size="{knobSize}"
+                      {...knobProps}
                 />
+                {`←${modIndex}`}
             </div>
         {/each}
     {/each}
@@ -75,6 +78,10 @@
  }
  .knobCell {
      justify-self: center;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     margin:.5rem;
  }
  .knobRegion {
      border: solid black 0.2rem;
