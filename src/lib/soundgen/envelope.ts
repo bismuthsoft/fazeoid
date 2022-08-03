@@ -67,9 +67,7 @@ export class Envelope {
                 this.state = 'release';
             }
         } else if (this.state === 'sustain') {
-            if (gate) {
-                this.position = this.params.points[this.pointIndex - 1].y;
-            } else {
+            if (!gate) {
                 this.state = 'release';
             }
         } else if (this.state === 'release') {
@@ -91,6 +89,7 @@ export class Envelope {
         // Assumption: entered from normal state
         ++this.pointIndex;
         if (this.pointIndex === this.params.sustainPoint) {
+            this.position = this.params.points[this.pointIndex - 1].y;
             this.state = 'sustain';
         } else if (this.pointIndex > this.params.points.length) {
             this.state = 'release';
