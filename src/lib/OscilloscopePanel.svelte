@@ -5,7 +5,9 @@
  import Oscilloscope from './Oscilloscope.svelte';
 
  export let instrument: Instrument;
- export let zoom = 0.2; // How many periods to show
+ export let zoom = 1; // How many periods to show
+ export let gridArea: {x: number, y: number};
+
  let resolution = 400;
  $: sampleRate = zoom * resolution * 440;
 
@@ -42,16 +44,6 @@
  // }, 1000 / shiftRate);
 </script>
 
-<div class="panel">
-    {#each oscData as data, index}
-        <Oscilloscope waveData="{data}" gridrow="{index+1}"/>
-    {/each}
-</div>
-
-<style>
- .panel {
-     display: inline-grid;
-     height: 100%;
-     grid-auto-rows: 1fr;
- }
-</style>
+{#each oscData as data, index}
+    <Oscilloscope waveData="{data}" gridArea="{gridArea.y + index} / {gridArea.x}"/>
+{/each}
