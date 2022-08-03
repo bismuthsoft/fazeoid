@@ -1,8 +1,9 @@
 <script lang="ts">
  import Knob from "@bismuthsoft/svelte-dj-knob/MinimalKnob.svelte";
- import { randomizeInstrument } from "$lib/soundgen/instrument"
- import type { Instrument } from "$lib/soundgen/instrument"
- import OscilloscopePanel from "$lib/OscilloscopePanel.svelte"
+ import { randomizeInstrument } from "$lib/soundgen/instrument";
+ import type { Instrument } from "$lib/soundgen/instrument";
+ import OscilloscopePanel from "$lib/OscilloscopePanel.svelte";
+ import EnvelopeEditor from "$lib/EnvelopeEditor.svelte";
 
  export let params: Instrument;
  let numOscs = params.oscs.length;
@@ -11,7 +12,7 @@
      params = randomizeInstrument(params);
  }
 
- const volumeX = 2; // Grid X position of volumes
+ const envelopesX = 2; // Grid X position of volumes
  const ratioX = 3; // grid X position of pitch ratios
  const modX = 4; // grid X position of modulation matrix
  const scopeX = modX + numOscs - 1;
@@ -25,14 +26,10 @@
 <div id="knobGrid">
     <button on:click="{randomize}">Randomize</button>
 
-    <heading style:grid-area="1/{volumeX}"> Volume </heading>
+    <heading style:grid-area="1/{envelopesX}"> ADSR </heading>
     <heading style:grid-area="1/{ratioX}"> Pitch ratio </heading>
     <heading style:grid-area="1/{modX}/1/{modX+numOscs-1}"> Modulation </heading>
     <heading style:grid-area="1/{scopeX}"> Scope </heading>
-
-    <div class="knobCell" style:grid-area="{numOscs+1}/2">
-        <Knob bind:value="{params.volume}" min="{-72}" max="{0}" {...knobProps} />
-    </div>
 
     <div style:grid-area="2/{scopeX}/{2+numOscs}/{scopeX}">
         <OscilloscopePanel instrument="{params}"/>
@@ -40,6 +37,9 @@
     <div class="knobRegion" style:grid-area="2/{modX}/{2+numOscs}/{modX+numOscs-1}"></div>
 
     {#each params.oscs as osc, oscIndex}
+        <div class="knobCell" style:grid-area="{oscIndex+2}/{envelopesX}">
+            <EnvelopeEditor bind:envelope="{params.oscs[oscIndex].envelope}"/>
+        </div>
         <div class="rowLabel" style:grid-area="{oscIndex+2}/1">{oscIndex}</div>
         <div class="knobCell" style:grid-area="{oscIndex+2}/{ratioX}">
             <Knob bind:value="{params.oscs[oscIndex].pitchRatio}"
