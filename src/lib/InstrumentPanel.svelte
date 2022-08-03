@@ -16,6 +16,7 @@
  const ratioX = 3; // grid X position of pitch ratios
  const modX = 4; // grid X position of modulation matrix
  const scopeX = modX + numOscs - 1;
+
  const knobProps = {
      size: '5rem',
      fgColor: '#8D8',
@@ -31,9 +32,7 @@
     <heading style:grid-area="1/{modX}/1/{modX+numOscs-1}"> Modulation </heading>
     <heading style:grid-area="1/{scopeX}"> Scope </heading>
 
-    <div style:grid-area="2/{scopeX}/{2+numOscs}/{scopeX}">
-        <OscilloscopePanel instrument="{params}"/>
-    </div>
+    <OscilloscopePanel instrument="{params}" gridArea="{{x: scopeX, y: 2}}"/>
     <div class="knobRegion" style:grid-area="2/{modX}/{2+numOscs}/{modX+numOscs-1}"></div>
 
     {#each params.oscs as osc, oscIndex}
@@ -68,6 +67,9 @@
      margin: 1rem;
      padding: 1rem;
      grid-gap: .5rem;
+
+     grid-template-rows: 2rem;
+     grid-auto-rows: 7rem;
  }
  heading {
      font-weight: bold;
