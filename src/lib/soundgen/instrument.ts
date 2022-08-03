@@ -39,7 +39,7 @@ export function randomizeInstrument (params: Instrument) : Instrument {
         oscs: Array(params.oscs.length).fill(0).map((_, i) => ({
             ...params.oscs[i],
             modulation: Array(i).fill(0).map(() => Math.pow(Math.random(),2)*8),
-            pitchRatio: Math.pow(Math.random(),2) * 10,
+            pitchRatio: i === params.oscs.length-1 ? 1 : Math.pow(Math.random(),2) * 10,
         })),
     }
 }
