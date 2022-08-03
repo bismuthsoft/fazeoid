@@ -1,7 +1,12 @@
 export type EnvelopeParams = {
-    points: {dx: number, y: number}[]; // List of envelope points.
+    points: EnvelopePoint[]; // List of envelope points.
     sustainPoint: number; // Which point (1-indexed) will sustain. 0 = none
     release: number; // Rate of release (amplitude per second)
+}
+
+export type EnvelopePoint = {
+    dx: number; // Time duration between this point and next (seconds)
+    y: number;  // Amplitude 0-1.0
 }
 
 export function adsrEnvelope (
