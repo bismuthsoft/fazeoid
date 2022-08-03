@@ -5,7 +5,7 @@
  import Oscilloscope from './Oscilloscope.svelte';
 
  export let instrument: Instrument;
- export let zoom = 1; // How many periods to show
+ export let zoom = 0.5; // How many periods to show
  export let gridArea: {x: number, y: number};
 
  let resolution = 400;
@@ -25,16 +25,16 @@
      ...instrument,
      oscs: instrument.oscs.map((o) => ({
          ...o,
-         envelope: flatEnvelope(1, 0),
+         envelope: flatEnvelope(o.envelope.points[o.envelope.sustainPoint-1].y, 0),
      }))
  }
+
  $: voice = new Voice(flatInstrument, note, sampleRate);
  $: oscData = getOscillators(voice);
 
  // Maybe useful: shifting
  // const shiftRate = 60; // FPS of shifting by 1 sample
  // setInterval(() => {
- //     voice.setInstrument(instrument);
  //     let nextSamples = voice.getOscillators();
  //     oscData = oscData.map((row, index) => {
  //         row.shift();
