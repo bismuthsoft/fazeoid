@@ -4,6 +4,7 @@
  import type { Instrument } from "$lib/soundgen/instrument";
  import OscilloscopePanel from "$lib/OscilloscopePanel.svelte";
  import EnvelopeEditor from "$lib/EnvelopeEditor.svelte";
+ import EnvelopeViewer from "./EnvelopeViewer.svelte";
 
  export let params: Instrument;
  let numOscs = params.oscs.length;
@@ -36,8 +37,9 @@
     <div class="knobRegion" style:grid-area="2/{modX}/{2+numOscs}/{modX+numOscs-1}"></div>
 
     {#each params.oscs as osc, oscIndex}
-        <div class="knobCell" style:grid-area="{oscIndex+2}/{envelopesX}">
-            <EnvelopeEditor bind:envelope="{params.oscs[oscIndex].envelope}"/>
+        <div class="envelopeCell" style:grid-area="{oscIndex+2}/{envelopesX}">
+            <EnvelopeEditor bind:envelope="{osc.envelope}"/>
+            <EnvelopeViewer envelope="{osc.envelope}"/>
         </div>
         <div class="rowLabel" style:grid-area="{oscIndex+2}/1">{oscIndex}</div>
         <div class="knobCell" style:grid-area="{oscIndex+2}/{ratioX}">
@@ -85,6 +87,12 @@
      flex-direction: column;
      align-items: center;
      margin:.5rem;
+ }
+ .envelopeCell {
+     align-items: center;
+     justify-self: center;
+     display: flex;
+     flex-direction: row;
  }
  .knobRegion {
      border: solid black 0.2rem;
