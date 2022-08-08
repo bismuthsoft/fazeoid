@@ -1,5 +1,5 @@
 <script lang="ts">
- import Knob from "@bismuthsoft/svelte-dj-knob/MinimalKnob.svelte";
+ import Knob from "@bismuthsoft/svelte-dj-knob";
  import { randomizeInstrument } from "$lib/soundgen/instrument";
  import type { Instrument } from "$lib/soundgen/instrument";
  import OscilloscopePanel from "$lib/OscilloscopePanel.svelte";

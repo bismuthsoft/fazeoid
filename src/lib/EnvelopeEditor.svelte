@@ -1,5 +1,5 @@
 <script lang="ts">
- import Knob from '@bismuthsoft/svelte-dj-knob/MinimalKnob.svelte';
+ import Knob from '@bismuthsoft/svelte-dj-knob';
  import { adsrEnvelope } from '$lib/soundgen/envelope';
  import type { EnvelopeParams } from '$lib/soundgen/envelope';
  import { writable } from 'svelte/store';
