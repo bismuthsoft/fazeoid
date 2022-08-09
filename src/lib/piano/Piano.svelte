@@ -5,7 +5,6 @@
  import { onMount, createEventDispatcher } from 'svelte';
 
  const colors: Record<string, string> = {
-     middleC: '#8D8',
      whiteUpEven: 'white',
      whiteUpOdd: '#ddd',
      whiteDown: 'blue',
@@ -16,7 +15,9 @@
  let keyWidth = 20;
  const maxKeyWidth = 28;
  const minKeyWidth = 12;
- const numKeys = 128;
+ const numKeys = 36;
+ let octave = 4;
+ $: noteOffset = octave * 12;
  const numColumns = Math.ceil(numKeys * 7 / 12);
  const middleC = 60;
 
@@ -35,7 +36,7 @@
  const dispatch = createEventDispatcher();
  function pressNote(note: number) : Note {
      const pressed: Note = {
-         note,
+         note: note + noteOffset,
          uid: noteuid++,
          instrumentIndex: 0,
      }
@@ -77,7 +78,7 @@
      }
      const index = keyBinds[ev.code];
      if (index !== undefined) {
-         const note = index + 60;
+         const note = index;
          ev.preventDefault();
          if (ev.repeat) return;
          if (down && !keyboardNotes.has(note)) {
@@ -125,8 +126,7 @@
      return colors[
          (isWhite ? (
              isDown ? 'whiteDown' : (
-                 (index === middleC) ? 'middleC' :
-                 ((index % 24 < 12) ? 'whiteUpOdd' : 'whiteUpEven'))
+                 (index % 24 < 12) ? 'whiteUpOdd' : 'whiteUpEven')
          ) : (isDown ? 'blackDown' : 'blackUp'))];
  }
 </script>
@@ -136,37 +136,35 @@
     on:keyup="{keyboardUp}"
 />
 
-<div id="controlPanel">
-    Key width<br/>
-    <button on:click={scaleDown}>-</button>
-    {keyWidth}
-    <button on:click={scaleUp}>+</button>
-</div>
+<!-- <div id="controlPanel">
+     Key width<br/>
+     <button on:click={scaleDown}>-</button>
+     {keyWidth}
+     <button on:click={scaleUp}>+</button>
+     </div>
+-->
+<div class="piano"
+     style:grid-template-columns="repeat({numColumns}, 1fr)"
+     style:width="100%"
+>
+    {#each keys as {isWhite, row, column, note}}
+        <div
+            style:grid-area="{row} / {column}"
+            style:background="{keyColor(note, keyboardNotes, mouseNotes)}"
+            class="{isWhite ? 'whiteKey' : 'blackKey'}"
 
-<div class="pianoContainer" bind:this="{container}" bind:clientWidth="{elemWidth}">
-    <div class="piano"
-         style:grid-template-columns="repeat({numColumns}, 1fr)"
-         style:width="{numKeys * keyWidth}px"
-    >
-        {#each keys as {isWhite, row, column, note}}
-            <div
-                style:grid-area="{row} / {column}"
-                style:background="{keyColor(note, keyboardNotes, mouseNotes)}"
-                class="{isWhite ? 'whiteKey' : 'blackKey'}"
-
-                draggable=false
-                on:pointerdown="{() => mouseDown(note)}"
-                on:pointerup="{() => mouseUp(note)}"
-                on:mouseenter="{(ev) => {if (ev.buttons > 0) mouseDown(note);}}"
-                on:mouseleave="{() => mouseUp(note)}"
-            >
-                <div class='keyLabel {isWhite ? 'keyLabelWhite' : 'keyLabelBlack'}'>
-                    {(keyWidth >= 20 ? noteNames[note % 12] : '') +
-                    (keyWidth >= 24 ? Math.floor(note / 12) : '')}
-                </div>
+            draggable=false
+            on:pointerdown="{() => mouseDown(note)}"
+            on:pointerup="{() => mouseUp(note)}"
+            on:mouseenter="{(ev) => {if (ev.buttons > 0) mouseDown(note);}}"
+            on:mouseleave="{() => mouseUp(note)}"
+        >
+            <div class='keyLabel {isWhite ? 'keyLabelWhite' : 'keyLabelBlack'}'>
+                {(keyWidth >= 20 ? noteNames[note % 12] : '') +
+                (keyWidth >= 24 ? Math.floor(note / 12) : '')}
             </div>
-        {/each}
-    </div>
+        </div>
+    {/each}
 </div>
 
 <style>
@@ -174,10 +172,10 @@
      display: grid;
      place-items: center;
      user-select: none;
-     margin: 0px -0.5px;
      border: 2px solid black;
-     transform: translate(0%, -50%);
-     height: 200%;
+     margin: 0 -1px;
+     transform: translate(0%, -40%);
+     height: 160%;
      border-radius: 5px;
  }
  .blackKey {
@@ -185,7 +183,9 @@
      place-items: center;
      user-select: none;
      border: 2px solid white;
+     margin: 0 -1px;
      transform: translate(50%, 0%);
+     height: 110%;
      z-index: 1;
      border-radius: 10px;
  }
@@ -201,6 +201,7 @@
      align-self: middle;
      color: black;
  }
+
  .keyLabelBlack {
      align-self: end;
      margin-bottom: 8px;
@@ -208,16 +209,13 @@
  }
 
  .piano {
-     grid-template-rows: 60px 50px;
-     grid-auto-flow: row;
      display: grid;
+     height: 100%;
+     grid-template-rows: 1fr 1fr;
+     grid-auto-flow: none;
      touch-action: none;
  }
 
- .pianoContainer {
-     overflow: scroll hidden;
-     width: 100%;
- }
  #controlPanel {
      text-align: center;
      font-weight: bold;

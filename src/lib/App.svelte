@@ -1,5 +1,4 @@
 <script lang="ts">
- import Piano from "$lib/piano/Piano.svelte"
  import {defaultInstrument} from "$lib/soundgen/instrument"
  import InstrumentPanel from "$lib/InstrumentPanel.svelte"
  import WorkletWrapper from "$lib/WorkletWrapper"
@@ -32,8 +31,7 @@
     <h1>
         FMSite
     </h1>
-    <InstrumentPanel bind:params="{$instrument}"/>
-    <Piano on:noteUp="{noteUp}" on:noteDown="{noteDown}"/>
+    <InstrumentPanel bind:params="{$instrument}" on:noteUp="{noteUp}" on:noteDown="{noteDown}"/>
 </div>
 
 <style>
