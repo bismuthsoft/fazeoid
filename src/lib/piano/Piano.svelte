@@ -13,19 +13,10 @@
  };
 
  let keyWidth = 20;
- const maxKeyWidth = 28;
- const minKeyWidth = 12;
  const numKeys = 36;
  let octave = 4;
  $: noteOffset = octave * 12;
  const numColumns = Math.ceil(numKeys * 7 / 12);
- const middleC = 60;
-
- let elemWidth: number;
- let container: HTMLElement;
- onMount(() => {
-     container.scrollTo((numKeys * keyWidth) / 2 - elemWidth / 2, 0);
- })
 
  $: keys = generateKeys(numKeys);
 
@@ -109,16 +100,6 @@
      }
  }
 
- function scaleUp () {
-     keyWidth = Math.min(keyWidth + 2, maxKeyWidth);
-     container.scrollBy(numKeys, 0);
- }
-
- function scaleDown () {
-     keyWidth = Math.max(keyWidth - 2, minKeyWidth);
-     container.scrollBy(-numKeys, 0);
- }
-
  function keyColor (index: number, ...args: Map<number, Note>[]) {
      const isWhite = isWhiteNote(index);
      const isDown = args.reduce((acc,x) => acc || x.has(index), false);
@@ -136,13 +117,6 @@
     on:keyup="{keyboardUp}"
 />
 
-<!-- <div id="controlPanel">
-     Key width<br/>
-     <button on:click={scaleDown}>-</button>
-     {keyWidth}
-     <button on:click={scaleUp}>+</button>
-     </div>
--->
 <div class="piano"
      style:grid-template-columns="repeat({numColumns}, 1fr)"
      style:width="100%"
@@ -214,10 +188,5 @@
      grid-template-rows: 1fr 1fr;
      grid-auto-flow: none;
      touch-action: none;
- }
-
- #controlPanel {
-     text-align: center;
-     font-weight: bold;
  }
 </style>
