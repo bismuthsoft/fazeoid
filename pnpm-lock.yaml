@@ -13,6 +13,7 @@ specifiers:
   eslint-plugin-svelte3: ^4.0.0
   svelte: ^3.49.0
   svelte-check: ^2.8.0
+  svelte-grommet-icons: ^0.2.1
   svelte-preprocess: ^4.10.7
   tslib: ^2.4.0
   typescript: ^4.7.4
@@ -31,6 +32,7 @@ devDependencies:
   eslint-plugin-svelte3: 4.0.0_a7wk4ghvg4hia4trwaglu7p6cq
   svelte: 3.49.0
   svelte-check: 2.8.0_svelte@3.49.0
+  svelte-grommet-icons: 0.2.1
   svelte-preprocess: 4.10.7_uslzfc62di2n2otc2tvfklnwji
   tslib: 2.4.0
   typescript: 4.7.4
@@ -1850,6 +1852,10 @@ packages:
       - sass
       - stylus
       - sugarss
+    dev: true
+
+  /svelte-grommet-icons/0.2.1:
+    resolution: {integrity: sha512-TPd2JA50It14O4Z7hplDKgNlz+EgXsPOR8Ux4CE4CS+E0eUbmmXYrpVq/Y23vEZXpNtvtJ56VPJuETn3OOgdtw==}
     dev: true
 
   /svelte-hmr/0.14.12_svelte@3.49.0:
