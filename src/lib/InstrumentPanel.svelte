@@ -5,6 +5,9 @@
  import OscilloscopePanel from "$lib/OscilloscopePanel.svelte";
  import EnvelopeEditor from "$lib/EnvelopeEditor.svelte";
  import EnvelopeViewer from "./EnvelopeViewer.svelte";
+ import Cycle from "svelte-grommet-icons/lib/Cycle.svelte";
+ import DocumentDownload from "svelte-grommet-icons/lib/DocumentDownload.svelte";
+ import DocumentUpload from "svelte-grommet-icons/lib/DocumentUpload.svelte";
 
  export let params: Instrument;
  let numOscs = params.oscs.length;
@@ -56,12 +59,6 @@
 </script>
 
 <div id="knobGrid">
-    <div style:display="flex" style:flex-direction="column">
-        <button on:click="{randomize}">Randomize</button>
-        <button on:click="{downloadInstrument}">Download</button>
-        <button on:click="{uploadInstrument}">Upload</button>
-    </div>
-
     <heading style:grid-area="1/{envelopesX}"> ADSR </heading>
     <heading style:grid-area="1/{ratioX}"> Pitch ratio </heading>
     <heading style:grid-area="1/{modX}/1/{modX+numOscs-1}"> Modulation </heading>
@@ -92,9 +89,13 @@
             </div>
         {/each}
     {/each}
-
 </div>
 
+<div>
+    <button on:click="{randomize}"><div><Cycle /></div></button>
+    <button on:click="{downloadInstrument}"><DocumentDownload /></button>
+    <button on:click="{uploadInstrument}"><DocumentUpload /></button>
+</div>
 
 <style>
  #knobGrid {
