@@ -9,6 +9,7 @@
  let instrument = writable(defaultInstrument(4));
 
  let ctrl = new WorkletWrapper();
+ let hackInitialize = false;
  instrument.subscribe((value) => {
      ctrl.postMessage('setInstrument', 0, value);
  });
@@ -16,11 +17,16 @@
  onDestroy(() => ctrl.stop());
 
  function noteUp (ev: CustomEvent) {
+     if (!hackInitialize) {
+         ctrl.audioContext?.resume();
+         hackInitialize = true;
+     }
      ctrl.postMessage('noteUp', ev.detail);
  }
 
  function noteDown (ev: CustomEvent) {
      if (!ctrl.started) {
+         ctrl.started = true;
          ctrl.setupWorklet();
      }
      ctrl.postMessage('noteDown', ev.detail);
