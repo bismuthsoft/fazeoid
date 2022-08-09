@@ -14,7 +14,7 @@
 
  let keyWidth = 20;
  const numKeys = 36;
- let octave = 4;
+ let octave = 5;
  $: noteOffset = octave * 12;
  const numColumns = Math.ceil(numKeys * 7 / 12);
 
