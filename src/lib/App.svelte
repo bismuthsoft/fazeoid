@@ -37,7 +37,7 @@
 <style>
  h1 {
      margin: 0;
-     padding: 1em;
+     padding: 1em 0;
      background: #eee;
      width: 100%;
      text-align: center;
