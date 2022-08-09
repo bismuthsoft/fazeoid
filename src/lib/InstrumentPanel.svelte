@@ -28,6 +28,20 @@
  function downloadInstrument() {
      download('instrument.json', 'application/json', JSON.stringify(params, null, 2));
  }
+ function uploadInstrument() {
+     const input = document.createElement('input');
+     input.type = 'file';
+     input.accept = '.json';
+     input.style.display = 'none';
+     document.body.appendChild(input);
+     input.click();
+     document.body.removeChild(input);
+     input.addEventListener('change', async e => {
+         const files = (e.currentTarget as HTMLInputElement).files || [];
+         params = JSON.parse(await files[0].text());
+     });
+     // TODO investigate: do we need to remove the event listener?
+ }
 
  const envelopesX = 2; // Grid X position of volumes
  const ratioX = 3; // grid X position of pitch ratios
@@ -45,6 +59,7 @@
     <div style:display="flex" style:flex-direction="column">
         <button on:click="{randomize}">Randomize</button>
         <button on:click="{downloadInstrument}">Download</button>
+        <button on:click="{uploadInstrument}">Upload</button>
     </div>
 
     <heading style:grid-area="1/{envelopesX}"> ADSR </heading>
