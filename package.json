@@ -16,12 +16,12 @@
 		"lint": "eslint ."
 	},
 	"devDependencies": {
-		"@bismuthsoft/svelte-dj-knob": "^0.1.3",
+		"@bismuthsoft/svelte-dj-knob": "^0.1.4",
 		"@sveltejs/adapter-auto": "1.0.0-next.64",
 		"@sveltejs/kit": "1.0.0-next.396",
 		"@types/audioworklet": "^0.0.30",
-		"@typescript-eslint/eslint-plugin": "^5.32.0",
-		"@typescript-eslint/parser": "^5.32.0",
+		"@typescript-eslint/eslint-plugin": "^5.33.0",
+		"@typescript-eslint/parser": "^5.33.0",
 		"concurrently": "^7.3.0",
 		"esbuild": "^0.14.54",
 		"eslint": "^8.21.0",
