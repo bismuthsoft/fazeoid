@@ -39,6 +39,7 @@
      margin: 0;
      padding: 1em 0;
      background: #eee;
+     border-bottom: solid #333 .2rem;
      width: 100%;
      text-align: center;
  }

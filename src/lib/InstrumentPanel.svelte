@@ -111,10 +111,11 @@
     <button on:click="{uploadInstrument}"><DocumentUpload /></button>
 </div>
 
+
 <style>
  #knobGrid {
      display: grid;
-     border: solid black 0.2rem;
+     border: solid #333 0.2rem;
      margin: 1rem;
      padding: 1rem;
      grid-gap: .5rem;
@@ -144,7 +145,7 @@
      flex-direction: row;
  }
  .knobRegion {
-     border: solid black 0.2rem;
+     border: solid #333 0.2rem;
  }
  heading {
      display: block;
