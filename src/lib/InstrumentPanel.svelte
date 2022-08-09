@@ -1,7 +1,8 @@
 <script lang="ts">
+ import { createEventDispatcher } from "svelte";
  import Knob from "@bismuthsoft/svelte-dj-knob";
- import { randomizeInstrument } from "$lib/soundgen/instrument";
- import type { Instrument } from "$lib/soundgen/instrument";
+ import Piano from "$lib/piano/Piano.svelte";
+ import { type Instrument, randomizeInstrument } from "$lib/soundgen/instrument";
  import OscilloscopePanel from "$lib/OscilloscopePanel.svelte";
  import EnvelopeEditor from "$lib/EnvelopeEditor.svelte";
  import EnvelopeViewer from "./EnvelopeViewer.svelte";
@@ -46,10 +47,19 @@
      // TODO investigate: do we need to remove the event listener?
  }
 
+ const dispatch = createEventDispatcher();
+ function noteDown(ev: CustomEvent) { dispatch('noteDown', ev.detail); }
+ function noteUp(ev: CustomEvent) { dispatch('noteUp', ev.detail); }
+
  const envelopesX = 2; // Grid X position of volumes
  const ratioX = 3; // grid X position of pitch ratios
  const modX = 4; // grid X position of modulation matrix
  const scopeX = modX + numOscs - 1;
+ const totalWidth = scopeX;
+
+ const headerY = 1;
+ const oscsY = headerY + 1;
+ const pianoY = oscsY + numOscs;
 
  const knobProps = {
      size: '5rem',
@@ -89,6 +99,10 @@
             </div>
         {/each}
     {/each}
+
+    <div style:grid-area="{pianoY} / 1 / {pianoY} / {totalWidth+1}">
+        <Piano on:noteUp="{noteUp}" on:noteDown="{noteDown}"/>
+    </div>
 </div>
 
 <div>
