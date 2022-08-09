@@ -71,7 +71,7 @@
  function keyboardUp (ev: KeyboardEvent) { return handleKeyboard(ev, false); }
 
  function handleKeyboard(ev: KeyboardEvent, down: boolean) {
-     if (ev.altKey || ev.ctrlKey || ev.shiftKey ||
+     if ((down && (ev.altKey || ev.ctrlKey || ev.shiftKey)) ||
          document.activeElement instanceof HTMLInputElement)
      {
          return;
