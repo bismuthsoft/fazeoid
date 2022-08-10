@@ -21,7 +21,7 @@
  $: keys = generateKeys(numKeys);
 
  let keyboardNotes = new Map<number, Note>;
- let mouseNotes = new Map<number, Note>;
+ let pointerNotes = new Map<number, Note>;
  let noteuid = 0;
 
  const dispatch = createEventDispatcher();
@@ -88,15 +88,17 @@
  }
 
  function pointerDown (note: number) {
-     mouseNotes.set(note, pressNote(note));
-     mouseNotes = mouseNotes;
+     if (!pointerNotes.has(note)) {
+         pointerNotes.set(note, pressNote(note));
+         pointerNotes = pointerNotes;
+     }
  }
 
  function pointerUp(note: number) {
-     if (mouseNotes.has(note)) {
-         releaseNote(mouseNotes.get(note) as Note);
-         mouseNotes.delete(note);
-         mouseNotes = mouseNotes;
+     if (pointerNotes.has(note)) {
+         releaseNote(pointerNotes.get(note) as Note);
+         pointerNotes.delete(note);
+         pointerNotes = pointerNotes;
      }
  }
 
@@ -124,7 +126,7 @@
     {#each keys as {isWhite, row, column, note}}
         <div
             style:grid-area="{row} / {column}"
-            style:background="{keyColor(note, keyboardNotes, mouseNotes)}"
+            style:background="{keyColor(note, keyboardNotes, pointerNotes)}"
             class="{isWhite ? 'whiteKey' : 'blackKey'}"
 
             draggable=false
