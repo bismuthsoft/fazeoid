@@ -1,7 +1,18 @@
-export type EnvelopeParams = {
+export type EnvelopeParams = PointsEnvelope | AdsrEnvelope;
+
+export type PointsEnvelope = {
+    tag: 'points';
     points: EnvelopePoint[]; // List of envelope points.
     sustainPoint: number; // Which point (1-indexed) will sustain. 0 = none
     release: number; // Rate of release (amplitude per second)
+}
+
+export type AdsrEnvelope = {
+    tag: 'adsr',
+    attack: number, // Attack rate (amplitude per second)
+    decay: number,  // Decay rate
+    sustain: number,// Sustain level
+    release: number,// Release rate
 }
 
 export type EnvelopePoint = {
@@ -9,13 +20,18 @@ export type EnvelopePoint = {
     y: number;  // Amplitude 0-1.0
 }
 
-export function adsrEnvelope (
-    attack: number, // Attack rate (amplitude per second)
-    decay: number,  // Decay rate
-    sustain: number,// Sustain level
-    release: number,// Release rate
-) : EnvelopeParams {
+export function envelopeToPoints (envelope: EnvelopeParams): PointsEnvelope {
+    switch (envelope.tag) {
+        case 'points': return envelope;
+        case 'adsr': return adsrToPoints(envelope);
+    }
+}
+
+function adsrToPoints (
+    {attack, decay, sustain, release}: AdsrEnvelope
+) : PointsEnvelope {
     return {
+        tag: 'points',
         points: [
             {dx: 0, y: 0},
             {dx: 1 / attack, y: 1},
@@ -26,8 +42,9 @@ export function adsrEnvelope (
     }
 }
 
-export function flatEnvelope(level: number = 1.0, rampTime: number = 0.05) {
+export function flatEnvelope(level: number = 1.0, rampTime: number = 0.05): PointsEnvelope {
     return {
+        tag: 'points',
         points: [{dx:0, y:0}, {dx: rampTime, y: level}],
         sustainPoint: 2,
         release: 1.0 / rampTime,
@@ -41,9 +58,11 @@ export class Envelope {
     slope = 0; // Rate at which to adjust position based on current segment
     stepRate: number; // Multiplier to fix slope rates to envelope update rate
     state: 'normal' | 'sustain' | 'release' | 'stopped'; // State
+    params: PointsEnvelope;
 
-    constructor (public params: EnvelopeParams, srate: number)
+    constructor (params: EnvelopeParams, srate: number)
     {
+        this.params = envelopeToPoints(params);
         this.state = 'normal';
         this.position = this.params.points[0].y;
         this.stepRate = 1.0 / srate;

@@ -1,5 +1,4 @@
 import type {EnvelopeParams} from './envelope';
-import {adsrEnvelope} from './envelope';
 
 export type Instrument = {
     basePitch: number; // Base pitch in Hz
@@ -28,7 +27,13 @@ export function defaultInstrument (numOscs = 4) : Instrument {
         oscs: Array(numOscs).fill(0).map((_, i) => ({
             modulation: Array(i).fill(0).map(() => 1),
             pitchRatio: 1,
-            envelope: adsrEnvelope(8, 5, 0.5, 5),
+            envelope: {
+                tag: 'adsr',
+                attack: 8,
+                decay: 5,
+                sustain: 0.5,
+                release: 5,
+            },
         })),
     }
 }

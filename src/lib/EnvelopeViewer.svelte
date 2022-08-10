@@ -1,5 +1,6 @@
 <script lang="ts">
- import type { EnvelopeParams } from '$lib/soundgen/envelope';
+ import type { EnvelopeParams, EnvelopePoint } from '$lib/soundgen/envelope';
+ import { envelopeToPoints } from '$lib/soundgen/envelope';
 
  export let envelope: EnvelopeParams;
  let windowSize = 1.0;
@@ -8,11 +9,11 @@
  function generatePath (env: EnvelopeParams) : string {
      const strs: string[] = [];
 
-     let {points, sustainPoint, release} = envelope;
+     let {points, sustainPoint, release} = envelopeToPoints(envelope);
      let visualPoints = [
          ...points.slice(0, sustainPoint),
          {dx: 0.1, y: points[sustainPoint-1].y},
-         ...envelope.points.slice(sustainPoint),
+         ...points.slice(sustainPoint),
          {dx: points[sustainPoint-1].y / release, y: 0},
      ];
 
