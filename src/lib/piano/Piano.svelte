@@ -87,12 +87,12 @@
      }
  }
 
- function mouseDown (note: number) {
+ function pointerDown (note: number) {
      mouseNotes.set(note, pressNote(note));
      mouseNotes = mouseNotes;
  }
 
- function mouseUp(note: number) {
+ function pointerUp(note: number) {
      if (mouseNotes.has(note)) {
          releaseNote(mouseNotes.get(note) as Note);
          mouseNotes.delete(note);
@@ -128,10 +128,10 @@
             class="{isWhite ? 'whiteKey' : 'blackKey'}"
 
             draggable=false
-            on:pointerdown="{() => mouseDown(note)}"
-            on:pointerup="{() => mouseUp(note)}"
-            on:mouseenter="{(ev) => {if (ev.buttons > 0) mouseDown(note);}}"
-            on:mouseleave="{() => mouseUp(note)}"
+            on:pointerdown="{() => pointerDown(note)}"
+            on:pointerup="{() => pointerUp(note)}"
+            on:mouseenter="{(ev) => {if (ev.buttons > 0) pointerDown(note);}}"
+            on:mouseleave="{() => pointerUp(note)}"
         >
             <div class='keyLabel {isWhite ? 'keyLabelWhite' : 'keyLabelBlack'}'>
                 {(keyWidth >= 20 ? noteNames[note % 12] : '') +
