@@ -25,7 +25,7 @@
      ...instrument,
      oscs: instrument.oscs.map((o) => ({
          ...o,
-         envelope: flatEnvelope(o.envelope.points[o.envelope.sustainPoint-1].y, 0),
+         envelope: flatEnvelope(0.5, 0),
      }))
  }
 
