@@ -33,6 +33,12 @@
  }
 </script>
 
+<svelte:head>
+  <title>
+    FMSite
+  </title>
+</svelte:head>
+
 <div class="container">
     <h1>
         FMSite
