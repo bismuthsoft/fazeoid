@@ -30,7 +30,8 @@
  }
 
  function downloadInstrument() {
-     download('instrument.json', 'application/json', JSON.stringify(params, null, 2));
+     const out = {...params, version: '0.1'};
+     download('instrument.json', 'application/json', JSON.stringify(out, null, 2));
  }
  function uploadInstrument() {
      const input = document.createElement('input');
