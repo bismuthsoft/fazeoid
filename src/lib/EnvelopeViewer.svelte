@@ -1,6 +1,6 @@
 <script lang="ts">
- import type { EnvelopeParams, EnvelopePoint } from '$lib/soundgen/envelope';
- import { envelopeToPoints } from '$lib/soundgen/envelope';
+ import type { EnvelopeParams, EnvelopePoint } from '$lib/audio/envelope';
+ import { envelopeToPoints } from '$lib/audio/envelope';
 
  export let envelope: EnvelopeParams;
  let windowSize = 1.0;

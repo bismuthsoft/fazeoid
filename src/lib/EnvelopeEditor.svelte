@@ -1,6 +1,6 @@
 <script lang="ts">
  import Knob from '@bismuthsoft/svelte-dj-knob';
- import type { EnvelopeParams, AdsrEnvelope } from '$lib/soundgen/envelope';
+ import type { EnvelopeParams, AdsrEnvelope } from '$lib/audio/envelope';
 
  export let envelope: EnvelopeParams;
  $: adsr = envelope.tag === 'adsr' && envelope;

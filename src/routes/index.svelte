@@ -1,5 +1,5 @@
 <script lang="ts">
- import {defaultInstrument} from "$lib/soundgen/instrument"
+ import {defaultInstrument} from "$lib/audio/instrument"
  import InstrumentPanel from "$lib/InstrumentPanel.svelte"
  import WorkletWrapper from "$lib/WorkletWrapper"
  import Taskbar from "$lib/Taskbar.svelte"

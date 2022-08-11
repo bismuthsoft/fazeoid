@@ -2,7 +2,7 @@
  import { createEventDispatcher } from "svelte";
  import Knob from "@bismuthsoft/svelte-dj-knob";
  import Piano from "$lib/piano/Piano.svelte";
- import { type Instrument, randomizeInstrument } from "$lib/soundgen/instrument";
+ import { type Instrument, randomizeInstrument } from "$lib/audio/instrument";
  import OscilloscopePanel from "$lib/OscilloscopePanel.svelte";
  import EnvelopeEditor from "$lib/EnvelopeEditor.svelte";
  import EnvelopeViewer from "./EnvelopeViewer.svelte";
