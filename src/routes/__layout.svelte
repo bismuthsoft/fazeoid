@@ -5,7 +5,7 @@
      margin: 0;
      font-family: sans-serif;
  }
- :global(button) {
+ :global(button, input) {
      border: solid #333 .125rem;
      padding: .3rem .5rem;
      font-weight: bold;
