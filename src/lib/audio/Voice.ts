@@ -83,13 +83,14 @@ function noteToFreq(note: number) {
     return Math.pow(2.0, (note - 69)/12.0);
 }
 
-function decibelToScale (db: number) :number {
+function decibelToScale (db: number): number {
     return Math.pow(2.0, db/6.0) / 2.0;
 }
 
-// Depth 0-10 scaled to number 0-1020
-function scaleOscillation (depth: number) :number {
-    return Math.pow(2, depth) * 4 - 4;
+// Depth 0-100 scaled from 0 to 1000 using a x^e curve
+function scaleOscillation (depth: number): number {
+    const max = 1000;
+    return Math.pow(depth / 100.0, Math.E) * max;
 }
 
 class Oscillator {
