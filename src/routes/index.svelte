@@ -2,6 +2,7 @@
  import {defaultInstrument} from "$lib/soundgen/instrument"
  import InstrumentPanel from "$lib/InstrumentPanel.svelte"
  import WorkletWrapper from "$lib/WorkletWrapper"
+ import Taskbar from "$lib/Taskbar.svelte"
 
  import { onDestroy } from 'svelte'
  import { writable } from 'svelte/store'
@@ -34,33 +35,25 @@
 </script>
 
 <svelte:head>
-  <title>
-    FMSite
-  </title>
+    <title>
+        FMSite
+    </title>
 </svelte:head>
 
 <div class="container">
-    <h1>
-        FMSite
-    </h1>
     <InstrumentPanel bind:params="{$instrument}" on:noteUp="{noteUp}" on:noteDown="{noteDown}"/>
 </div>
 
+<Taskbar />
+
 <style>
- h1 {
-     margin: 0;
-     padding: 1em 0;
-     background: #eee;
-     border-bottom: solid #333 .2rem;
-     width: 100%;
-     text-align: center;
- }
  .container {
-     display: flex;
-     flex-direction: column;
+     display: grid;
+     place-items: center;
      height: 100vh;
      width: 100vw;
-     align-items: center;
-     justify-content: space-between;
+ }
+ :global(body) {
+     background: url(https://www.newegg.com/insider/wp-content/uploads/windows_xp_bliss-wide.jpg);
  }
 </style>
