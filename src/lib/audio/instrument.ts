@@ -25,7 +25,7 @@ export function defaultInstrument (numOscs = 4) : Instrument {
         basePitch: 440,
         volume: -12,
         oscs: Array(numOscs).fill(0).map((_, i) => ({
-            modulation: Array(i).fill(0).map(() => 1),
+            modulation: Array(i).fill(10),
             pitchRatio: 1,
             envelope: {
                 tag: 'adsr',
@@ -43,7 +43,7 @@ export function randomizeInstrument (params: Instrument) : Instrument {
         ...params,
         oscs: Array(params.oscs.length).fill(0).map((_, i) => ({
             ...params.oscs[i],
-            modulation: Array(i).fill(0).map(() => Math.pow(Math.random(),2)*8),
+            modulation: Array(i).fill(0).map(() => Math.pow(Math.random(),2)*100),
             pitchRatio: i === params.oscs.length-1 ? 1 : Math.pow(Math.random(),2) * 10,
         })),
     }

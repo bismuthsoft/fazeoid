@@ -95,7 +95,7 @@
         {#each osc.modulation as _, modIndex}
             <div class="knobCell" style:grid-area="{2+oscIndex}/{modX+modIndex}">
                 <Knob bind:value="{params.oscs[oscIndex].modulation[modIndex]}"
-                      min="{0}" max="{6}"
+                      min="{0}" max="{100}"
                       {...knobProps}
                 />
                 {`←${modIndex}`}
