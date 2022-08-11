@@ -1,7 +1,7 @@
 <script lang="ts">
- import {defaultInstrument} from "$lib/audio/instrument"
+ import { defaultInstrument } from "$lib/audio/instrument"
+ import AudioController from "$lib/audio/Controller"
  import InstrumentPanel from "$lib/InstrumentPanel.svelte"
- import WorkletWrapper from "$lib/WorkletWrapper"
  import Taskbar from "$lib/Taskbar.svelte"
 
  import { onDestroy } from 'svelte'
@@ -9,7 +9,7 @@
 
  let instrument = writable(defaultInstrument(4));
 
- let ctrl = new WorkletWrapper();
+ let ctrl = new AudioController();
  let hackInitialize = false;
  instrument.subscribe((value) => {
      ctrl.postMessage('setInstrument', 0, value);

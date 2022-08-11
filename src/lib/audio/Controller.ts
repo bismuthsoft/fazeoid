@@ -1,4 +1,4 @@
-export default class WorkletWrapper {
+export default class AudioController {
     started = false;
     audioContext?: AudioContext;
     private waveNode?: AudioWorkletNode;
