@@ -71,6 +71,7 @@
  };
 </script>
 
+<div class="window">
 <div class="knobGrid">
     <heading style:grid-area="1/{envelopesX}"> ADSR </heading>
     <heading style:grid-area="1/{ratioX}"> Pitch ratio </heading>
@@ -107,14 +108,14 @@
         <Piano on:noteUp="{noteUp}" on:noteDown="{noteDown}"/>
     </div>
 
-    <div class="buttons">
+    <div class="titlebar">
         <input name="filename" type="text" bind:value="{filename}" />
         <button on:click="{randomize}"><div><Cycle /></div></button>
         <button on:click="{downloadInstrument}"><DocumentDownload /></button>
         <button on:click="{uploadInstrument}"><DocumentUpload /></button>
     </div>
 </div>
-
+</div>
 
 <style>
  .knobGrid {
@@ -127,8 +128,10 @@
 
      grid-template-rows: 2rem;
      grid-auto-rows: 7rem;
+     background: #efecdf;
+     border-radius: 0 0 .5em .5em;
  }
- .buttons {
+ .titlebar {
      position: absolute;
      left: -0.2rem;
      right: -0.2rem;
@@ -137,8 +140,10 @@
      padding: .5rem;
      transform: translateY(-100%);
      display: flex;
+     background: #0053e5;
+     border-radius: .5em .5em 0 0;
  }
- .buttons input {
+ .titlebar input {
      font-size: 1.5em;
      padding: 0 .5em;
      margin-right: 0.5em;

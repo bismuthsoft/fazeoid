@@ -6,7 +6,7 @@
 
  const colors: Record<string, string> = {
      whiteUpEven: 'white',
-     whiteUpOdd: '#ddd',
+     whiteUpOdd: '#ccc',
      whiteDown: 'blue',
      blackUp: 'black',
      blackDown: 'cyan',
