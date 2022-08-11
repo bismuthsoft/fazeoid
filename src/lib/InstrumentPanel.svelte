@@ -11,6 +11,7 @@
  import DocumentUpload from "svelte-grommet-icons/lib/DocumentUpload.svelte";
 
  export let params: Instrument;
+ let filename = 'Instrument';
  let numOscs = params.oscs.length;
 
  function randomize () {
@@ -31,7 +32,7 @@
 
  function downloadInstrument() {
      const out = {...params, version: '0.1'};
-     download('instrument.json', 'application/json', JSON.stringify(out, null, 2));
+     download(`${filename}.json`, 'application/json', JSON.stringify(out, null, 2));
  }
  function uploadInstrument() {
      const input = document.createElement('input');
@@ -43,6 +44,7 @@
      document.body.removeChild(input);
      input.addEventListener('change', async e => {
          const files = (e.currentTarget as HTMLInputElement).files || [];
+         filename = files[0].name.match(/(.*)\.json/)[1];
          params = JSON.parse(await files[0].text());
      });
      // TODO investigate: do we need to remove the event listener?
@@ -69,7 +71,7 @@
  };
 </script>
 
-<div id="knobGrid">
+<div class="knobGrid">
     <heading style:grid-area="1/{envelopesX}"> ADSR </heading>
     <heading style:grid-area="1/{ratioX}"> Pitch ratio </heading>
     <heading style:grid-area="1/{modX}/1/{modX+numOscs-1}"> Modulation </heading>
@@ -104,18 +106,20 @@
     <div style:grid-area="{pianoY} / 1 / {pianoY} / {totalWidth+1}">
         <Piano on:noteUp="{noteUp}" on:noteDown="{noteDown}"/>
     </div>
-</div>
 
-<div>
-    <button on:click="{randomize}"><div><Cycle /></div></button>
-    <button on:click="{downloadInstrument}"><DocumentDownload /></button>
-    <button on:click="{uploadInstrument}"><DocumentUpload /></button>
+    <div class="buttons">
+        <input name="filename" type="text" bind:value="{filename}" />
+        <button on:click="{randomize}"><div><Cycle /></div></button>
+        <button on:click="{downloadInstrument}"><DocumentDownload /></button>
+        <button on:click="{uploadInstrument}"><DocumentUpload /></button>
+    </div>
 </div>
 
 
 <style>
- #knobGrid {
+ .knobGrid {
      display: grid;
+     position: relative;
      border: solid #333 0.2rem;
      margin: 1rem;
      padding: 1rem;
@@ -123,6 +127,22 @@
 
      grid-template-rows: 2rem;
      grid-auto-rows: 7rem;
+ }
+ .buttons {
+     position: absolute;
+     left: -0.2rem;
+     right: -0.2rem;
+     top: 0;
+     border: solid #333 0.2rem;
+     padding: .5rem;
+     transform: translateY(-100%);
+     display: flex;
+ }
+ .buttons input {
+     font-size: 1.5em;
+     padding: 0 .5em;
+     margin-right: 0.5em;
+     flex-grow: 1;
  }
  heading {
      font-weight: bold;
