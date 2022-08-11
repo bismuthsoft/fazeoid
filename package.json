@@ -2,7 +2,7 @@
 	"name": "fmsite-svkit",
 	"version": "0.0.1",
 	"scripts": {
-		"dev": "concurrently -n web,audio npm:dev-web npm:dev-audio",
+		"dev": "svelte-kit sync && concurrently -n web,audio npm:dev-web npm:dev-audio",
 		"dev-web": "vite dev",
 		"dev-audio": "esbuild --bundle --watch ./src/audio-worklet.ts --outfile=./static/audio-worklet.bundle.js",
 		"build": "svelte-kit sync && npm run build-audio && npm run build-web",
