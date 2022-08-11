@@ -1,5 +1,5 @@
 <script lang="ts">
- import type {Note} from '$lib/soundgen/instrument'
+ import type {Note} from '$lib/audio/instrument'
  import keyBinds from './keyBinds'
  import noteNames from './noteNames'
  import { onMount, createEventDispatcher } from 'svelte';

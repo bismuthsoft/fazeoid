@@ -1,7 +1,7 @@
 <script lang="ts">
- import type {Instrument, Note} from '$lib/soundgen/instrument';
- import {flatEnvelope} from '$lib/soundgen/envelope';
- import Voice from '$lib/soundgen/Voice';
+ import type {Instrument, Note} from '$lib/audio/instrument';
+ import {flatEnvelope} from '$lib/audio/envelope';
+ import Voice from '$lib/audio/Voice';
  import Oscilloscope from './Oscilloscope.svelte';
 
  export let instrument: Instrument;

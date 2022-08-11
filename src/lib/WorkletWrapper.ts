@@ -10,7 +10,7 @@ export default class WorkletWrapper {
 
     async setupWorklet() {
         this.audioContext = new AudioContext();
-        await this.audioContext.audioWorklet.addModule('soundgen.bundle.js');
+        await this.audioContext.audioWorklet.addModule('audio-worklet.bundle.js');
         this.waveNode = new AudioWorkletNode(this.audioContext, 'wave-generator');
         this.waveNode.connect(this.audioContext.destination);
 
