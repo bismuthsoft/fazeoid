@@ -1,13 +1,17 @@
 <script>
- let time = new Date();
- function updateTime() {
-     setTimeout(() => {
-         time = new Date();
-         updateTime();
-     }, (60 - new Date().getSeconds())*1000);
- }
- updateTime();
- // TODO turn this into a readable store ^
+ import { readable } from 'svelte/store';
+ const time = readable(new Date(), (set) => {
+     let timeout;
+     function update() {
+         timeout = setTimeout(() => {
+             set(new Date());
+             update();
+         }, (60 - new Date().getSeconds())*1000);
+     }
+     update();
+     return () => clearTimeout(timeout);
+ });
+ time.subscribe(t => console.log(t));
 </script>
 
 <div class="taskbar">
@@ -16,7 +20,7 @@
         <h1>FMSite</h1>
     </div>
     <div class="empty"></div>
-    <div class="clock">{`${time.getHours()}:${('0'+time.getMinutes()).slice(-2)}`}</div>
+    <div class="clock">{`${$time.getHours()}:${('0'+$time.getMinutes()).slice(-2)}`}</div>
 </div>
 
 <style>
