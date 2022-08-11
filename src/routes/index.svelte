@@ -55,5 +55,6 @@
  }
  :global(body) {
      background: url(https://www.newegg.com/insider/wp-content/uploads/windows_xp_bliss-wide.jpg);
+     background-size: cover;
  }
 </style>

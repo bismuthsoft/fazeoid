@@ -29,7 +29,9 @@
      position: absolute;
      bottom: 0;
      width: 100%;
+     position: sticky;
      border-top: solid #333 .2rem;
+     z-index: 9;
  }
  .menu, .tasks *, .clock {
      padding: 1em;

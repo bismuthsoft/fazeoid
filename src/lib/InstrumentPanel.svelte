@@ -71,7 +71,6 @@
  };
 </script>
 
-<div class="window">
 <div class="knobGrid">
     <heading style:grid-area="1/{envelopesX}"> ADSR </heading>
     <heading style:grid-area="1/{ratioX}"> Pitch ratio </heading>
@@ -115,7 +114,6 @@
         <button on:click="{uploadInstrument}"><DocumentUpload /></button>
     </div>
 </div>
-</div>
 
 <style>
  .knobGrid {
@@ -125,6 +123,7 @@
      margin: 1rem;
      padding: 1rem;
      grid-gap: .5rem;
+     margin-top: 4rem;
 
      grid-template-rows: 2rem;
      grid-auto-rows: 7rem;
