@@ -11,7 +11,6 @@
      update();
      return () => clearTimeout(timeout);
  });
- time.subscribe(t => console.log(t));
 </script>
 
 <div class="taskbar">
