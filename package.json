@@ -4,10 +4,10 @@
 	"scripts": {
 		"dev": "svelte-kit sync && concurrently -n web,audio npm:dev-web npm:dev-audio",
 		"dev-web": "vite dev",
-		"dev-audio": "esbuild --bundle --watch ./src/audio-worklet.ts --outfile=./static/audio-worklet.bundle.js",
+		"dev-audio": "esbuild --bundle --minify --watch ./src/audio-worklet.ts --outfile=./static/audio-worklet.bundle.js",
 		"build": "svelte-kit sync && npm run build-audio && npm run build-web",
 		"build-web": "vite build",
-		"build-audio": "esbuild --bundle ./src/audio-worklet.ts --outfile=./static/audio-worklet.bundle.js",
+		"build-audio": "esbuild --bundle --minify ./src/audio-worklet.ts --outfile=./static/audio-worklet.bundle.js",
 		"package": "svelte-kit package",
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync",
