@@ -1,6 +1,6 @@
 <script lang="ts">
  import { createEventDispatcher } from "svelte";
- import Knob from "@bismuthsoft/svelte-dj-knob";
+ import Knob from "$lib/Knob";
  import Piano from "$lib/piano/Piano.svelte";
  import { type Instrument, randomizeInstrument } from "$lib/audio/instrument";
  import OscilloscopePanel from "$lib/OscilloscopePanel.svelte";
