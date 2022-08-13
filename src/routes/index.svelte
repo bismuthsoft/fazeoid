@@ -2,7 +2,6 @@
  import { defaultInstrument } from "$lib/audio/instrument"
  import AudioController from "$lib/audio/Controller"
  import InstrumentPanel from "$lib/InstrumentPanel.svelte"
- import Taskbar from "$lib/Taskbar.svelte"
 
  import { onDestroy } from 'svelte'
  import { writable } from 'svelte/store'
@@ -44,8 +43,6 @@
 	<InstrumentPanel bind:params="{$instrument}" on:noteUp="{noteUp}" on:noteDown="{noteDown}"/>
 </div>
 
-<Taskbar />
-
 <style>
  .container {
 	 display: grid;
@@ -54,7 +51,8 @@
 	 width: 100vw;
  }
  :global(body) {
-	 background: url(https://www.newegg.com/insider/wp-content/uploads/windows_xp_bliss-wide.jpg);
-	 background-size: cover;
+     background: url(https://static.miraheze.org/windowswallpaperwiki/d/dc/Cook_Island.jpg);
+     background-size: cover;
+     background-position: center;
  }
 </style>
