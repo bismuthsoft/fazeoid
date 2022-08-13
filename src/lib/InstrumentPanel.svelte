@@ -57,7 +57,8 @@
  const envelopesX = 2; // Grid X position of volumes
  const ratioX = envelopesX + 2; // grid X position of pitch ratios
  const modX = ratioX + 1; // grid X position of modulation matrix
- const scopeX = modX + numOscs - 1;
+ const volumeX = modX + numOscs - 1;
+ const scopeX = volumeX + 1;
  const totalWidth = scopeX;
 
  const headerY = 1;
@@ -73,6 +74,7 @@
     <heading style:grid-area="1/{envelopesX}/1/{envelopesX+2}"> ADSR Envelope </heading>
     <heading style:grid-area="1/{ratioX}"> Pitch ratio </heading>
     <heading style:grid-area="1/{modX}/1/{modX+numOscs-1}"> Modulation </heading>
+    <heading style:grid-area="1/{volumeX}"> Volume </heading>
     <heading style:grid-area="1/{scopeX}"> Scope </heading>
 
     <OscilloscopePanel instrument="{params}" gridArea="{{x: scopeX, y: 2}}"/>
@@ -108,6 +110,13 @@
                 />
             </div>
         {/each}
+        <div class="knobCell" style:grid-area="{oscIndex+2}/{volumeX}">
+            <Knob bind:value="{params.oscs[oscIndex].volume}"
+                  min="{-72}" max="{0}"
+                  pointerColor="#fff"
+                  {...knobProps}
+            />
+        </div>
     {/each}
 
     <div style:grid-area="{pianoY} / 1 / {pianoY} / {totalWidth+1}">

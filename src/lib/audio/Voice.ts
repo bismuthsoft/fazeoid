@@ -10,6 +10,7 @@ export default class Voice {
 
     private oscs!: Oscillator[];
     private modMatrix!: number[][];
+    private outVolumes!: number[];
 
     constructor (
         instrument: Instrument,
@@ -26,25 +27,33 @@ export default class Voice {
 
     // Initial playback
     setInstrument (instrument: Instrument) {
-        this.volume = decibelToScale(instrument.volume);
         this.oscs = instrument.oscs.map(
             (osc: OscillatorParams, index) => {
                 const pitch = this.calcPitch(instrument, index);
                 const envelope = new Envelope(osc.envelope, this.srate);
                 return new Oscillator(pitch, envelope, this.srate);
             });
-        this.modMatrix = instrument.oscs.map((osc: OscillatorParams) =>
-            osc.modulation.map(scaleOscillation));
+        this.setModMatrix(instrument);
+        this.setOutVolumes(instrument);
     }
 
     // Live edit instrument
     updateInstrument (instrument: Instrument) {
-        this.volume = decibelToScale(instrument.volume);
-        this.modMatrix = instrument.oscs.map((osc: OscillatorParams) =>
-            osc.modulation.map(scaleOscillation));
         instrument.oscs.forEach((_osc: OscillatorParams, index) => {
             this.oscs[index].setPitch(this.calcPitch(instrument, index));
         });
+        this.setModMatrix(instrument);
+        this.setOutVolumes(instrument);
+    }
+
+    private setModMatrix (instrument: Instrument) {
+        this.modMatrix = instrument.oscs.map((osc: OscillatorParams) =>
+            osc.modulation.map(scaleOscillation));
+    }
+
+    private setOutVolumes (instrument: Instrument) {
+        this.outVolumes = instrument.oscs.map(
+            ({volume}: OscillatorParams) => decibelToScale(volume));
     }
 
     // Calculate the pitch for an oscillator on self
@@ -58,7 +67,8 @@ export default class Voice {
         channels.forEach(channel => {
             for (let i=0; i<channel.length; ++i) {
                 const oscs = this.getOscillators();
-                channel[i] += oscs[this.oscs.length-1] * this.volume;
+                channel[i] += oscs.reduce(
+                    (acc, x, i) => acc + x * this.outVolumes[i], 0);
             }
         });
     }
@@ -84,7 +94,7 @@ function noteToFreq(note: number) {
 }
 
 function decibelToScale (db: number): number {
-    return Math.pow(2.0, db/6.0) / 2.0;
+    return db <= -72 ? 0 : Math.pow(2.0, db/6.0);
 }
 
 // Depth 0-100 scaled from 0 to 1000 using a x^e curve
