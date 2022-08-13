@@ -31,7 +31,6 @@
         />
     </div>
     <svg
-        width="{size}"
         viewBox="0 0 10 8.6"
         version="1.1"
         id="svg5"
