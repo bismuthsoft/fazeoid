@@ -5,7 +5,7 @@
  // Parameters
  export let min = 0;
  export let max = 100;
- export let step = (min + max) / 100;
+ export let step = (max - min) / 100;
  export let value = (min + max) / 2;
  const valueStore = makeValueStore(value, newValue => value = newValue);
  $: valueStore.set(value);
