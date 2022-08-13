@@ -27,7 +27,7 @@
  }
 </script>
 
-<svg class="scope" viewBox="-0.05 -0.05 1.1 1.4" preserveAspectRatio="none">
+<svg class="scope" viewBox="-0.1 -0.1 1.2 1.4" preserveAspectRatio="none">
     <polyline class="scopeLine" points="{generatePath(envelope)}"/>
     <text x=0 y=1.2 text-anchor="start">0</text>
     <text x=1 y=1.2 text-anchor="end">{windowSizePrinted}</text>
@@ -35,17 +35,18 @@
 
 <style>
  text {
-     font-family: sans-serif;
      font-size: 0.2px;
-     fill: black;
+     fill: white;
  }
  .scope {
      height: 100%;
      width: 5rem;
+     border-radius: 1rem 0rem 1rem 0rem;
+     background: #0000007f;
  }
  .scopeLine {
      fill: none;
-     stroke: black;
+     stroke: #ffffbfbf;
      vector-effect: non-scaling-stroke;
      stroke-width: .125rem;
      stroke-linecap: round;
