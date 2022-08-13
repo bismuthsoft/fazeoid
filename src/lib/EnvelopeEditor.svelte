@@ -22,9 +22,7 @@
 {#if adsr}
     <div class="adsrGrid">
         {#each knobProps as {label, min, max}, index}
-            <div class="knobContainer"
-                 style:grid-area="{1 + index % 2} / {1 + Math.floor(index/2)}"
-            >
+            <div class="knobContainer">
                 <Knob bind:value="{adsr[label]}" min="{min}" max="{max}"
                       bgColor="#0000007f" pointerColor="#80a0ff" size="3.5rem"
                 />
@@ -39,6 +37,9 @@
  .adsrGrid {
      grid-gap: 0.5rem;
      display: grid;
+     grid-template-columns: 1fr 1fr;
+     grid-template-rows: 1fr 1fr;
+     grid-auto-flow: row;
  }
 
 </style>
