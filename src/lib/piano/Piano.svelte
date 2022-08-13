@@ -2,7 +2,7 @@
  import type {Note} from '$lib/audio/instrument'
  import keyBinds from './keyBinds'
  import noteNames from './noteNames'
- import { onMount, createEventDispatcher } from 'svelte';
+ import { createEventDispatcher } from 'svelte';
 
  const colors: Record<string, string> = {
      whiteUpEven: 'white',
@@ -12,7 +12,7 @@
      blackDown: '#08d',
  };
 
- let keyWidth = 20;
+ let keyLabel: 'none' | 'note' | 'noteOctave' = 'none';
  const numKeys = 36;
  let octave = 5;
  $: noteOffset = octave * 12;
@@ -136,14 +136,22 @@
             on:mouseleave="{() => pointerUp(note)}"
         >
             <div class='keyLabel {isWhite ? 'keyLabelWhite' : 'keyLabelBlack'}'>
-                {(keyWidth >= 20 ? noteNames[note % 12] : '') +
-                (keyWidth >= 24 ? Math.floor(note / 12) : '')}
+                {(keyLabel === 'noteOctave' ? noteNames[note % 12] : '') +
+                (keyLabel !== 'none' ? Math.floor(note / 12) : '')}
             </div>
         </div>
     {/each}
 </div>
 
 <style>
+
+ .piano {
+     display: grid;
+     height: 100%;
+     grid-template-rows: 1fr 1fr;
+     grid-auto-flow: none;
+     touch-action: none;
+ }
  .whiteKey {
      display: grid;
      place-items: center;
@@ -151,7 +159,7 @@
      border: 0.2em solid var(--bg-color);
      margin: 0 -1px;
      transform: translate(0%, -40%);
-     height: 160%;
+     height: 170%;
      border-radius: 1em;
  }
  .blackKey {
@@ -183,13 +191,5 @@
      align-self: end;
      margin-bottom: 8px;
      color: white;
- }
-
- .piano {
-     display: grid;
-     height: 100%;
-     grid-template-rows: 1fr 1fr;
-     grid-auto-flow: none;
-     touch-action: none;
  }
 </style>
