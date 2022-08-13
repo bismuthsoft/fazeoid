@@ -1,5 +1,5 @@
 <script lang="ts">
- import Knob from '@bismuthsoft/svelte-dj-knob';
+ import Knob from '$lib/Knob';
  import type { EnvelopeParams, AdsrEnvelope } from '$lib/audio/envelope';
 
  export let envelope: EnvelopeParams;
@@ -26,7 +26,8 @@
                  style:grid-area="{1 + index % 2} / {1 + Math.floor(index/2)}"
             >
                 <Knob bind:value="{adsr[label]}" min="{min}" max="{max}"
-                      bgColor="#333" fgColor="#D88" size="2.5rem"/>
+                      bgColor="#0000007f" pointerColor="#80a0ff" size="3.5rem"
+                />
             </div>
         {/each}
     </div>
@@ -36,6 +37,8 @@
 
 <style>
  .adsrGrid {
+     grid-gap: 0.5rem;
      display: grid;
-}
+ }
+
 </style>

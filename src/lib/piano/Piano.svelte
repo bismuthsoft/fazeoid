@@ -6,10 +6,10 @@
 
  const colors: Record<string, string> = {
      whiteUpEven: 'white',
-     whiteUpOdd: '#ccc',
-     whiteDown: 'blue',
-     blackUp: 'black',
-     blackDown: 'cyan',
+     whiteUpOdd: '#cfc',
+     whiteDown: '#08d',
+     blackUp: '#444',
+     blackDown: '#08d',
  };
 
  let keyWidth = 20;
@@ -148,22 +148,22 @@
      display: grid;
      place-items: center;
      user-select: none;
-     border: 2px solid black;
+     border: 0.2em solid var(--bg-color);
      margin: 0 -1px;
      transform: translate(0%, -40%);
      height: 160%;
-     border-radius: 5px;
+     border-radius: 1em;
  }
  .blackKey {
      display: grid;
      place-items: center;
      user-select: none;
-     border: 2px solid white;
+     border: 0.2em solid var(--bg-color);
      margin: 0 -1px;
      transform: translate(50%, 0%);
      height: 110%;
      z-index: 1;
-     border-radius: 10px;
+     border-radius: 2em;
  }
 
  .keyLabel {
@@ -171,11 +171,12 @@
      justify-self: center;
      z-index: 2;
      user-select: none;
+     font-weight: bold;
  }
  .keyLabelWhite {
      margin-top: 2em;
      align-self: middle;
-     color: black;
+     color: #666;
  }
 
  .keyLabelBlack {

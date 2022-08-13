@@ -55,8 +55,8 @@
  function noteUp(ev: CustomEvent) { dispatch('noteUp', ev.detail); }
 
  const envelopesX = 2; // Grid X position of volumes
- const ratioX = 3; // grid X position of pitch ratios
- const modX = 4; // grid X position of modulation matrix
+ const ratioX = envelopesX + 2; // grid X position of pitch ratios
+ const modX = ratioX + 1; // grid X position of modulation matrix
  const scopeX = modX + numOscs - 1;
  const totalWidth = scopeX;
 
@@ -65,14 +65,12 @@
  const pianoY = oscsY + numOscs;
 
  const knobProps = {
-     size: '5rem',
-     fgColor: '#8D8',
-     bgColor: '#333'
+     size: '6rem',
  };
 </script>
 
 <div class="knobGrid">
-    <heading style:grid-area="1/{envelopesX}"> ADSR </heading>
+    <heading style:grid-area="1/{envelopesX}/1/{envelopesX+2}"> ADSR Envelope </heading>
     <heading style:grid-area="1/{ratioX}"> Pitch ratio </heading>
     <heading style:grid-area="1/{modX}/1/{modX+numOscs-1}"> Modulation </heading>
     <heading style:grid-area="1/{scopeX}"> Scope </heading>
@@ -83,12 +81,16 @@
     {#each params.oscs as osc, oscIndex}
         <div class="envelopeCell" style:grid-area="{oscIndex+2}/{envelopesX}">
             <EnvelopeEditor bind:envelope="{osc.envelope}"/>
+        </div>
+        <div class="envelopeCell" style:grid-area="{oscIndex+2}/{envelopesX+1}">
             <EnvelopeViewer envelope="{osc.envelope}"/>
         </div>
         <div class="rowLabel" style:grid-area="{oscIndex+2}/1">{oscIndex}</div>
+        <!-- Pitch Ratio -->
         <div class="knobCell" style:grid-area="{oscIndex+2}/{ratioX}">
             <Knob bind:value="{params.oscs[oscIndex].pitchRatio}"
                   min="{0}" max="{10}"
+                  pointerColor="#fb6060"
                   {...knobProps}
             />
         </div>
@@ -96,10 +98,13 @@
             <div class="rowLabel" style:grid-area="{2+oscIndex}/{modX+oscIndex}">↴</div>
         {/if}
         {#each osc.modulation as _, modIndex}
-            <div class="knobCell" style:grid-area="{2+oscIndex}/{modX+modIndex}">
+            <div class="knobCell modulationCell"
+                 style:grid-area="{2+oscIndex}/{modX+modIndex}">
                 <Knob bind:value="{params.oscs[oscIndex].modulation[modIndex]}"
                       min="{0}" max="{100}"
+                      pointerColor="#fe3"
                       {...knobProps}
+                      size="5rem"
                 />
             </div>
         {/each}
@@ -127,10 +132,13 @@
      grid-gap: .5rem;
      margin-top: 4rem;
 
+     grid-template-columns: 4rem;
      grid-template-rows: 2rem;
      grid-auto-rows: 7rem;
-     background: #efecdf;
+     background: var(--bg-color);
      border-radius: 0 0 .5em .5em;
+
+     --bg-color: #20b070;
  }
  .titlebar {
      position: absolute;
@@ -157,13 +165,16 @@
      text-align: center;
      align-self: center;
      font-size: 3rem;
+     font-weight: bold;
  }
  .knobCell {
      justify-self: center;
      display: flex;
      flex-direction: column;
-     align-items: center;
-     margin:.5rem;
+     align-self: center;
+ }
+ .modulationCell {
+     margin: 0.5rem;
  }
  .envelopeCell {
      align-items: center;
@@ -172,7 +183,8 @@
      flex-direction: row;
  }
  .knobRegion {
-     border: solid #333 0.2rem;
+     background: #ffffff7f;
+     border-radius: 2rem;
  }
  heading {
      display: block;
