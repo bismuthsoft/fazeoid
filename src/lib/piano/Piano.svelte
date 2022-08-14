@@ -4,14 +4,6 @@
  import noteNames from './noteNames'
  import { createEventDispatcher } from 'svelte';
 
- const colors: Record<string, string> = {
-     whiteUpEven: 'white',
-     whiteUpOdd: '#cfc',
-     whiteDown: '#08d',
-     blackUp: '#444',
-     blackDown: '#08d',
- };
-
  let keyLabel: 'none' | 'note' | 'noteOctave' = 'none';
  const numKeys = 36;
  let octave = 5;
@@ -20,8 +12,8 @@
 
  $: keys = generateKeys(numKeys);
 
- let keyboardNotes = new Map<number, Note>;
- let pointerNotes = new Map<number, Note>;
+ type PianoNote = { keyboard?: Note, pointer?: Note };
+ let notesDown: PianoNote[] = Array(numKeys).fill(0).map(() => ({}));
  let noteuid = 0;
 
  const dispatch = createEventDispatcher();
@@ -72,14 +64,13 @@
          const note = index;
          ev.preventDefault();
          if (ev.repeat) return;
-         if (down && !keyboardNotes.has(note)) {
-             keyboardNotes.set(note, pressNote(note));
-             keyboardNotes = keyboardNotes;
+         const keyboardNote = notesDown[note]?.keyboard;
+         if (down && !keyboardNote) {
+             notesDown[note].keyboard = pressNote(note);
          } else if (!down) {
-             if (keyboardNotes.has(note)) {
-                 releaseNote(keyboardNotes.get(note) as Note);
-                 keyboardNotes.delete(note);
-                 keyboardNotes = keyboardNotes;
+             if (keyboardNote) {
+                 releaseNote(keyboardNote);
+                 notesDown[note].keyboard = undefined;
              } else {
                  console.log('Bad keyboard note up ' + note);
              }
@@ -88,29 +79,17 @@
  }
 
  function pointerDown (note: number) {
-     if (!pointerNotes.has(note)) {
-         pointerNotes.set(note, pressNote(note));
-         pointerNotes = pointerNotes;
+     if (!notesDown[note]?.pointer) {
+         notesDown[note].pointer = pressNote(note);
      }
  }
 
  function pointerUp(note: number) {
-     if (pointerNotes.has(note)) {
-         releaseNote(pointerNotes.get(note) as Note);
-         pointerNotes.delete(note);
-         pointerNotes = pointerNotes;
+     const pointerNote = notesDown[note]?.pointer;
+     if (pointerNote) {
+         releaseNote(pointerNote);
+         notesDown[note].pointer = undefined;
      }
- }
-
- function keyColor (index: number, ...args: Map<number, Note>[]) {
-     const isWhite = isWhiteNote(index);
-     const isDown = args.reduce((acc,x) => acc || x.has(index), false);
-
-     return colors[
-         (isWhite ? (
-             isDown ? 'whiteDown' : (
-                 (index % 24 < 12) ? 'whiteUpOdd' : 'whiteUpEven')
-         ) : (isDown ? 'blackDown' : 'blackUp'))];
  }
 </script>
 
@@ -126,8 +105,10 @@
     {#each keys as {isWhite, row, column, note}}
         <div
             style:grid-area="{row} / {column}"
-            style:background="{keyColor(note, keyboardNotes, pointerNotes)}"
-            class="{isWhite ? 'whiteKey' : 'blackKey'}"
+            class:whiteKey="{isWhite}"
+            class:blackKey="{!isWhite}"
+            class:odd="{note % 24 < 12}"
+            class:down="{notesDown[note]?.keyboard || notesDown[note]?.pointer}"
 
             draggable=false
             on:pointerdown="{() => pointerDown(note)}"
@@ -161,6 +142,13 @@
      transform: translate(0%, -40%);
      height: 170%;
      border-radius: 1em;
+     background: white;
+ }
+ .whiteKey.odd {
+     background: #cfc
+ }
+ .whiteKey.down {
+     background: #08d
  }
  .blackKey {
      display: grid;
@@ -172,6 +160,10 @@
      height: 110%;
      z-index: 1;
      border-radius: 2em;
+     background: #444;
+ }
+ .blackKey.down {
+     background: #08d
  }
 
  .keyLabel {
