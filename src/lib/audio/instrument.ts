@@ -1,6 +1,7 @@
 import type {EnvelopeParams} from './envelope';
 
 export type Instrument = {
+    version: '0.0.1';
     basePitch: number; // Base pitch in Hz
     oscs: OscillatorParams[]; // Oscillator config
 }
@@ -18,10 +19,12 @@ export type Note  = {
     note: number; // Frequency
     instrumentIndex: number;
     uid: number;
+    drumMode: boolean; // Fixed length note
 }
 
 export function defaultInstrument (numOscs = 4) : Instrument {
     return {
+        version: '0.0.1',
         basePitch: 440,
         oscs: Array(numOscs).fill(0).map((_, i) => ({
             modulation: Array(i).fill(10),
