@@ -4,6 +4,8 @@
  import noteNames from './noteNames'
  import { createEventDispatcher } from 'svelte';
 
+ export let drumTrigger: 'none' | 'touch' | 'all' = 'touch';
+
  let keyLabel: 'none' | 'note' | 'noteOctave' = 'none';
  const numKeys = 36;
  let octave = 5;
@@ -17,11 +19,18 @@
  let noteuid = 0;
 
  const dispatch = createEventDispatcher();
- function pressNote(note: number) : Note {
+ function pressNote(note: number, drumMode: boolean) : Note {
      const pressed: Note = {
          note: note + noteOffset,
          uid: noteuid++,
          instrumentIndex: 0,
+         drumMode: drumTrigger === 'all' || drumMode,
+     }
+     if (pressed.drumMode) {
+         setTimeout(() => {
+             notesDown[note].pointer = undefined;
+             notesDown[note].keyboard = undefined;
+         }, 200);
      }
      dispatch('noteDown', pressed);
      return pressed;
@@ -66,7 +75,7 @@
          if (ev.repeat) return;
          const keyboardNote = notesDown[note]?.keyboard;
          if (down && !keyboardNote) {
-             notesDown[note].keyboard = pressNote(note);
+             notesDown[note].keyboard = pressNote(note, false);
          } else if (!down) {
              if (keyboardNote) {
                  releaseNote(keyboardNote);
@@ -78,9 +87,9 @@
      }
  }
 
- function pointerDown (note: number) {
+ function pointerDown (note: number, touch: boolean) {
      if (!notesDown[note]?.pointer) {
-         notesDown[note].pointer = pressNote(note);
+         notesDown[note].pointer = pressNote(note, touch && drumTrigger === 'touch');
      }
  }
 
@@ -111,9 +120,10 @@
             class:down="{notesDown[note]?.keyboard || notesDown[note]?.pointer}"
 
             draggable=false
-            on:pointerdown="{() => pointerDown(note)}"
+            on:mousedown="{() => pointerDown(note, false)}"
+            on:touchstart="{() => pointerDown(note, true)}"
             on:pointerup="{() => pointerUp(note)}"
-            on:mouseenter="{(ev) => {if (ev.buttons > 0) pointerDown(note);}}"
+            on:mouseenter="{(ev) => {if (ev.buttons > 0) pointerDown(note, false);}}"
             on:mouseleave="{() => pointerUp(note)}"
         >
             <div class='keyLabel {isWhite ? 'keyLabelWhite' : 'keyLabelBlack'}'>
