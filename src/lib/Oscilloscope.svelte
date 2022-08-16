@@ -1,6 +1,5 @@
 <script lang="ts">
  export let waveData: number[] = [];
- export let gridArea: string;
 
  function generatePath (data: number[]) : string {
      const strs: string[] = [];
@@ -11,7 +10,7 @@
  }
 </script>
 
-<div class="container" style:grid-area="{gridArea}">
+<div class="container">
     <svg class="scope" viewBox="-0.05 -1.05 1.1 2.1" preserveAspectRatio="none">
         <polyline class="scopeLine" points="{generatePath(waveData)}"/>
     </svg>
@@ -19,8 +18,8 @@
 
 <style>
  .container {
-     height: 100%;
-     width: 10rem;
+     width: 12rem;
+     height: 8rem;
      background: #0000007f;
      border-radius: 1rem 0;
      align-self: center;
