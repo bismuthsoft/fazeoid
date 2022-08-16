@@ -3,7 +3,7 @@ import type {EnvelopeParams} from './envelope';
 export const MIN_VOLUME = -72; // Volume at which things will be zeroed
 
 export type Instrument = {
-    version: '0.0.1';
+    version: '0.0.2';
     basePitch: number; // Base pitch in Hz
     oscs: OscillatorParams[]; // Oscillator config
 }
@@ -26,17 +26,17 @@ export type Note  = {
 
 export function defaultInstrument (numOscs = 4) : Instrument {
     return {
-        version: '0.0.1',
+        version: '0.0.2',
         basePitch: 440,
         oscs: Array(numOscs).fill(0).map((_, i) => ({
             modulation: Array(i).fill(10),
             pitchRatio: 1,
             envelope: {
                 tag: 'adsr',
-                attack: 8,
-                decay: 5,
+                attack: 0.125,
+                decay: 0.2,
                 sustain: 0.5,
-                release: 5,
+                release: 0.2,
             },
             volume: i === numOscs-1 ? -12 : -72,
         })),

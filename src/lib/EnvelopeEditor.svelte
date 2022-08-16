@@ -11,11 +11,12 @@
      max: number
  };
 
+ const minLength = 0.005;
  const knobProps: PropsEntry[] = [
-     {label: "attack", min: 1, max: 20},
-     {label: "decay", min: 1, max: 20},
+     {label: "attack", min: minLength, max: 1},
+     {label: "decay", min: minLength, max: 1},
      {label: "sustain", min: 0, max: 1},
-     {label: "release", min: 1, max: 20},
+     {label: "release", min: minLength, max: 1},
  ]
 </script>
 

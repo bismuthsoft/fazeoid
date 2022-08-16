@@ -9,10 +9,10 @@ export type PointsEnvelope = {
 
 export type AdsrEnvelope = {
     tag: 'adsr',
-    attack: number, // Attack rate (amplitude per second)
-    decay: number,  // Decay rate
+    attack: number, // Attack time
+    decay: number,  // Decay time
     sustain: number,// Sustain level
-    release: number,// Release rate
+    release: number,// Release time
 }
 
 export type EnvelopePoint = {
@@ -43,11 +43,11 @@ function adsrToPoints (
         tag: 'points',
         points: [
             {dx: 0, y: 0},
-            {dx: 1 / attack, y: 1},
-            {dx: (1-sustain) / decay, y: sustain},
+            {dx: attack, y: 1},
+            {dx: decay, y: sustain},
         ],
         sustainPoint: 3,
-        release,
+        release: 1.0 / release,
     }
 }
 
