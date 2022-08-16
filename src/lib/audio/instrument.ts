@@ -1,5 +1,7 @@
 import type {EnvelopeParams} from './envelope';
 
+export const MIN_VOLUME = -72; // Volume at which things will be zeroed
+
 export type Instrument = {
     version: '0.0.1';
     basePitch: number; // Base pitch in Hz

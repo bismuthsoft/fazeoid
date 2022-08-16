@@ -1,5 +1,6 @@
-import type {Instrument, Note, OscillatorParams} from './instrument';
-import {Envelope, makeDrum} from './envelope';
+import type {Instrument, Note, OscillatorParams} from "./instrument";
+import { MIN_VOLUME } from "./instrument"
+import {Envelope, makeDrum} from "./envelope";
 
 export default class Voice {
     gate: boolean;
@@ -96,7 +97,8 @@ export default class Voice {
     }
 
     isStopped () : boolean {
-        return this.oscs[this.oscs.length-1].envelope.isStopped();
+        return !this.oscs.some((osc, i) =>
+            this.outVolumes[i] > 0 && !osc.envelope.isStopped());
     }
 }
 
@@ -105,7 +107,7 @@ function noteToFreq(note: number) {
 }
 
 function decibelToScale (db: number): number {
-    return db <= -72 ? 0 : Math.pow(2.0, db/6.0);
+    return db <= MIN_VOLUME ? 0 : Math.pow(2.0, db/6.0);
 }
 
 // Depth 0-100 scaled from 0 to 1000 using a x^e curve
