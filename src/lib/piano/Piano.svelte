@@ -4,6 +4,8 @@
  import noteNames from './noteNames'
  import { createEventDispatcher } from 'svelte';
 
+ /* KNOWN BUG: Switching drum Trigger while playing notes can cause stuck notes
+    and excess error messages. */
  export let drumTrigger: 'none' | 'touch' | 'all' = 'touch';
 
  let keyLabel: 'none' | 'note' | 'noteOctave' = 'none';
