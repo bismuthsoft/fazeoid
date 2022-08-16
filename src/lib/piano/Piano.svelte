@@ -26,18 +26,14 @@
          instrumentIndex: 0,
          drumMode: drumTrigger === 'all' || drumMode,
      }
-     if (pressed.drumMode) {
-         setTimeout(() => {
-             notesDown[note].pointer = undefined;
-             notesDown[note].keyboard = undefined;
-         }, 200);
-     }
      dispatch('noteDown', pressed);
      return pressed;
  }
 
  function releaseNote(note: Note) {
-     dispatch('noteUp', note.uid);
+     if (!note.drumMode) {
+         dispatch('noteUp', note.uid);
+     }
  }
 
  function isWhiteNote(index: number) : boolean {
@@ -75,12 +71,18 @@
          if (ev.repeat) return;
          const keyboardNote = notesDown[note]?.keyboard;
          if (down && !keyboardNote) {
-             notesDown[note].keyboard = pressNote(note, false);
+             const noteDown = pressNote(note, false);
+             notesDown[note].keyboard = noteDown;
+             if (noteDown.drumMode) {
+                 setTimeout(() => {
+                     notesDown[note].keyboard = undefined;
+                 }, 200);
+             }
          } else if (!down) {
              if (keyboardNote) {
                  releaseNote(keyboardNote);
                  notesDown[note].keyboard = undefined;
-             } else {
+             } else if (drumTrigger !== 'all') {
                  console.log('Bad keyboard note up ' + note);
              }
          }
@@ -89,7 +91,13 @@
 
  function pointerDown (note: number, touch: boolean) {
      if (!notesDown[note]?.pointer) {
-         notesDown[note].pointer = pressNote(note, touch && drumTrigger === 'touch');
+         const noteDown = pressNote(note, touch && drumTrigger === 'touch');
+         notesDown[note].pointer = noteDown;
+         if (noteDown.drumMode) {
+             setTimeout(() => {
+                 notesDown[note].pointer = undefined;
+             }, 200);
+         }
      }
  }
 
