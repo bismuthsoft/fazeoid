@@ -3,6 +3,7 @@
  import Knob from "$lib/Knob";
  import Piano from "$lib/piano/Piano.svelte";
  import { type Instrument, randomizeInstrument } from "$lib/audio/instrument";
+ import { migrateInstrument } from "$lib/audio/migration";
  import OscilloscopePanel from "$lib/OscilloscopePanel.svelte";
  import EnvelopeEditor from "$lib/EnvelopeEditor.svelte";
  import EnvelopeViewer from "./EnvelopeViewer.svelte";
@@ -31,8 +32,7 @@
  }
 
  function downloadInstrument() {
-     const out = {...params, version: '0.1'};
-     download(`${filename}.json`, 'application/json', JSON.stringify(out, null, 2));
+     download(`${filename}.json`, 'application/json', JSON.stringify(params, null, 2));
  }
  function uploadInstrument() {
      const input = document.createElement('input');
@@ -45,7 +45,8 @@
      input.addEventListener('change', async e => {
          const files = (e.currentTarget as HTMLInputElement).files || [];
          filename = files[0].name.match(/(.*)\.json/)[1];
-         params = JSON.parse(await files[0].text());
+         const instrumentData = JSON.parse(await files[0].text());
+         params = migrateInstrument(instrumentData);
      });
      // TODO investigate: do we need to remove the event listener?
  }
