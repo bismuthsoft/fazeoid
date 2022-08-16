@@ -12,6 +12,7 @@
  import DocumentUpload from "svelte-grommet-icons/lib/DocumentUpload.svelte";
 
  export let params: Instrument;
+ export let portrait = true;
  let filename = 'Instrument';
  let numOscs = params.oscs.length;
 
@@ -55,74 +56,12 @@
  function noteDown(ev: CustomEvent) { dispatch('noteDown', ev.detail); }
  function noteUp(ev: CustomEvent) { dispatch('noteUp', ev.detail); }
 
- const envelopesX = 2; // Grid X position of volumes
- const ratioX = envelopesX + 2; // grid X position of pitch ratios
- const modX = ratioX + 1; // grid X position of modulation matrix
- const volumeX = modX + numOscs - 1;
- const scopeX = volumeX + 1;
- const totalWidth = scopeX;
-
- const headerY = 1;
- const oscsY = headerY + 1;
- const pianoY = oscsY + numOscs;
-
  const knobProps = {
      size: '6rem',
  };
 </script>
 
-<div class="knobGrid">
-    <heading style:grid-area="1/{envelopesX}/1/{envelopesX+2}"> ADSR Envelope </heading>
-    <heading style:grid-area="1/{ratioX}"> Pitch ratio </heading>
-    <heading style:grid-area="1/{modX}/1/{modX+numOscs-1}"> Modulation </heading>
-    <heading style:grid-area="1/{volumeX}"> Volume </heading>
-    <heading style:grid-area="1/{scopeX}"> Scope </heading>
-
-    <OscilloscopePanel instrument="{params}" gridArea="{{x: scopeX, y: 2}}"/>
-    <div class="knobRegion" style:grid-area="2/{modX}/{2+numOscs}/{modX+numOscs-1}"></div>
-
-    {#each params.oscs as osc, oscIndex}
-        <div class="envelopeCell" style:grid-area="{oscIndex+2}/{envelopesX}">
-            <EnvelopeEditor bind:envelope="{osc.envelope}"/>
-        </div>
-        <div class="envelopeCell" style:grid-area="{oscIndex+2}/{envelopesX+1}">
-            <EnvelopeViewer envelope="{osc.envelope}"/>
-        </div>
-        <div class="rowLabel" style:grid-area="{oscIndex+2}/1">{oscIndex}</div>
-        <!-- Pitch Ratio -->
-        <div class="knobCell" style:grid-area="{oscIndex+2}/{ratioX}">
-            <Knob bind:value="{params.oscs[oscIndex].pitchRatio}"
-                  min="{0}" max="{10}"
-                  pointerColor="#fb6060"
-                  {...knobProps}
-            />
-        </div>
-        {#if oscIndex < numOscs-1}
-            <div class="rowLabel" style:grid-area="{2+oscIndex}/{modX+oscIndex}">↴</div>
-        {/if}
-        {#each osc.modulation as _, modIndex}
-            <div class="knobCell modulationCell"
-                 style:grid-area="{2+oscIndex}/{modX+modIndex}">
-                <Knob bind:value="{params.oscs[oscIndex].modulation[modIndex]}"
-                      min="{0}" max="{100}"
-                      pointerColor="#fe3"
-                      {...knobProps}
-                      size="5rem"
-                />
-            </div>
-        {/each}
-        <div class="knobCell" style:grid-area="{oscIndex+2}/{volumeX}">
-            <Knob bind:value="{params.oscs[oscIndex].volume}"
-                  min="{-72}" max="{0}"
-                  pointerColor="#fff"
-                  {...knobProps}
-            />
-        </div>
-    {/each}
-
-    <div style:grid-area="{pianoY} / 1 / {pianoY} / {totalWidth+1}">
-        <Piano on:noteUp="{noteUp}" on:noteDown="{noteDown}"/>
-    </div>
+<div class="InstrumentPanel">
 
     <div class="titlebar">
         <input name="filename" type="text" bind:value="{filename}" />
@@ -130,37 +69,102 @@
         <button on:click="{downloadInstrument}"><DocumentDownload /></button>
         <button on:click="{uploadInstrument}"><DocumentUpload /></button>
     </div>
+
+    <section>
+        <heading />
+        {#each params.oscs as osc, oscIndex}
+            <div class="rowLabel">{oscIndex}</div>
+        {/each}
+    </section>
+
+    <section>
+        <heading> ADSR Envelope </heading>
+        <div class="group">
+            <div class="box">
+                {#each params.oscs as osc}
+                    <EnvelopeEditor bind:envelope="{osc.envelope}"/>
+                {/each}
+            </div>
+            <div class="box">
+                {#each params.oscs as osc}
+                    <EnvelopeViewer envelope="{osc.envelope}"/>
+                {/each}
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <heading> Pitch ratio </heading>
+        <div class="box">
+            {#each params.oscs as osc, oscIndex}
+                <Knob bind:value="{params.oscs[oscIndex].pitchRatio}"
+                      min="{0}" max="{10}"
+                      pointerColor="#fb6060"
+                      {...knobProps}
+                />
+            {/each}
+        </div>
+    </section>
+
+    <section>
+        <heading> Modulation </heading>
+        <div class="box">
+
+        </div>
+    </section>
+
+    <section>
+        <heading> Volume </heading>
+        {#each params.oscs as osc, oscIndex}
+            <Knob bind:value="{params.oscs[oscIndex].volume}"
+                  min="{-72}" max="{0}"
+                  pointerColor="#fff"
+                  {...knobProps}
+            />
+        {/each}
+    </section>
+
+    <section style:flex-wrap="wrap">
+        <OscilloscopePanel instrument="{params}" />
+    </section>
+
+    <Piano on:noteUp="{noteUp}" on:noteDown="{noteDown}"/>
 </div>
 
 <style>
- .knobGrid {
-     display: grid;
-     position: relative;
+ .InstrumentPanel {
+     display: flex;
+     flex-direction: column;
+     gap: .5rem;
      border: solid #333 0.2rem;
-     margin: 1rem;
-     padding: 1rem;
-     grid-gap: .5rem;
-     margin-top: 4rem;
-
-     grid-template-columns: 4rem;
-     grid-template-rows: 2rem;
-     grid-auto-rows: 7rem;
+     margin: 1rem 0;
+     border-radius: .5em;
      background: var(--bg-color);
-     border-radius: 0 0 .5em .5em;
-
      --bg-color: #20b070;
  }
- .titlebar {
-     position: absolute;
-     left: -0.2rem;
-     right: -0.2rem;
-     top: 0;
-     border: solid #333 0.2rem;
-     padding: .5rem;
-     transform: translateY(-100%);
+ section heading {
+     writing-mode: vertical-lr;
+     transform: rotate(180deg);
+}
+ section {
      display: flex;
-     background: #0053e5;
-     border-radius: .5em .5em 0 0;
+     flex-direction: row;
+     gap: .5rem;
+     justify-content: space-between;
+ }
+ section .group {
+     display: flex;
+     flex-direction: column;
+ }
+ section .box {
+     display: flex;
+     flex-direction: row;
+     justify-content: space-around;
+ }
+ .titlebar {
+     border-bottom: solid #333 0.2rem;
+     padding: .5rem;
+     display: flex;
  }
  .titlebar input {
      font-size: 1.5em;
@@ -177,20 +181,8 @@
      font-size: 3rem;
      font-weight: bold;
  }
- .knobCell {
-     justify-self: center;
-     display: flex;
-     flex-direction: column;
-     align-self: center;
- }
  .modulationCell {
      margin: 0.5rem;
- }
- .envelopeCell {
-     align-items: center;
-     justify-self: center;
-     display: flex;
-     flex-direction: row;
  }
  .knobRegion {
      background: #ffffff7f;
