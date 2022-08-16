@@ -14,11 +14,23 @@
 
  // Aesthetic
  export let size = '5rem';
- export let strokeWidth = 8;
  export let bgColor = '#0000007f';
  export let pointerColor = '#ffffff';
  export let label: string | undefined = undefined;
- export let showTicks: boolean = true;
+ export let numTicks: number = 6;
+
+ // Visual math functions
+ const visualRange = 270;
+ const visualStartPoint = 135;
+ const normalizeValue = (value: number) => (value - min) / (max - min);
+ const angleOnKnob = (normValue: number) => normValue * visualRange + visualStartPoint;
+ const valueOnKnob = (value: number) => angleOnKnob(normalizeValue(value));
+
+ $: ticks = Array(numTicks).fill(0).map((_, i) => {
+     return {
+         angle: angleOnKnob(numTicks === 1 ? 0.5 : i / (numTicks-1)),
+     }
+ });
 
 </script>
 
@@ -42,20 +54,12 @@
         />
         <path
             style:fill="{pointerColor}"
-            transform="rotate({(value - min) / (max - min) * 270 + 135}, 5, 5)"
+            transform="rotate({valueOnKnob(value)}, 5, 5)"
             d="M 9.5640408,5.0000863 8.8569772,5.7071499 c -0.3904906,0.3904906 -1.0236127,0.3904669 -1.4141272,2e-7 -0.3904668,-0.3905145 -0.3904667,-1.0236129 1e-7,-1.4141273 0.3905144,-0.3904667 1.0236366,-0.3904906 1.4141272,0 z" />
-        <g
-            class="ticks"
-            transform="translate(-10,-10)"
-            display="{showTicks ? 'initial' : 'none'}"
-        >
-            <path d="M 17.470917,17.477763 18,18" />
-            <path d="M 18.499245,15.004841 19.242641,15" />
-            <path d="M 17.477763,12.529083 18,12" />
-            <path d="M 15.004841,11.500755 15,10.757359" />
-            <path d="M 12.529083,12.522237 12,12" />
-            <path d="M 11.500755,14.995159 10.757359,15" />
-            <path d="M 12.522237,17.470917 12,18" />
+        <g class="ticks" >
+            {#each ticks as {angle}}
+                <path d="M 8.5,5 9,5" transform="rotate({angle}, 5, 5)"/>
+            {/each}
         </g>
     </svg>
     {#if label}
@@ -83,7 +87,7 @@
      font-size: 100%;
  }
  .ticks {
-     stroke: #0000007f;
+     stroke: #ffffff7f;
      stroke-width: 0.2px;
      vector-effect: non-scaling-stroke;
  }

@@ -25,6 +25,7 @@
             <div class="knobContainer">
                 <Knob bind:value="{adsr[label]}" min="{min}" max="{max}"
                       bgColor="#0000007f" pointerColor="#80a0ff" size="3.5rem"
+                      numTicks="{0}"
                 />
             </div>
         {/each}
