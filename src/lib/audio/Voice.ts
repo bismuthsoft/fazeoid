@@ -23,13 +23,17 @@ export default class Voice {
         this.uid = note.uid;
 
         if (note.drumMode) {
-            instrument.oscs = instrument.oscs.map((osc) => ({
-                ...osc,
-                envelope: makeDrum(osc.envelope)
-            }));
+            this.setInstrument({
+                ...instrument,
+                oscs: instrument.oscs.map((osc) => ({
+                    ...osc,
+                    envelope: makeDrum(osc.envelope)
+                })),
+            });
+        } else {
+            this.setInstrument(instrument);
         }
 
-        this.setInstrument(instrument);
     }
 
     // Initial playback
