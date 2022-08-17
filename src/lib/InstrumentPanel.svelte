@@ -1,12 +1,17 @@
 <script lang="ts">
  import { createEventDispatcher } from "svelte";
- import Knob from "$lib/Knob";
- import Piano from "$lib/piano/Piano.svelte";
  import { type Instrument, randomizeInstrument } from "$lib/audio/instrument";
  import { migrateInstrument } from "$lib/audio/migration";
- import OscilloscopePanel from "$lib/OscilloscopePanel.svelte";
+
+ // Components
  import EnvelopeEditor from "$lib/EnvelopeEditor.svelte";
- import EnvelopeViewer from "./EnvelopeViewer.svelte";
+ import EnvelopeViewer from "$lib/EnvelopeViewer.svelte";
+ import Knob from "$lib/Knob";
+ import ModulationPanel from "./ModulationPanel.svelte";
+ import OscilloscopePanel from "$lib/OscilloscopePanel.svelte";
+ import Piano from "$lib/piano/Piano.svelte";
+
+ // Icons
  import Cycle from "svelte-grommet-icons/lib/Cycle.svelte";
  import DocumentDownload from "svelte-grommet-icons/lib/DocumentDownload.svelte";
  import DocumentUpload from "svelte-grommet-icons/lib/DocumentUpload.svelte";
@@ -61,7 +66,8 @@
  };
 </script>
 
-<div class="InstrumentPanel">
+<div class="InstrumentPanel"
+     class:landscape="{!portrait}">
 
     <div class="titlebar">
         <input name="filename" type="text" bind:value="{filename}" />
@@ -72,9 +78,12 @@
 
     <section>
         <heading />
-        {#each params.oscs as osc, oscIndex}
-            <div class="rowLabel">{oscIndex}</div>
-        {/each}
+        <div class="box">
+
+            {#each params.oscs as osc, oscIndex}
+                <div class="rowLabel">{oscIndex}</div>
+            {/each}
+        </div>
     </section>
 
     <section>
@@ -106,26 +115,31 @@
         </div>
     </section>
 
-    <section>
+    <section style:display="none">
         <heading> Modulation </heading>
         <div class="box">
-
+            <ModulationPanel {params} {knobProps} />
         </div>
     </section>
 
     <section>
         <heading> Volume </heading>
-        {#each params.oscs as osc, oscIndex}
-            <Knob bind:value="{params.oscs[oscIndex].volume}"
-                  min="{-72}" max="{0}"
-                  pointerColor="#fff"
-                  {...knobProps}
-            />
-        {/each}
+        <div class="box">
+            {#each params.oscs as osc, oscIndex}
+                <Knob bind:value="{params.oscs[oscIndex].volume}"
+                      min="{-72}" max="{0}"
+                      pointerColor="#fff"
+                      {...knobProps}
+                />
+            {/each}
+        </div>
     </section>
 
-    <section style:flex-wrap="wrap">
-        <OscilloscopePanel instrument="{params}" />
+    <section>
+        <heading> Scope </heading>
+        <div class="box" style:flex-wrap="wrap">
+            <OscilloscopePanel instrument="{params}" />
+        </div>
     </section>
 
     <Piano on:noteUp="{noteUp}" on:noteDown="{noteDown}"/>
@@ -142,6 +156,9 @@
      background: var(--bg-color);
      --bg-color: #20b070;
  }
+ .InstrumentPanel.landscape {
+     flex-direction: row;
+ }
  section heading {
      writing-mode: vertical-lr;
      transform: rotate(180deg);
@@ -155,11 +172,13 @@
  section .group {
      display: flex;
      flex-direction: column;
+     width: 100%;
  }
  section .box {
      display: flex;
      flex-direction: row;
      justify-content: space-around;
+     width: 100%;
  }
  .titlebar {
      border-bottom: solid #333 0.2rem;
