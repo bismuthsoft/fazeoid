@@ -18,7 +18,6 @@
 
 <style>
  .container {
-     width: 12rem;
      height: 8rem;
      background: #0000007f;
      border-radius: 1rem 0;
