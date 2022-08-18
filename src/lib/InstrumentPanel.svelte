@@ -28,14 +28,14 @@
 
     <section>
         <heading> ADSR Envelope </heading>
-            <div class="box">
-                {#each params.oscs as osc}
-                    <div class="group">
-                        <EnvelopeEditor bind:envelope="{osc.envelope}"/>
-                        <EnvelopeViewer envelope="{osc.envelope}"/>
-                    </div>
-                {/each}
-            </div>
+        <div class="box">
+            {#each params.oscs as osc}
+                <div class="group">
+                    <EnvelopeEditor bind:envelope="{osc.envelope}"/>
+                    <EnvelopeViewer envelope="{osc.envelope}"/>
+                </div>
+            {/each}
+        </div>
     </section>
 
     <section>
@@ -89,7 +89,9 @@
  section heading {
      writing-mode: vertical-lr;
      transform: rotate(180deg);
-}
+     min-height: 2em;
+     min-width: 2em;
+ }
  section {
      display: flex;
      flex-direction: row;
@@ -98,15 +100,22 @@
  section .group {
      display: flex;
      flex-direction: column;
-     align-items:center;
+     align-items: center;
      gap: .5rem;
  }
  section .box {
      display: flex;
+     flex-grow: 1;
      flex-direction: row;
      gap: .5rem;
-     width: 100%;
      justify-content: space-around;
+ }
+ .InstrumentPanel.landscape section {
+     flex-direction: column;
+ }
+ .InstrumentPanel.landscape section heading {
+     writing-mode: horizontal-tb;
+     transform: none;
  }
  .InstrumentPanel.landscape {
      flex-direction: row;
