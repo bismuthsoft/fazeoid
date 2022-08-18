@@ -21,7 +21,6 @@ export type Note  = {
     note: number; // Frequency
     instrumentIndex: number;
     uid: number;
-    drumMode: boolean; // Fixed length note
 }
 
 export function defaultInstrument (numOscs = 4) : Instrument {

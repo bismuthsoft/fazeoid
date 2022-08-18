@@ -4,10 +4,6 @@
  import noteNames from './noteNames'
  import { createEventDispatcher } from 'svelte';
 
- /* KNOWN BUG: Switching drum Trigger while playing notes can cause stuck notes
-    and excess error messages. */
- export let drumTrigger: 'none' | 'touch' | 'all' = 'touch';
-
  let keyLabel: 'none' | 'note' | 'noteOctave' = 'none';
  const numKeys = 36;
  let octave = 5;
@@ -21,21 +17,18 @@
  let noteuid = 0;
 
  const dispatch = createEventDispatcher();
- function pressNote(note: number, drumMode: boolean) : Note {
+ function pressNote(note: number) : Note {
      const pressed: Note = {
          note: note + noteOffset,
          uid: noteuid++,
          instrumentIndex: 0,
-         drumMode: drumTrigger === 'all' || drumMode,
      }
      dispatch('noteDown', pressed);
      return pressed;
  }
 
  function releaseNote(note: Note) {
-     if (!note.drumMode) {
-         dispatch('noteUp', note.uid);
-     }
+     dispatch('noteUp', note.uid);
  }
 
  function isWhiteNote(index: number) : boolean {
@@ -73,33 +66,21 @@
          if (ev.repeat) return;
          const keyboardNote = notesDown[note]?.keyboard;
          if (down && !keyboardNote) {
-             const noteDown = pressNote(note, false);
-             notesDown[note].keyboard = noteDown;
-             if (noteDown.drumMode) {
-                 setTimeout(() => {
-                     notesDown[note].keyboard = undefined;
-                 }, 200);
-             }
+             notesDown[note].keyboard = pressNote(note);
          } else if (!down) {
              if (keyboardNote) {
                  releaseNote(keyboardNote);
                  notesDown[note].keyboard = undefined;
-             } else if (drumTrigger !== 'all') {
+             } else {
                  console.log('Bad keyboard note up ' + note);
              }
          }
      }
  }
 
- function pointerDown (note: number, touch: boolean) {
+ function pointerDown (note: number) {
      if (!notesDown[note]?.pointer) {
-         const noteDown = pressNote(note, touch && drumTrigger === 'touch');
-         notesDown[note].pointer = noteDown;
-         if (noteDown.drumMode) {
-             setTimeout(() => {
-                 notesDown[note].pointer = undefined;
-             }, 200);
-         }
+         notesDown[note].pointer = pressNote(note);
      }
  }
 
@@ -130,10 +111,9 @@
             class:down="{notesDown[note]?.keyboard || notesDown[note]?.pointer}"
 
             draggable=false
-            on:mousedown="{() => pointerDown(note, false)}"
-            on:touchstart="{() => pointerDown(note, true)}"
+            on:pointerdown="{() => pointerDown(note)}"
             on:pointerup="{() => pointerUp(note)}"
-            on:mouseenter="{(ev) => {if (ev.buttons > 0) pointerDown(note, false);}}"
+            on:mouseenter="{(ev) => {if (ev.buttons > 0) pointerDown(note);}}"
             on:mouseleave="{() => pointerUp(note)}"
         >
             <div class='keyLabel {isWhite ? 'keyLabelWhite' : 'keyLabelBlack'}'>

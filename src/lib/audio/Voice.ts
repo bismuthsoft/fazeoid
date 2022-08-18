@@ -1,6 +1,6 @@
 import type {Instrument, Note, OscillatorParams} from "./instrument";
 import { MIN_VOLUME } from "./instrument"
-import {Envelope, makeDrum} from "./envelope";
+import { Envelope } from "./envelope";
 
 export default class Voice {
     gate: boolean;
@@ -23,18 +23,7 @@ export default class Voice {
         this.gate = true;
         this.uid = note.uid;
 
-        if (note.drumMode) {
-            this.setInstrument({
-                ...instrument,
-                oscs: instrument.oscs.map((osc) => ({
-                    ...osc,
-                    envelope: makeDrum(osc.envelope)
-                })),
-            });
-        } else {
-            this.setInstrument(instrument);
-        }
-
+        this.setInstrument(instrument);
     }
 
     // Initial playback
