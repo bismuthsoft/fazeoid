@@ -145,13 +145,14 @@
 </div>
 
 <style>
-
  .piano {
      display: grid;
-     height: 100%;
+     height: 8rem;
      grid-template-rows: 1fr 1fr;
      grid-auto-flow: none;
      touch-action: none;
+     padding: .5rem;
+     box-sizing: border-box;
  }
  .whiteKey {
      display: grid;
@@ -165,10 +166,10 @@
      background: white;
  }
  .whiteKey.odd {
-     background: #cfc
+     background: #ddd;
  }
  .whiteKey.down {
-     background: #08d
+     background: #08d;
  }
  .blackKey {
      display: grid;

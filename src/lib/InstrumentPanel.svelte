@@ -19,7 +19,6 @@
  export let params: Instrument;
  export let portrait = true;
  let filename = 'Instrument';
- let numOscs = params.oscs.length;
 
  function randomize () {
      params = randomizeInstrument(params);
@@ -79,7 +78,6 @@
     <section>
         <heading />
         <div class="box">
-
             {#each params.oscs as osc, oscIndex}
                 <div class="rowLabel">{oscIndex}</div>
             {/each}
@@ -88,18 +86,14 @@
 
     <section>
         <heading> ADSR Envelope </heading>
-        <div class="group">
             <div class="box">
                 {#each params.oscs as osc}
-                    <EnvelopeEditor bind:envelope="{osc.envelope}"/>
+                    <div class="group">
+                        <EnvelopeEditor bind:envelope="{osc.envelope}"/>
+                        <EnvelopeViewer envelope="{osc.envelope}"/>
+                    </div>
                 {/each}
             </div>
-            <div class="box">
-                {#each params.oscs as osc}
-                    <EnvelopeViewer envelope="{osc.envelope}"/>
-                {/each}
-            </div>
-        </div>
     </section>
 
     <section>
@@ -115,10 +109,10 @@
         </div>
     </section>
 
-    <section style:display="none">
+    <section>
         <heading> Modulation </heading>
         <div class="box">
-            <ModulationPanel {params} {knobProps} />
+            <ModulationPanel bind:params {knobProps} {portrait} />
         </div>
     </section>
 
@@ -138,7 +132,7 @@
     <section>
         <heading> Scope </heading>
         <div class="box" style:flex-wrap="wrap">
-            <OscilloscopePanel instrument="{params}" />
+            <OscilloscopePanel instrument="{params}" {portrait} />
         </div>
     </section>
 
@@ -151,10 +145,12 @@
      flex-direction: column;
      gap: .5rem;
      border: solid #333 0.2rem;
-     margin: 1rem 0;
      border-radius: .5em;
      background: var(--bg-color);
-     --bg-color: #20b070;
+     --bg-color: #0000;
+     backdrop-filter: brightness(0.5) contrast(0.8) hue-rotate(0.90turn) blur(5px);
+     color: white;
+     filter: drop-shadow(4px 4px 10px #3338);
  }
  .InstrumentPanel.landscape {
      flex-direction: row;
@@ -166,19 +162,20 @@
  section {
      display: flex;
      flex-direction: row;
-     gap: .5rem;
      justify-content: space-between;
  }
  section .group {
      display: flex;
      flex-direction: column;
-     width: 100%;
+     align-items:center;
+     gap: .5rem;
  }
  section .box {
      display: flex;
      flex-direction: row;
-     justify-content: space-around;
+     gap: .5rem;
      width: 100%;
+     justify-content: space-around;
  }
  .titlebar {
      border-bottom: solid #333 0.2rem;
@@ -193,15 +190,13 @@
  }
  heading {
      font-weight: bold;
+     min-width: 1.8rem;
  }
  .rowLabel {
      text-align: center;
      align-self: center;
-     font-size: 3rem;
+     font-size: 2rem;
      font-weight: bold;
- }
- .modulationCell {
-     margin: 0.5rem;
  }
  .knobRegion {
      background: #ffffff7f;
