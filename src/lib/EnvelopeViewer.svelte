@@ -14,7 +14,7 @@
          ...points.slice(0, sustainPoint),
          {dx: 0.1, y: points[sustainPoint-1].y},
          ...points.slice(sustainPoint),
-         {dx: points[sustainPoint-1].y / release, y: 0},
+         {dx: 1.0 / release, y: 0},
      ];
 
      windowSize = Math.max(1, visualPoints.reduce((sum, {dx}) => sum + dx, 0));
