@@ -1,5 +1,6 @@
 <script lang="ts">
  export let waveData: number[] = [];
+ export let width: string, height: string;
 
  function generatePath (data: number[]) : string {
      const strs: string[] = [];
@@ -10,13 +11,14 @@
  }
 </script>
 
-<svg class="scope" viewBox="-0.05 -1.05 1.1 2.1" preserveAspectRatio="none">
+<svg class="scope" viewBox="-0.05 -1.05 1.1 2.1" preserveAspectRatio="none"
+     style:width="{width}"
+     style:height="{height}">
     <polyline class="scopeLine" points="{generatePath(waveData)}"/>
 </svg>
 
 <style>
  .scope {
-     height: 4rem;
      width: 100%;
      background: #0000007f;
      border-radius: 1rem 0;
