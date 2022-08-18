@@ -88,13 +88,12 @@
  }
  section heading {
      writing-mode: vertical-lr;
-     transform: rotate(180deg);
      min-height: 2em;
      min-width: 2em;
  }
  section {
      display: flex;
-     flex-direction: row;
+     flex-direction: row-reverse;
      justify-content: space-between;
  }
  section .group {
@@ -115,7 +114,6 @@
  }
  .InstrumentPanel.landscape section heading {
      writing-mode: horizontal-tb;
-     transform: none;
  }
  .InstrumentPanel.landscape {
      flex-direction: row;

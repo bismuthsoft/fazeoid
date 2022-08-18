@@ -45,14 +45,15 @@
 </script>
 
 {#each oscData as data, index}
-    <div class="container">
+    <div class="container"
+         style:width="{portrait ? 'calc(50% - 1rem)' : '10rem'}">
         {#if portrait}
             <div class="label">{index}</div>
         {/if}
         <div class="content">
             <Oscilloscope
                 waveData="{data}"
-                width="{portrait ? 'calc(50% - 1rem)' : '10rem'}"
+                width="100%"
                 height="{portrait ? '4rem' : '6rem'}"
             />
         </div>
