@@ -1,36 +1,5 @@
-<script lang="ts">
- import { defaultInstrument } from "$lib/audio/instrument"
- import AudioController from "$lib/audio/Controller"
- import InstrumentPanel from "$lib/InstrumentPanel.svelte"
-
- import { onDestroy } from 'svelte'
- import { writable } from 'svelte/store'
-
- let instrument = writable(defaultInstrument(4));
-
- let ctrl = new AudioController();
- let hackInitialize = false;
- instrument.subscribe((value) => {
-     ctrl.postMessage('setInstrument', 0, value);
- });
-
- onDestroy(() => ctrl.stop());
-
- function noteUp (ev: CustomEvent) {
-     if (!hackInitialize) {
-         ctrl.audioContext?.resume();
-         hackInitialize = true;
-     }
-     ctrl.postMessage('noteUp', ev.detail);
- }
-
- function noteDown (ev: CustomEvent) {
-     if (!ctrl.started) {
-         ctrl.started = true;
-         ctrl.setupWorklet();
-     }
-     ctrl.postMessage('noteDown', ev.detail);
- }
+<script>
+ import App from "$lib/App.svelte";
 </script>
 
 <svelte:head>
@@ -40,7 +9,7 @@
 </svelte:head>
 
 <div class="container">
-    <InstrumentPanel bind:params="{$instrument}" on:noteUp="{noteUp}" on:noteDown="{noteDown}"/>
+    <App />
 </div>
 
 <style>
@@ -51,8 +20,6 @@
      width: 100vw;
  }
  :global(body) {
-     background: url(https://static.miraheze.org/windowswallpaperwiki/d/dc/Cook_Island.jpg);
-     background-size: cover;
-     background-position: center;
+     background: center/cover url(https://static.miraheze.org/windowswallpaperwiki/d/dc/Cook_Island.jpg);
  }
 </style>
