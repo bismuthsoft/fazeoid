@@ -6,6 +6,7 @@
 
  export let instrument: Instrument;
  export let zoom = 0.5; // How many periods to show
+ export let portrait: boolean;
 
  let resolution = 400;
  $: sampleRate = zoom * resolution * 440;
@@ -44,5 +45,23 @@
 </script>
 
 {#each oscData as data, index}
-    <Oscilloscope waveData="{data}" />
+    <div class="container" style:width="{portrait ? 'calc(50% - 1rem)' : '10rem'}">
+        <div class="label">{index}</div>
+        <div class="content">
+            <Oscilloscope waveData="{data}" />
+        </div>
+    </div>
 {/each}
+
+<style>
+ .container {
+     display: flex;
+     align-items: center;
+ }
+ .label {
+     width: 1.2em;
+ }
+ .content {
+     flex-grow: 1;
+ }
+</style>
