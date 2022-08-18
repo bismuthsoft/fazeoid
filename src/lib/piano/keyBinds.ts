@@ -39,6 +39,7 @@ const keyBinds: Record<string, number> = {
     BracketLeft: 29, // F
     Equal: 30, // F#
     BracketRight: 31, // G
+    Backslash: 33, // G
 };
 
 export default keyBinds;
