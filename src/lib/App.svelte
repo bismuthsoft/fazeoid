@@ -45,9 +45,9 @@
     <InstrumentPanel
         bind:params="{$instrument}"
         on:noteUp="{noteUp}" on:noteDown="{noteDown}"
-        portrait
+        {portrait}
     />
-    <Piano on:noteUp="{noteUp}" on:noteDown="{noteDown}" portrait/>
+    <Piano on:noteUp="{noteUp}" on:noteDown="{noteDown}" {portrait}/>
 </div>
 
 <style>
