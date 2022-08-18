@@ -127,7 +127,7 @@
 <style>
  .piano {
      display: grid;
-     height: 8rem;
+     height: 12rem;
      grid-template-rows: 1fr 1fr;
      grid-auto-flow: none;
      touch-action: none;
@@ -138,7 +138,6 @@
      display: grid;
      place-items: center;
      user-select: none;
-     border: 0.2em solid var(--bg-color);
      margin: 0 -1px;
      transform: translate(0%, -40%);
      height: 170%;
@@ -155,7 +154,6 @@
      display: grid;
      place-items: center;
      user-select: none;
-     border: 0.2em solid var(--bg-color);
      margin: 0 -1px;
      transform: translate(50%, 0%);
      height: 110%;
