@@ -7,7 +7,7 @@
  import OscilloscopePanel from "$lib/OscilloscopePanel.svelte";
 
  export let params: Instrument;
- export let portrait = true;
+ export let portrait = false;
 
  const knobProps = {
      size: '6rem',
