@@ -1,0 +1,17 @@
+{
+    "short_name": "fazeoid",
+    "name": "fazeoid",
+    "start_url": "/",
+    "icons": [
+      {
+        "src": "favicon.png",
+        "type": "image/png",
+        "sizes": "64x64"
+      }
+    ],
+    "background_color": "#888",
+    "display": "standalone",
+    "scope": "/",
+    "theme_color": "#3367D6",
+    "description": "todo put longer description here"
+}
