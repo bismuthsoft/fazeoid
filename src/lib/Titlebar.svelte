@@ -37,7 +37,8 @@
      document.body.removeChild(input);
      input.addEventListener('change', async e => {
          const files = (e.currentTarget as HTMLInputElement).files || [];
-         filename = files[0].name.match(/(.*)\.json/)[1];
+         const match = files[0].name.match(/(.*)\.json/);
+         filename = match ? match[1] : files[0].name;
          const instrumentData = JSON.parse(await files[0].text());
          params = migrateInstrument(instrumentData);
      });
