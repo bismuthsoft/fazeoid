@@ -7,7 +7,7 @@
  let keyLabel: 'none' | 'note' | 'noteOctave' = 'none';
  export let portrait: boolean;
 
- $: numKeys = portrait ? 24 : 36;
+ $: numKeys = portrait ? 18 : 36;
  let octave = 5;
  $: noteOffset = octave * 12;
  const numColumns = Math.ceil(numKeys * 7 / 12);
@@ -135,7 +135,7 @@
 <style>
  .piano {
      display: grid;
-     height: 12rem;
+     height: 9rem;
      padding: .5rem;
      box-sizing: border-box;
      grid-template-rows: 1fr 1fr;
@@ -158,7 +158,7 @@
      background: #dddddd;
  }
  .whiteKey.down {
-     background: linear-gradient(#fff, #08f);
+     background: linear-gradient(#8cf, #08f);
  }
  .blackKey {
      display: grid;
@@ -171,7 +171,7 @@
      background: #000;
  }
  .blackKey.down {
-     background: linear-gradient(#000, #4bf);
+     background: linear-gradient(#4bf, #048);
  }
 
  .keyLabel {
