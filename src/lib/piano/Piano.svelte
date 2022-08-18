@@ -159,7 +159,7 @@
      height: 110%;
      z-index: 1;
      border-radius: 2em;
-     background: #444;
+     background: #333;
  }
  .blackKey.down {
      background: #08d
