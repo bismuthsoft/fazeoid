@@ -6,7 +6,7 @@
 
  import { onDestroy } from 'svelte'
  import { writable } from 'svelte/store'
-import Titlebar from "./Titlebar.svelte";
+ import Titlebar from "./Titlebar.svelte";
 
  let instrument = writable(defaultInstrument(4));
 
@@ -33,11 +33,19 @@ import Titlebar from "./Titlebar.svelte";
      }
      ctrl.postMessage('noteDown', ev.detail);
  }
+ let innerWidth: number,
+     innerHeight: number;
 </script>
+
+<svelte:window bind:innerWidth bind:innerHeight />
 
 <div class="App">
     <Titlebar bind:params={$instrument} />
-    <InstrumentPanel bind:params="{$instrument}" on:noteUp="{noteUp}" on:noteDown="{noteDown}"/>
+    <InstrumentPanel
+        bind:params="{$instrument}"
+        on:noteUp="{noteUp}" on:noteDown="{noteDown}"
+        portrait="{innerWidth/innerHeight < 1}"
+    />
     <Piano on:noteUp="{noteUp}" on:noteDown="{noteDown}"/>
 </div>
 
