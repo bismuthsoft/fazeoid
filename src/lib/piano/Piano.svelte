@@ -5,7 +5,9 @@
  import { createEventDispatcher } from 'svelte';
 
  let keyLabel: 'none' | 'note' | 'noteOctave' = 'none';
- const numKeys = 36;
+ export let portrait: boolean;
+
+ $: numKeys = portrait ? 24 : 36;
  let octave = 5;
  $: noteOffset = octave * 12;
  const numColumns = Math.ceil(numKeys * 7 / 12);
@@ -13,7 +15,7 @@
  $: keys = generateKeys(numKeys);
 
  type PianoNote = { keyboard?: Note, pointer?: Note };
- let notesDown: PianoNote[] = Array(numKeys).fill(0).map(() => ({}));
+ let notesDown: PianoNote[] = [];
  let noteuid = 0;
 
  const dispatch = createEventDispatcher();
@@ -66,7 +68,10 @@
          if (ev.repeat) return;
          const keyboardNote = notesDown[note]?.keyboard;
          if (down && !keyboardNote) {
-             notesDown[note].keyboard = pressNote(note);
+             notesDown[note] = {
+                 ...(notesDown[note] ?? {}),
+                 keyboard: pressNote(note),
+             };
          } else if (!down) {
              if (keyboardNote) {
                  releaseNote(keyboardNote);
@@ -80,7 +85,10 @@
 
  function pointerDown (note: number) {
      if (!notesDown[note]?.pointer) {
-         notesDown[note].pointer = pressNote(note);
+         notesDown[note] = {
+             ...(notesDown[note] ?? {}),
+             pointer: pressNote(note),
+         };
      }
  }
 
@@ -107,7 +115,7 @@
             style:grid-area="{row} / {column}"
             class:whiteKey="{isWhite}"
             class:blackKey="{!isWhite}"
-            class:odd="{note % 24 < 12}"
+            class:odd="{column % 2 === 0}"
             class:down="{notesDown[note]?.keyboard || notesDown[note]?.pointer}"
 
             draggable=false
@@ -128,41 +136,42 @@
  .piano {
      display: grid;
      height: 12rem;
+     padding: .5rem;
+     box-sizing: border-box;
      grid-template-rows: 1fr 1fr;
      grid-auto-flow: none;
      touch-action: none;
-     padding: .5rem;
-     box-sizing: border-box;
+     opacity: 0.5;
+     overflow-x: hidden;
+     overflow-y: hidden;
  }
  .whiteKey {
      display: grid;
      place-items: center;
      user-select: none;
-     margin: 0 -1px;
      transform: translate(0%, -40%);
      height: 170%;
+     background: #ffffff;
      border-radius: 1em;
-     background: white;
  }
  .whiteKey.odd {
-     background: #ddd;
+     background: #dddddd;
  }
  .whiteKey.down {
-     background: #08d;
+     background: linear-gradient(#fff, #08f);
  }
  .blackKey {
      display: grid;
      place-items: center;
      user-select: none;
-     margin: 0 -1px;
      transform: translate(50%, 0%);
-     height: 110%;
+     height: 115%;
      z-index: 1;
-     border-radius: 2em;
-     background: #333;
+     border-radius: 1em;
+     background: #000;
  }
  .blackKey.down {
-     background: #08d
+     background: linear-gradient(#000, #4bf);
  }
 
  .keyLabel {

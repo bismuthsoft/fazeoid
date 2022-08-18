@@ -9,6 +9,7 @@
  import Titlebar from "./Titlebar.svelte";
 
  let instrument = writable(defaultInstrument(4));
+ $: portrait = innerWidth < innerHeight;
 
  let ctrl = new AudioController();
  let hackInitialize = false;
@@ -44,9 +45,9 @@
     <InstrumentPanel
         bind:params="{$instrument}"
         on:noteUp="{noteUp}" on:noteDown="{noteDown}"
-        portrait="{innerWidth/innerHeight < 1}"
+        portrait
     />
-    <Piano on:noteUp="{noteUp}" on:noteDown="{noteDown}"/>
+    <Piano on:noteUp="{noteUp}" on:noteDown="{noteDown}" portrait/>
 </div>
 
 <style>
