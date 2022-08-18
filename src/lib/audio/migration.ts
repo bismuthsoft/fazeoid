@@ -12,8 +12,8 @@ export function migrateInstrument (instrument: any): Instrument {
                     release: 1 / osc.envelope.release,
                 }
             }))
-        case '0.0.2':
             instrument.version = '0.0.2';
+        case '0.0.2':  // Latest version
             break;
         default:
             throw new Error('UNRECOGNIZED VERSION: ' + instrument.version);
