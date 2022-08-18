@@ -38,7 +38,7 @@ export function defaultInstrument (numOscs = 4) : Instrument {
                 sustain: 0.5,
                 release: 0.2,
             },
-            volume: i === numOscs-1 ? -12 : -72,
+            volume: i === numOscs-1 ? -12 : MIN_VOLUME,
         })),
     }
 }
