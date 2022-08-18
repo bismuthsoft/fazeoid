@@ -27,15 +27,6 @@ export function envelopeToPoints (envelope: EnvelopeParams): PointsEnvelope {
     }
 }
 
-// Turn an envelope into a drum envelope made of points
-export function makeDrum(envelope: EnvelopeParams): PointsEnvelope {
-    return {
-        ...envelopeToPoints(envelope),
-        sustainPoint: 0,
-    }
-}
-
-
 function adsrToPoints (
     {attack, decay, sustain, release}: AdsrEnvelope
 ) : PointsEnvelope {
