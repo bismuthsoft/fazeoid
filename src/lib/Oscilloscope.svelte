@@ -19,7 +19,6 @@
 
 <style>
  .scope {
-     width: 100%;
      background: #0000007f;
      border-radius: 1rem 0;
  }
