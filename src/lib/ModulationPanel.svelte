@@ -46,6 +46,8 @@
      grid-auto-flow: row;
      place-items: center;
      width: 100%;
+     height: 100%;
+
  }
  .arrow {
      font-size: 3rem;

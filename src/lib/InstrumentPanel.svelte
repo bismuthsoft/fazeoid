@@ -1,64 +1,13 @@
 <script lang="ts">
- import { createEventDispatcher } from "svelte";
- import { type Instrument, randomizeInstrument } from "$lib/audio/instrument";
- import { migrateInstrument } from "$lib/audio/migration";
-
- // Components
+ import type { Instrument } from "$lib/audio/instrument";
  import EnvelopeEditor from "$lib/EnvelopeEditor.svelte";
  import EnvelopeViewer from "$lib/EnvelopeViewer.svelte";
  import Knob from "$lib/Knob";
  import ModulationPanel from "./ModulationPanel.svelte";
  import OscilloscopePanel from "$lib/OscilloscopePanel.svelte";
- import Piano from "$lib/piano/Piano.svelte";
-
- // Icons
- import Cycle from "svelte-grommet-icons/lib/Cycle.svelte";
- import DocumentDownload from "svelte-grommet-icons/lib/DocumentDownload.svelte";
- import DocumentUpload from "svelte-grommet-icons/lib/DocumentUpload.svelte";
 
  export let params: Instrument;
  export let portrait = true;
- let filename = 'Instrument';
-
- function randomize () {
-     params = randomizeInstrument(params);
- }
-
- function download(filename: string, type: string, data: string) {
-     const a = document.createElement('a');
-     a.href = window.URL.createObjectURL(
-         new Blob([data], {type})
-     );
-     a.download = filename;
-     a.style.display = 'none';
-     document.body.appendChild(a);
-     a.click();
-     document.body.removeChild(a);
- }
-
- function downloadInstrument() {
-     download(`${filename}.json`, 'application/json', JSON.stringify(params, null, 2));
- }
- function uploadInstrument() {
-     const input = document.createElement('input');
-     input.type = 'file';
-     input.accept = '.json';
-     input.style.display = 'none';
-     document.body.appendChild(input);
-     input.click();
-     document.body.removeChild(input);
-     input.addEventListener('change', async e => {
-         const files = (e.currentTarget as HTMLInputElement).files || [];
-         filename = files[0].name.match(/(.*)\.json/)[1];
-         const instrumentData = JSON.parse(await files[0].text());
-         params = migrateInstrument(instrumentData);
-     });
-     // TODO investigate: do we need to remove the event listener?
- }
-
- const dispatch = createEventDispatcher();
- function noteDown(ev: CustomEvent) { dispatch('noteDown', ev.detail); }
- function noteUp(ev: CustomEvent) { dispatch('noteUp', ev.detail); }
 
  const knobProps = {
      size: '6rem',
@@ -67,13 +16,6 @@
 
 <div class="InstrumentPanel"
      class:landscape="{!portrait}">
-
-    <div class="titlebar">
-        <input name="filename" type="text" bind:value="{filename}" />
-        <button on:click="{randomize}"><div><Cycle /></div></button>
-        <button on:click="{downloadInstrument}"><DocumentDownload /></button>
-        <button on:click="{uploadInstrument}"><DocumentUpload /></button>
-    </div>
 
     <section>
         <heading />
@@ -136,7 +78,6 @@
         </div>
     </section>
 
-    <Piano on:noteUp="{noteUp}" on:noteDown="{noteDown}"/>
 </div>
 
 <style>
@@ -144,16 +85,6 @@
      display: flex;
      flex-direction: column;
      gap: .5rem;
-     border: solid #333 0.2rem;
-     border-radius: .5em;
-     background: var(--bg-color);
-     --bg-color: #0000;
-     backdrop-filter: brightness(0.5) contrast(0.8) hue-rotate(0.90turn) blur(5px);
-     color: white;
-     filter: drop-shadow(4px 4px 10px #3338);
- }
- .InstrumentPanel.landscape {
-     flex-direction: row;
  }
  section heading {
      writing-mode: vertical-lr;
@@ -177,16 +108,14 @@
      width: 100%;
      justify-content: space-around;
  }
- .titlebar {
-     border-bottom: solid #333 0.2rem;
-     padding: .5rem;
-     display: flex;
+ .InstrumentPanel.landscape {
+     flex-direction: row;
  }
- .titlebar input {
-     font-size: 1.5em;
-     padding: 0 .5em;
-     margin-right: 0.5em;
-     flex-grow: 1;
+ .InstrumentPanel.landscape section .group {
+     flex-direction: row;
+ }
+ .InstrumentPanel.landscape section .box {
+     flex-direction: column;
  }
  heading {
      font-weight: bold;
@@ -197,10 +126,6 @@
      align-self: center;
      font-size: 2rem;
      font-weight: bold;
- }
- .knobRegion {
-     background: #ffffff7f;
-     border-radius: 2rem;
  }
  heading {
      display: block;
