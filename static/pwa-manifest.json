@@ -2,7 +2,7 @@
     "name": "fazeoid",
     "short_name": "fazeoid",
     "description": "todo put longer description here",
-    "start_url": "https://fazeoid.netlify.app",
+    "start_url": "/",
     "scope": "/",
     "icons": [
       {
