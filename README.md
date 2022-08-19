@@ -1,4 +1,8 @@
-# What is This?
+# Fazeoid
+
+<img alt=logo align=right src=/static/fazeoid.svg />
+
+## What is This?
 
 This is a synthesizer web application. It is designed to make it easy to design and visualize your own sounds.
 
