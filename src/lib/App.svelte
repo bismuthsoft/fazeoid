@@ -42,11 +42,7 @@
 
 <div class="App" class:portrait={portrait}>
     <Titlebar bind:params={$instrument} />
-    <InstrumentPanel
-        bind:params="{$instrument}"
-        on:noteUp="{noteUp}" on:noteDown="{noteDown}"
-        {portrait}
-    />
+    <InstrumentPanel bind:params="{$instrument}" {portrait} />
     <Piano on:noteUp="{noteUp}" on:noteDown="{noteDown}" {portrait}/>
 </div>
 
