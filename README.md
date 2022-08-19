@@ -8,7 +8,7 @@ This is a synthesizer web application. It is designed to make it easy to design 
 
 It will eventually have MIDI input, and a way to share music and instruments with other users.
 
-[Test it out here!](https://fmsite.netlify.app/)
+[Test it out here!](https://fazeoid.netlify.app/)
 
 ## Running your own instance
 
