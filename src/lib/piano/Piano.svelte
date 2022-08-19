@@ -9,7 +9,13 @@
 
  $: numKeys = portrait ? 18 : 36;
  let octave = 5;
- $: noteOffset = octave * 12;
+ const MIN_OCTAVE = 1;
+ const MAX_OCTAVE = 8;
+ let noteOffset: number;
+ $: {
+     noteOffset = octave * 12;
+     clearNotes();
+ }
  const numColumns = Math.ceil(numKeys * 7 / 12);
 
  $: keys = generateKeys(numKeys);
@@ -27,6 +33,14 @@
      }
      dispatch('noteDown', pressed);
      return pressed;
+ }
+
+ function clearNotes() {
+     notesDown.forEach((note) => {
+         if (note.keyboard) dispatch('noteUp', note.keyboard.uid);
+         if (note.pointer) dispatch('noteUp', note.pointer.uid);
+     });
+     notesDown = [];
  }
 
  function releaseNote(note: Note) {
@@ -106,6 +120,16 @@
     on:keyup="{keyboardUp}"
 />
 
+<div class="pianoBar">
+    <button class="octaveButton"
+            on:click="{() => octave = Math.max(MIN_OCTAVE, octave - 1)}"> -
+    </button>
+    Octave: {octave}
+    <button class="octaveButton"
+            on:click="{() => octave = Math.min(MAX_OCTAVE, octave + 1)}"> +
+    </button>
+</div>
+
 <div class="piano"
      style:grid-template-columns="repeat({numColumns}, 1fr)"
      style:width="100%"
@@ -133,6 +157,13 @@
 </div>
 
 <style>
+ .pianoBar {
+     align-self: center;
+ }
+ .octaveButton {
+     font-size: 1rem;
+     width: 40px;
+ }
  .piano {
      display: grid;
      height: 9rem;
