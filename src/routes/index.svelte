@@ -20,7 +20,7 @@
      width: 100vw;
  }
  :global(body) {
-     background: center/cover url(background.jpg);
+     background: center/cover url(/background.jpg);
      background-attachment: fixed;
  }
 </style>
