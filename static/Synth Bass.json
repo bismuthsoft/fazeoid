@@ -1,0 +1,64 @@
+{
+  "version": "0.0.3",
+  "basePitch": 440,
+  "oscs": [
+    {
+      "modulation": [],
+      "pitchRatio": 8,
+      "envelope": {
+        "tag": "adsr",
+        "attack": 0.005,
+        "decay": 0.4029999999999998,
+        "sustain": 0.26000000000000006,
+        "release": 0.005
+      },
+      "volume": -72
+    },
+    {
+      "modulation": [
+        0
+      ],
+      "pitchRatio": 0.5,
+      "envelope": {
+        "tag": "adsr",
+        "attack": 0.5124500000000003,
+        "decay": 0.38905,
+        "sustain": 0.52,
+        "release": 0.07465000000000001
+      },
+      "volume": -72
+    },
+    {
+      "modulation": [
+        51,
+        20
+      ],
+      "pitchRatio": 1,
+      "envelope": {
+        "tag": "adsr",
+        "attack": 0.005,
+        "decay": 0.28955000000000003,
+        "sustain": 0.12,
+        "release": 0.05475000000000001
+      },
+      "volume": -72
+    },
+    {
+      "modulation": [
+        25,
+        0,
+        31
+      ],
+      "pitchRatio": 1,
+      "envelope": {
+        "tag": "adsr",
+        "attack": 0.005,
+        "decay": 0.2,
+        "sustain": 0.5,
+        "release": 0.13034999999999974
+      },
+      "volume": -12
+    }
+  ],
+  "title": "Synth Bass"
+}
