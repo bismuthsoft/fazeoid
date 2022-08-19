@@ -1,17 +1,16 @@
 {
-    "short_name": "fazeoid",
     "name": "fazeoid",
-    "start_url": "/",
+    "short_name": "fazeoid",
+    "description": "todo put longer description here",
+    "start_url": "https://fazeoid.netlify.app",
+    "scope": "/",
     "icons": [
       {
-        "src": "favicon.png",
-        "type": "image/png",
-        "sizes": "64x64"
+        "src": "fazeoid.svg",
+        "sizes": "any"
       }
     ],
-    "background_color": "#888",
     "display": "standalone",
-    "scope": "/",
-    "theme_color": "#3367D6",
-    "description": "todo put longer description here"
+    "background_color": "#888888",
+    "theme_color": "#3367D6"
 }
