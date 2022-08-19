@@ -11,7 +11,6 @@
  function randomize () {
      params = randomizeInstrument(params);
  }
-
  function download(filename: string, type: string, data: string) {
      const a = document.createElement('a');
      a.href = window.URL.createObjectURL(
@@ -23,7 +22,6 @@
      a.click();
      document.body.removeChild(a);
  }
-
  function downloadInstrument() {
      download(`${filename}.json`, 'application/json', JSON.stringify(params, null, 2));
  }
@@ -47,6 +45,8 @@
 </script>
 
 <div class="titlebar">
+    <img alt="Fazeoid" src="/fazeoid.svg"
+         style:height="2rem" style:margin=".25rem .5rem" />
     <input name="filename" type="text" bind:value="{filename}" />
     <button on:click="{randomize}"><div><Cycle /></div></button>
     <button on:click="{downloadInstrument}"><DocumentDownload /></button>
