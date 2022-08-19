@@ -8,6 +8,11 @@
       {
         "src": "fazeoid.svg",
         "sizes": "any"
+      },
+      {
+        "src": "fazeoid-512.png",
+        "sizes": "512x512",
+        "type": "image/png"
       }
     ],
     "display": "standalone",
