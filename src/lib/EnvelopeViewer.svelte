@@ -21,16 +21,16 @@
      windowSizePrinted = Math.floor(windowSize*100+0.5)/100;
      let x = 0;
      visualPoints.forEach(({dx, y}: EnvelopePoint) => strs.push(
-         `${(x += dx, x) / windowSize},${1-y}`
+         `${(x += dx, x * 1.5) / windowSize},${1-y}`
      ));
      return strs.join(' ');
  }
 </script>
 
-<svg class="scope" viewBox="-0.1 -0.1 1.2 1.4" preserveAspectRatio="none">
+<svg class="scope" viewBox="-0.1 -0.1 1.7 1.4" preserveAspectRatio="none">
     <polyline class="scopeLine" points="{generatePath(envelope)}"/>
     <text x=0 y=1.2 text-anchor="start">0</text>
-    <text x=1 y=1.2 text-anchor="end">{windowSizePrinted}</text>
+    <text x=1.5 y=1.2 text-anchor="end">{windowSizePrinted}</text>
 </svg>
 
 <style>
@@ -39,8 +39,9 @@
      fill: white;
  }
  .scope {
-     height: 100%;
-     width: 5rem;
+     min-width: 4rem;
+     width: 100%;
+     height: 5rem;
      border-radius: 1rem 0rem 1rem 0rem;
      background: #0000007f;
  }
