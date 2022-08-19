@@ -40,7 +40,7 @@
 
 <svelte:window bind:innerWidth bind:innerHeight />
 
-<div class="App">
+<div class="App" class:portrait={portrait}>
     <Titlebar bind:params={$instrument} />
     <InstrumentPanel
         bind:params="{$instrument}"
@@ -55,6 +55,7 @@
      display: flex;
      flex-direction: column;
      gap: .5rem;
+     padding: 0.5rem;
      border: solid #333 0.2rem;
      border-radius: .5em;
      background: var(--bg-color);
@@ -64,4 +65,7 @@
      filter: drop-shadow(4px 4px 10px #3338);
  }
 
+ .App:not(.portrait) {
+     padding: 1rem;
+ }
 </style>
