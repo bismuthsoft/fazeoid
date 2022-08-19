@@ -97,6 +97,7 @@
  .ticks {
      stroke: #ffffff7f;
      stroke-width: 0.2px;
+     stroke-linecap: round;
      vector-effect: non-scaling-stroke;
  }
  svg {
