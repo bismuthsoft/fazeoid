@@ -15,6 +15,7 @@
 <style>
  .container {
      display: grid;
+     grid-gap: 1rem;
      place-items: center;
      height: 100vh;
      width: 100vw;
