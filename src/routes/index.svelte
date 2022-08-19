@@ -20,6 +20,7 @@
      width: 100vw;
  }
  :global(body) {
-     background: center/cover url(https://static.miraheze.org/windowswallpaperwiki/d/dc/Cook_Island.jpg);
+     background: center/cover url(background.jpg);
+     background-attachment: fixed;
  }
 </style>
