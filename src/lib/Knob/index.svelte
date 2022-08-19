@@ -14,7 +14,7 @@
 
  // Aesthetic
  export let size = '5rem';
- export let bgColor = '#0000007f';
+ export let bgColor = '#000000';
  export let pointerColor = '#ffffff';
  export let label: string | undefined = undefined;
  export let numTicks: number = 6;
@@ -48,6 +48,7 @@
         id="svg5"
         xmlns="http://www.w3.org/2000/svg">
         <path
+            class="knobBg"
             style:fill="{bgColor}"
             use:knobdrag="{knobParams}"
             d="M 8.5,8.6 A 5,5 0 1 0 1.5,8.6"
@@ -70,6 +71,13 @@
 </div>
 
 <style>
+ .knobBg {
+     opacity: 0.5;
+     pointer-events: all;
+ }
+ .knobBg:hover {
+     opacity: 1.0;
+ }
  .container {
      display: inline-grid;
      grid-auto-flow: row;
