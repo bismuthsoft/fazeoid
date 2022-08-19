@@ -48,7 +48,7 @@
     <img alt="Fazeoid" src="/fazeoid.svg"
          style:height="2rem" style:margin=".25rem .5rem" />
     <input name="filename" type="text" bind:value="{filename}" />
-    <button on:click="{randomize}"><div><Cycle /></div></button>
+    <button on:click="{randomize}" stroke="white"><div><Cycle /></div></button>
     <button on:click="{downloadInstrument}"><DocumentDownload /></button>
     <button on:click="{uploadInstrument}"><DocumentUpload /></button>
 </div>
@@ -58,6 +58,7 @@
      border-bottom: solid #333 0.2rem;
      padding: .5rem;
      display: flex;
+     gap: 0.3rem;
  }
  .titlebar input {
      font-size: 1.5em;
