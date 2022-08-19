@@ -6,7 +6,6 @@
  import DocumentUpload from "svelte-grommet-icons/lib/DocumentUpload.svelte";
 
  export let params: Instrument;
- let filename = 'Instrument';
 
  function randomize () {
      params = randomizeInstrument(params);
@@ -23,7 +22,7 @@
      document.body.removeChild(a);
  }
  function downloadInstrument() {
-     download(`${filename}.json`, 'application/json', JSON.stringify(params, null, 2));
+     download(`${params.title}.json`, 'application/json', JSON.stringify(params, null, 2));
  }
  function uploadInstrument() {
      const input = document.createElement('input');
@@ -36,8 +35,10 @@
      input.addEventListener('change', async e => {
          const files = (e.currentTarget as HTMLInputElement).files || [];
          const match = files[0].name.match(/(.*)\.json/);
-         filename = match ? match[1] : files[0].name;
+         const filename = match ? match[1] : files[0].name;
          const instrumentData = JSON.parse(await files[0].text());
+         // Migrate instruments to 0.0.3 onwards
+         if (!instrumentData.title) instrumentData.title = filename;
          params = migrateInstrument(instrumentData);
      });
      // TODO investigate: do we need to remove the event listener?
@@ -47,8 +48,8 @@
 <div class="titlebar">
     <img alt="Fazeoid" src="/fazeoid.svg"
          style:height="2rem" style:margin=".25rem .5rem" />
-    <input name="filename" type="text" bind:value="{filename}" />
-    <button on:click="{randomize}" stroke="white"><div><Cycle /></div></button>
+    <input name="filename" type="text" bind:value="{params.title}" />
+    <button on:click="{randomize}"><div><Cycle /></div></button>
     <button on:click="{downloadInstrument}"><DocumentDownload /></button>
     <button on:click="{uploadInstrument}"><DocumentUpload /></button>
 </div>
