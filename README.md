@@ -28,6 +28,7 @@ TIP: A value of 0 is actually a very short release as to avoid clicking. Typing 
 
 ### Pitch Ratio
 ![](https://raw.githubusercontent.com/bismuthsoft/fazeoid/master/assets/pitchratio.png)
+
 This is the pitch of a particular oscillator relative to the note pitch, before modulation is added.
 If there is no modulation, the oscillator is just a wave at this pitch. For example, a pitch ratio of 1 is the same frequency as the currently playing note, 2 is twice the frequency, and 0.5 is half.
 A pitch ratio of 0 means the oscillator's phase is determined entirely by the sum of modulation inputs.
@@ -47,9 +48,11 @@ The volume of a given input oscillator is added to the phase of a given output o
 The arrow pointing in shows which oscillator is the modulator (volume -> phase) for that row or column. The carrier (which recieves phase modulation) is determined by the oscillator label at the start of the row or column.
 
 Landscape mode matrix:
+
 ![](https://raw.githubusercontent.com/bismuthsoft/fazeoid/master/assets/modulation2.png)
 
 Portrait mode matrix:
+
 ![](https://raw.githubusercontent.com/bismuthsoft/fazeoid/master/assets/modulation3.png)
 
 ### Volume
