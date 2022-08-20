@@ -28,7 +28,7 @@
         {/each}
         {#if oscIndex < params.oscs.length - 1}
             <div class="arrow" style:grid-area="{gridArea(oscIndex+1, oscIndex+1)}">
-                {oscIndex}
+                {oscIndex+1}
                 {portrait?'→':'↓'}
             </div>
         {/if}

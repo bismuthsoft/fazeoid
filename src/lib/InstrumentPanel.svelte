@@ -21,7 +21,7 @@
         <heading />
         <div class="box">
             {#each params.oscs as osc, oscIndex}
-                <div class="rowLabel">{oscIndex}</div>
+                <div class="rowLabel">{oscIndex+1}</div>
             {/each}
         </div>
     </section>
