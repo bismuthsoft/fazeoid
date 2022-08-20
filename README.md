@@ -15,7 +15,7 @@ It will eventually have MIDI input, and a way to share music and instruments wit
 ### ADSR Envelope
 The envelope controls the volume of the wave, and how it varies over time. This volume is the depth at which each wave modulates higher-numbered waves. Also, for audible waves, this is their output volume.
 
-![2x2 envelope grids]('/assets/envelopes.png')
+![](https://raw.githubusercontent.com/bismuthsoft/fazeoid/master/assets/envelopes.png)
 
 Attack, Decay, and Release are all in seconds. Sustain is 0 to 1.0.
 
@@ -27,7 +27,7 @@ TIP: For longer envelope, feel free to type in a higher value.
 TIP: A value of 0 is actually a very short release as to avoid clicking. Typing in a 0 gives a genuinely instant slope, which may cause an audible click.
 
 ### Pitch Ratio
-![Pitch ratio knob]('/assets/pitchratio.png')
+![](https://raw.githubusercontent.com/bismuthsoft/fazeoid/master/assets/pitchratio.png)
 This is the pitch of a particular oscillator relative to the note pitch, before modulation is added.
 If there is no modulation, the oscillator is just a wave at this pitch. For example, a pitch ratio of 1 is the same frequency as the currently playing note, 2 is twice the frequency, and 0.5 is half.
 A pitch ratio of 0 means the oscillator's phase is determined entirely by the sum of modulation inputs.
@@ -47,17 +47,21 @@ The volume of a given input oscillator is added to the phase of a given output o
 The arrow pointing in shows which oscillator is the modulator (volume -> phase) for that row or column. The carrier (which recieves phase modulation) is determined by the oscillator label at the start of the row or column.
 
 Landscape mode matrix:
-![Landscape modulation matrix]('/assets/modulation2.png')
+![](https://raw.githubusercontent.com/bismuthsoft/fazeoid/master/assets/modulation2.png)
 
 Portrait mode matrix:
-![Portrait modulation matrix]('/assets/modulation3.png')
+![](https://raw.githubusercontent.com/bismuthsoft/fazeoid/master/assets/modulation3.png)
 
 ### Volume
 This is the output volume of each oscillator in decibels, with 0 being the max volume and -72 being silent. By default, only the last oscillator makes any sound. However, you can use these knobs to listen to previous oscillators, as well as to mix them into your instrument.
 
 ## Running your own instance
 
+Download this repo and install pnpm on your system. Then, go into the directory of this repository and type:
+
 ```bash
 pnpm i
 pnpm run dev
 ```
+
+The application should then be hosted on `localhost:5173`
