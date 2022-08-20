@@ -4,6 +4,7 @@
  import Cycle from "svelte-grommet-icons/lib/Cycle.svelte";
  import DocumentDownload from "svelte-grommet-icons/lib/DocumentDownload.svelte";
  import DocumentUpload from "svelte-grommet-icons/lib/DocumentUpload.svelte";
+ import Help from "svelte-grommet-icons/lib/Help.svelte";
 
  export let params: Instrument;
 
@@ -52,6 +53,8 @@
     <button on:click="{randomize}"><div><Cycle /></div></button>
     <button on:click="{downloadInstrument}"><DocumentDownload /></button>
     <button on:click="{uploadInstrument}"><DocumentUpload /></button>
+    <a href="https://github.com/bismuthsoft/fazeoid#readme">
+        <button style:height="100%" style:background="#0088dd7f"><Help /></button></a>
 </div>
 
 <style>
