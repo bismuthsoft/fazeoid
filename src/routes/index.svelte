@@ -4,7 +4,7 @@
 
 <svelte:head>
     <title>
-        FMSite
+        Fazeoid
     </title>
 </svelte:head>
 
