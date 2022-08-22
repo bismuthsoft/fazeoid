@@ -1,7 +1,7 @@
 {
     "name": "fazeoid",
     "short_name": "fazeoid",
-    "description": "todo put longer description here",
+    "description": "A phase modulation matrix synthesizer with wave visualization and a built-in piano.",
     "start_url": "/",
     "scope": "/",
     "icons": [
