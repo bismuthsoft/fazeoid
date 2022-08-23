@@ -45,17 +45,10 @@
 </script>
 
 {#each oscData as data, index}
-    <div class="container"
-         style:width="{portrait ? 'calc(50% - 1rem)' : '10rem'}">
-        {#if portrait}
-            <div class="label">{index+1}</div>
-        {/if}
+    <div class="container">
+        <div class="label">{index+1}</div>
         <div class="content">
-            <Oscilloscope
-                waveData="{data}"
-                width="100%"
-                height="{portrait ? '4rem' : '6rem'}"
-            />
+            <Oscilloscope waveData="{data}" />
         </div>
     </div>
 {/each}
@@ -64,11 +57,24 @@
  .container {
      display: flex;
      align-items: center;
+     width: calc(50% - 1rem);
+ }
+ .container :global(svg) {
+     width: 100%;
+     height: 6rem;
  }
  .label {
      width: 1.2em;
  }
  .content {
      flex-grow: 1;
+ }
+ @media (min-width: 920px) {
+     .label {
+         display: none;
+     }
+     .container {
+         width: 10rem;
+     }
  }
 </style>
