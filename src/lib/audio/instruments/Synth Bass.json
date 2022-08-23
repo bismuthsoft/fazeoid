@@ -18,7 +18,7 @@
       "modulation": [
         0
       ],
-      "pitchRatio": 0.5,
+      "pitchRatio": 0.66,
       "envelope": {
         "tag": "adsr",
         "attack": 0.5124500000000003,
@@ -37,8 +37,8 @@
       "envelope": {
         "tag": "adsr",
         "attack": 0.005,
-        "decay": 0.28955000000000003,
-        "sustain": 0.12,
+        "decay": 0.21989999999999998,
+        "sustain": 0.19,
         "release": 0.05475000000000001
       },
       "volume": -72
@@ -47,7 +47,7 @@
       "modulation": [
         25,
         0,
-        31
+        30
       ],
       "pitchRatio": 1,
       "envelope": {
