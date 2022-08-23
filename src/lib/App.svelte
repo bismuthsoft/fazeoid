@@ -9,7 +9,6 @@
  import Titlebar from "./Titlebar.svelte";
 
  let instrument = writable(defaultInstrument(4));
- $: portrait = innerWidth < innerHeight;
 
  let ctrl = new AudioController();
  let hackInitialize = false;
@@ -36,6 +35,7 @@
  }
  let innerWidth: number,
      innerHeight: number;
+ $: portrait = innerWidth < 920;
 </script>
 
 <svelte:window bind:innerWidth bind:innerHeight />

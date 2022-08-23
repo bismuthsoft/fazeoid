@@ -14,8 +14,7 @@
  };
 </script>
 
-<div class="InstrumentPanel"
-     class:landscape="{!portrait}">
+<div class="InstrumentPanel">
 
     <section>
         <heading />
@@ -109,20 +108,22 @@
      gap: .5rem;
      justify-content: space-around;
  }
- .InstrumentPanel.landscape section {
-     flex-direction: column;
- }
- .InstrumentPanel.landscape section heading {
-     writing-mode: horizontal-tb;
- }
- .InstrumentPanel.landscape {
-     flex-direction: row;
- }
- .InstrumentPanel.landscape section .group {
-     flex-direction: row;
- }
- .InstrumentPanel.landscape section .box {
-     flex-direction: column;
+ @media (min-width: 920px) {
+     .InstrumentPanel section {
+         flex-direction: column;
+     }
+     .InstrumentPanel section heading {
+         writing-mode: horizontal-tb;
+     }
+     .InstrumentPanel {
+         flex-direction: row;
+     }
+     .InstrumentPanel section .group {
+         flex-direction: row;
+     }
+     .InstrumentPanel section .box {
+         flex-direction: column;
+     }
  }
  heading {
      font-weight: bold;
