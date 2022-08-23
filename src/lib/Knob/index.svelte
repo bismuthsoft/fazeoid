@@ -55,6 +55,7 @@
         />
         {#if value >= min && value <= max}
             <path
+                class="pointer"
                 style:fill="{pointerColor}"
                 transform="rotate({valueOnKnob(value)}, 5, 5)"
                 d="M 9.5640408,5.0000863 8.8569772,5.7071499 c -0.3904906,0.3904906 -1.0236127,0.3904669 -1.4141272,2e-7 -0.3904668,-0.3905145 -0.3904667,-1.0236129 1e-7,-1.4141273 0.3905144,-0.3904667 1.0236366,-0.3904906 1.4141272,0 z" />
@@ -76,6 +77,7 @@
  .knobBg {
      opacity: 0.5;
      pointer-events: all;
+     cursor: pointer;
  }
  .knobBg:hover {
      opacity: 1.0;
@@ -84,6 +86,9 @@
      display: inline-grid;
      grid-auto-flow: row;
      place-items: center;
+ }
+ .pointer {
+     pointer-events: none;
  }
  .value {
      position: relative;
@@ -101,6 +106,7 @@
      stroke-width: 0.2px;
      stroke-linecap: round;
      vector-effect: non-scaling-stroke;
+     pointer-events: none;
  }
  svg {
      grid-area: 1/1;
