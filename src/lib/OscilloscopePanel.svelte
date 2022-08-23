@@ -48,7 +48,7 @@
     <div class="container"
          style:width="{portrait ? 'calc(50% - 1rem)' : '10rem'}">
         {#if portrait}
-            <div class="label">{index}</div>
+            <div class="label">{index+1}</div>
         {/if}
         <div class="content">
             <Oscilloscope
