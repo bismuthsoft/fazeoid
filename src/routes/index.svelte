@@ -22,8 +22,13 @@
      width: 100vw;
      color: white;
  }
+ footer {
+     background: #0000007f;
+     padding: 0.5rem;
+     border-radius: 0.5rem;
+ }
  :global(body) {
-     background: center/80vmin url(/background.jpg);
+     background: center/cover url(/background.jpg);
      background-attachment: fixed;
  }
 </style>
