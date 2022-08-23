@@ -23,7 +23,7 @@
      color: white;
  }
  :global(body) {
-     background: center/cover url(/background.jpg);
+     background: center/80vmin url(/background.jpg);
      background-attachment: fixed;
  }
 </style>
