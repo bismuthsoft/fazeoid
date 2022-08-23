@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="200mm"
+   height="200mm"
+   viewBox="0 0 200 200"
+   version="1.1"
+   id="svg5"
+   inkscape:export-filename="/home/samp/Pictures/made/fazeoidbg.png"
+   inkscape:export-xdpi="304.79999"
+   inkscape:export-ydpi="304.79999"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   sodipodi:docname="background-logo.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#a6c14c"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="true"
+     inkscape:snap-global="false"
+     inkscape:zoom="0.52473017"
+     inkscape:cx="453.56645"
+     inkscape:cy="260.1337"
+     inkscape:window-width="1920"
+     inkscape:window-height="1048"
+     inkscape:window-x="0"
+     inkscape:window-y="-5"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer2">
+    <inkscape:grid
+       type="xygrid"
+       id="grid13221"
+       units="mm"
+       spacingx="9.9999999"
+       spacingy="9.9999999"
+       visible="false" />
+  </sodipodi:namedview>
+  <defs
+     id="defs2" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Layer 2">
+    <circle
+       style="fill:#b6c688;fill-opacity:1;stroke:#3d9500;stroke-width:1;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="circle4409-0"
+       cx="84.829567"
+       cy="-121.02274"
+       r="55.875191"
+       transform="rotate(90.734565)" />
+    <path
+       style="fill:#3d9500;fill-opacity:1;stroke:none;stroke-width:1;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 172.74794,87.051727 c 0.28441,-22.921133 -14.24573,-43.410112 -35.97095,-50.722719 3.3138,2.34495 6.57351,5.144386 9.13754,8.373777 3.2305,4.06877 5.32175,9.058089 4.74384,14.468278 -0.19276,1.803373 -0.68166,3.653582 -1.52467,5.531615 -3.3717,7.512268 -11.90341,15.245888 -28.33962,23.399065 -16.02894,7.951098 -23.863105,15.393007 -26.763093,21.610237 -2.899996,6.21724 -1.473353,12.88981 2.095502,17.67045 4.132641,5.53589 6.746731,7.26349 11.107761,9.37392 3.67823,1.78 9.72948,2.41114 12.01333,2.44112 29.17323,0.38296 53.1262,-22.97243 53.50027,-52.145769 z"
+       id="path1538-7"
+       sodipodi:nodetypes="cccsccssascc" />
+    <path
+       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 67.109487,85.820126 c -0.2844,22.921124 14.245741,43.410094 35.970963,50.722724 -3.313801,-2.34497 -6.573517,-5.1444 -9.137538,-8.37379 -3.23051,-4.06877 -5.321764,-9.05809 -4.743843,-14.46827 0.192633,-1.80339 0.681654,-3.65359 1.524662,-5.53161 3.371706,-7.51228 11.903409,-15.245906 28.339619,-23.399068 16.02894,-7.951108 23.86312,-15.393022 26.7631,-21.610251 2.9,-6.21725 1.47336,-12.889805 -2.0955,-17.670457 -4.13263,-5.535881 -6.74673,-7.263482 -11.10776,-9.373914 -3.67823,-1.779996 -9.72948,-2.41114 -12.01335,-2.441117 C 91.436624,33.291412 67.483666,56.646816 67.109576,85.820152 Z"
+       id="path1538-7-9"
+       sodipodi:nodetypes="cccsccssascc" />
+    <path
+       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 127.15961,98.64977 c -1.72228,9.35152 -7.5773,13.40801 -15.19985,15.19986 6.71764,2.03209 13.1547,4.57992 15.19985,15.19985 1.77143,-9.64302 7.80846,-13.36194 15.19987,-15.19985 -8.70266,-1.67801 -13.48831,-7.00647 -15.19987,-15.19986 z"
+       id="path14562"
+       sodipodi:nodetypes="ccccc" />
+    <path
+       style="fill:#3d9500;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 110.90013,45.522153 c -1.76794,9.599428 -7.77817,13.763461 -15.602812,15.602811 6.895752,2.085974 13.503452,4.70133 15.602812,15.6028 1.81839,-9.898664 8.01546,-13.716159 15.60281,-15.6028 -8.93336,-1.722476 -13.84587,-7.192211 -15.60281,-15.602811 z"
+       id="path14562-3"
+       sodipodi:nodetypes="ccccc" />
+  </g>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <text
+       xml:space="preserve"
+       style="font-size:41.7915px;line-height:1.25;font-family:'TeX Gyre Heros';-inkscape-font-specification:'TeX Gyre Heros';letter-spacing:0px;word-spacing:0px;fill:#3d9500;fill-opacity:1;stroke-width:0.264583"
+       x="17.694593"
+       y="24.765377"
+       id="text24278"><tspan
+         sodipodi:role="line"
+         id="tspan24276"
+         style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Genos;-inkscape-font-specification:'Genos Bold Italic';fill:#3d9500;fill-opacity:1;stroke-width:0.264583"
+         x="17.694593"
+         y="24.765377">FAZEOID</tspan></text>
+  </g>
+</svg>
