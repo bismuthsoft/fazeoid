@@ -62,6 +62,11 @@
      color: white;
      filter: drop-shadow(4px 4px 10px #3338);
  }
+ @media (max-width: 680px) {
+     .App {
+         border-radius: 0;
+     }
+ }
  /* latin-ext */
  @font-face {
      font-family: 'Genos';
