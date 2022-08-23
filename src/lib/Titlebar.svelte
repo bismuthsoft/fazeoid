@@ -47,26 +47,57 @@
 </script>
 
 <div class="titlebar">
-    <img alt="Fazeoid" src="/fazeoid.svg"
-         style:height="2rem" style:margin=".25rem .5rem" />
-    <input name="filename" type="text" bind:value="{params.title}" />
-    <button on:click="{randomize}"><div><Cycle /></div></button>
-    <button on:click="{downloadInstrument}"><DocumentDownload /></button>
-    <button on:click="{uploadInstrument}"><DocumentUpload /></button>
+    <a href="https://github.com/bismuthsoft/fazeoid"
+       title="Fazeoid"
+       style:height="2em"
+       style:margin=".25em .25em">
+        <img alt="Fazeoid" src="/fazeoid.svg" height="100%" />
+    </a>
+    <input
+        title="Instrument Name"
+        bind:value="{params.title}"
+        type="text" />
+    <button
+        title="Randomize"
+        on:click="{randomize}">
+        <Cycle />
+    </button>
+    <button
+        title="Save Instrument"
+        on:click="{downloadInstrument}">
+        <DocumentDownload />
+    </button>
+    <button
+        title="Load Instrument"
+        on:click="{uploadInstrument}">
+        <DocumentUpload />
+    </button>
     <a href="https://github.com/bismuthsoft/fazeoid#readme">
-        <button style:height="100%" style:background="#0088dd7f"><Help /></button></a>
+        <button
+            title="Help"
+            class="helpbutton">
+            <Help />
+        </button>
+    </a>
 </div>
 
 <style>
  .titlebar {
      padding: inherit;
      display: flex;
-     gap: 0.3rem;
+     gap: 0.3em;
  }
  .titlebar input {
      font-size: 1.5em;
      padding: 0 .5em;
      margin-right: 0.5em;
      flex-grow: 1;
+ }
+ .helpbutton {
+     height: 100%;
+     background: #0088dd7f;
+ }
+ .helpbutton:hover {
+     background: #0088ddff;
  }
 </style>
