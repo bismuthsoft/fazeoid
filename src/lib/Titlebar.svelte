@@ -59,7 +59,7 @@
 
 <style>
  .titlebar {
-     border-bottom: solid #333 0.2rem;
+     border-bottom: inherit;
      padding: .5rem;
      display: flex;
      gap: 0.3rem;
