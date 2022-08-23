@@ -47,6 +47,10 @@
 
 <style>
  .App {
+     font-family: Genos, Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+     font-weight: 900;
+     font-style: italic;
+     font-display: block;
      display: flex;
      flex-direction: column;
      gap: .5rem;
