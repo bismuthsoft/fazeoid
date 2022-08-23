@@ -43,6 +43,10 @@
     <Titlebar bind:params={$instrument} />
     <InstrumentPanel bind:params="{$instrument}" {portrait} />
     <Piano on:noteUp="{noteUp}" on:noteDown="{noteDown}" {portrait} />
+    <footer>
+        <div>Fazeoid</div>
+        <div>Copyright © 2022 BismuthSoft</div>
+    </footer>
 </div>
 
 <style>
@@ -66,6 +70,12 @@
      .App {
          border-radius: 0;
      }
+ }
+ footer {
+     padding: 0em 0.5em;
+     display: flex;
+     justify-content: space-between;
+     letter-spacing: 0.2rem;
  }
  /* latin-ext */
  @font-face {
