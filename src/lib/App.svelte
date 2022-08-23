@@ -57,7 +57,7 @@
      padding: 0.5rem;
      border-radius: 1em;
      background: var(--bg-color);
-     --bg-color: #0000;
+     --bg-color: #8fa3;
      backdrop-filter: brightness(0.5) contrast(0.8) hue-rotate(0.90turn) blur(5px);
      color: white;
      filter: drop-shadow(4px 4px 10px #3338);

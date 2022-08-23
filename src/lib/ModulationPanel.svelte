@@ -40,7 +40,6 @@
  .ModulationPanel {
      display: grid;
      grid-gap: .5rem;
-     background: var(--bg-color);
      border-radius: 0 0 .5em .5em;
      grid-auto-rows: 1fr;
      grid-auto-columns: 1fr;
