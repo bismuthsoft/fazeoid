@@ -1,4 +1,5 @@
 import type {EnvelopeParams} from './envelope';
+import defaultInstrumentData from './instruments/Synth Bass.json';
 
 export const MIN_VOLUME = -72; // Volume at which things will be zeroed
 
@@ -24,7 +25,7 @@ export type Note  = {
     uid: number;
 }
 
-export function defaultInstrument (numOscs = 4) : Instrument {
+export function sineWave (numOscs = 4) : Instrument {
     return {
         title: 'Sine Wave',
         version: '0.0.3',
@@ -42,6 +43,10 @@ export function defaultInstrument (numOscs = 4) : Instrument {
             volume: i === numOscs-1 ? -12 : MIN_VOLUME,
         })),
     }
+}
+
+export function defaultInstrument(): Instrument {
+    return defaultInstrumentData;
 }
 
 export function randomizeInstrument (params: Instrument) : Instrument {
