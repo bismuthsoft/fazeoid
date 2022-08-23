@@ -55,8 +55,7 @@
      flex-direction: column;
      gap: .5rem;
      padding: 0.5rem;
-     border: solid #999 0.2rem;
-     border-radius: .5em;
+     border-radius: 1em;
      background: var(--bg-color);
      --bg-color: #0000;
      backdrop-filter: brightness(0.5) contrast(0.8) hue-rotate(0.90turn) blur(5px);
