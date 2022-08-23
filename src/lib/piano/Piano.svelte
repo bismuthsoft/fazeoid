@@ -13,7 +13,7 @@
  const MAX_OCTAVE = 8;
  let noteOffset: number;
  $: {
-     noteOffset = octave * 12;
+     noteOffset = (octave - Math.floor(numKeys/24)) * 12;
      clearNotes();
  }
  const numColumns = Math.ceil(numKeys * 7 / 12);
