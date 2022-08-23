@@ -19,6 +19,9 @@
  button:active, input:active {
      background: radial-gradient(#06c, #000)
  }
+ button {
+     cursor: pointer;
+ }
  button path {
      stroke: white !important;
  }
