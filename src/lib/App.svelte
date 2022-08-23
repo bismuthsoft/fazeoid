@@ -33,17 +33,16 @@
      }
      ctrl.postMessage('noteDown', ev.detail);
  }
- let innerWidth: number,
-     innerHeight: number;
+ let innerWidth: number;
  $: portrait = innerWidth < 920;
 </script>
 
-<svelte:window bind:innerWidth bind:innerHeight />
+<svelte:window bind:innerWidth />
 
-<div class="App" class:portrait={portrait}>
+<div class="App">
     <Titlebar bind:params={$instrument} />
     <InstrumentPanel bind:params="{$instrument}" {portrait} />
-    <Piano on:noteUp="{noteUp}" on:noteDown="{noteDown}" {portrait}/>
+    <Piano on:noteUp="{noteUp}" on:noteDown="{noteDown}" {portrait} />
 </div>
 
 <style>
@@ -59,9 +58,5 @@
      backdrop-filter: brightness(0.5) contrast(0.8) hue-rotate(0.90turn) blur(5px);
      color: white;
      filter: drop-shadow(4px 4px 10px #3338);
- }
-
- .App:not(.portrait) {
-     padding: 1rem;
  }
 </style>
