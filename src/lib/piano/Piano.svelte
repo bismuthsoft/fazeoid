@@ -139,7 +139,6 @@
             style:grid-area="{row} / {column}"
             class:whiteKey="{isWhite}"
             class:blackKey="{!isWhite}"
-            class:odd="{column % 2 === 0}"
             class:down="{notesDown[note]?.keyboard || notesDown[note]?.pointer}"
 
             draggable=false
@@ -184,8 +183,16 @@
      height: 170%;
      background: #ffffff;
      border-radius: 1em;
+     border: solid #8888 .125em;
  }
- .whiteKey.odd {
+ /* Octave coloring: */
+ .whiteKey:nth-child(24n+13),
+ .whiteKey:nth-child(24n+15),
+ .whiteKey:nth-child(24n+17),
+ .whiteKey:nth-child(24n+18),
+ .whiteKey:nth-child(24n+20),
+ .whiteKey:nth-child(24n+22),
+ .whiteKey:nth-child(24n+24) {
      background: #dddddd;
  }
  .whiteKey.down {
@@ -217,7 +224,6 @@
      align-self: middle;
      color: #666;
  }
-
  .blackKey .keyLabel {
      align-self: end;
      margin-bottom: 8px;
