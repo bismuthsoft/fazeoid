@@ -150,7 +150,7 @@
         >
             <div class='keyLabel'>
                 {(keyLabel === 'noteOctave' ? noteNames[note % 12] : '') +
-                (keyLabel !== 'none' ? Math.floor(note / 12) : '')}
+                (keyLabel !== 'none' ? octave + Math.floor(note / 12) : '')}
             </div>
         </div>
     {/each}
