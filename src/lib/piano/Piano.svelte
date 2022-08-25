@@ -172,7 +172,7 @@
      grid-template-rows: 1fr 1fr;
      grid-auto-flow: none;
      touch-action: none;
-     opacity: 0.5;
+     opacity: 0.7;
      overflow-x: hidden;
      overflow-y: hidden;
  }
