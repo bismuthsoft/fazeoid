@@ -148,7 +148,7 @@
             on:mouseenter="{(ev) => {if (ev.buttons > 0) pointerDown(note);}}"
             on:mouseleave="{() => pointerUp(note)}"
         >
-            <div class='keyLabel {isWhite ? 'keyLabelWhite' : 'keyLabelBlack'}'>
+            <div class='keyLabel'>
                 {(keyLabel === 'noteOctave' ? noteNames[note % 12] : '') +
                 (keyLabel !== 'none' ? Math.floor(note / 12) : '')}
             </div>
@@ -212,13 +212,13 @@
      user-select: none;
      font-weight: bold;
  }
- .keyLabelWhite {
+ .whiteKey .keyLabel {
      margin-top: 2em;
      align-self: middle;
      color: #666;
  }
 
- .keyLabelBlack {
+ .blackKey .keyLabel {
      align-self: end;
      margin-bottom: 8px;
      color: white;
