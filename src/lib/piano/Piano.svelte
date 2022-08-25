@@ -4,7 +4,7 @@
  import noteNames from './noteNames'
  import { createEventDispatcher } from 'svelte';
 
- let keyLabel: 'none' | 'note' | 'noteOctave' = 'none';
+ export let keyLabel: 'none' | 'note' | 'noteOctave' = 'noteOctave';
  export let portrait: boolean;
 
  $: numKeys = portrait ? 18 : 36;
