@@ -134,7 +134,7 @@
      style:grid-template-columns="repeat({numColumns}, 1fr)"
      style:width="100%"
 >
-    {#each keys as {isWhite, row, column, note}}
+    {#each keys as {isWhite, row, column, note} (note)}
         <div
             style:grid-area="{row} / {column}"
             class:whiteKey="{isWhite}"
