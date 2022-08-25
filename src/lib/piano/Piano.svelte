@@ -222,7 +222,7 @@
  .whiteKey .keyLabel {
      margin-top: 2em;
      align-self: middle;
-     color: #666;
+     color: #333;
  }
  .blackKey .keyLabel {
      align-self: end;
