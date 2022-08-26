@@ -1,6 +1,6 @@
 {
 	"name": "fmsite-svkit",
-	"version": "0.0.1",
+	"version": "0.1.0",
 	"scripts": {
 		"dev": "svelte-kit sync && concurrently -n web,audio npm:dev-web npm:dev-audio",
 		"dev-web": "vite dev",

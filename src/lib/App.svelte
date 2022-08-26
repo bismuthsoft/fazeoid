@@ -44,7 +44,7 @@
     <InstrumentPanel bind:params="{$instrument}" {portrait} />
     <Piano on:noteUp="{noteUp}" on:noteDown="{noteDown}" {portrait} />
     <footer>
-        <div>Fazeoid</div>
+        <div>Fazeoid 0.1</div>
         <div>Copyright © 2022 BismuthSoft</div>
     </footer>
 </div>
