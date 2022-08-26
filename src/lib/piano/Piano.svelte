@@ -3,6 +3,7 @@
  import keyBinds from './keyBinds'
  import noteNames from './noteNames'
  import { createEventDispatcher } from 'svelte';
+ const dispatch = createEventDispatcher();
 
  export let keyLabel: 'none' | 'note' | 'noteOctave' = 'noteOctave';
  export let portrait: boolean;
@@ -10,7 +11,6 @@
  const MIN_OCTAVE = 1;
  const MAX_OCTAVE = 8;
  let octave = 5;
- let noteOffset: number;
  $: numKeys = portrait ? 18 : 36;
  $: noteOffset = (octave - Math.floor(numKeys/24)) * 12;
  $: noteOffset, clearNotes();
@@ -31,7 +31,6 @@
  let notesDown: PianoNote[] = [];
  let noteuid = 0;
 
- const dispatch = createEventDispatcher();
  function pressNote(note: number, type: keyof PianoNote): Note | undefined {
      if (notesDown[note] && notesDown[note][type]) {
          return undefined;
@@ -48,15 +47,6 @@
      dispatch('noteDown', pressed);
      return pressed;
  }
-
- function clearNotes() {
-     notesDown.forEach((note) => {
-         if (note.keyboard) dispatch('noteUp', note.keyboard.uid);
-         if (note.pointer) dispatch('noteUp', note.pointer.uid);
-     });
-     notesDown = [];
- }
-
  function releaseNote(note: number, type: keyof PianoNote) {
      const noteObj = notesDown[note] && notesDown[note][type];
      if (noteObj) {
@@ -66,11 +56,17 @@
          console.log('Bad ' + type + ' note up ' + note);
      }
  }
+ function clearNotes() {
+     notesDown.forEach((note) => {
+         if (note.keyboard) dispatch('noteUp', note.keyboard.uid);
+         if (note.pointer) dispatch('noteUp', note.pointer.uid);
+     });
+     notesDown = [];
+ }
 
  function isWhiteNote(index: number) : boolean {
      return [1,0,1,0,1,1,0,1,0,1,0,1][index % 12] === 1;
  }
-
  function collapseColumn(index: number) : number {
      const octave = Math.floor(index / 12) * 7;
      return [1,1,2,2,3,4,4,5,5,6,6,7][index % 12] + octave;
