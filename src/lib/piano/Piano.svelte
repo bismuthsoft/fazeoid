@@ -108,9 +108,7 @@
     </button>
 </div>
 
-<div class="piano"
-     style:width="100%"
->
+<div class="piano">
     {#each keys as {isWhite, row, column, note} (note)}
         <div
             style:grid-area="{row} / {column}"
@@ -140,6 +138,7 @@
  }
  .piano {
      display: grid;
+     width: 100%;
      height: 9rem;
      padding: .5rem;
      box-sizing: border-box;
