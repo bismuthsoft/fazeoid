@@ -16,7 +16,6 @@
      noteOffset = (octave - Math.floor(numKeys/24)) * 12;
      clearNotes();
  }
- const numColumns = Math.ceil(numKeys * 7 / 12);
 
  $: keys = generateKeys(numKeys);
 
@@ -116,7 +115,6 @@
 </div>
 
 <div class="piano"
-     style:grid-template-columns="repeat({numColumns}, 1fr)"
      style:width="100%"
 >
     {#each keys as {isWhite, row, column, note} (note)}
