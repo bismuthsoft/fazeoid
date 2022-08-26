@@ -119,7 +119,6 @@
             class:whiteKey="{isWhite}"
             class:blackKey="{!isWhite}"
             class:down="{notesDown[note]?.keyboard || notesDown[note]?.pointer}"
-            draggable="false"
             on:pointerdown="{() => pressNote(note, 'pointer')}"
             on:pointerup="{() => releaseNote(note, 'pointer')}"
             on:mouseenter="{(ev) => {if (ev.buttons > 0) pressNote(note, 'pointer');}}"
