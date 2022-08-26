@@ -58,6 +58,9 @@ Portrait mode matrix:
 ### Volume
 This is the output volume of each oscillator in decibels, with 0 being the max volume and -72 being silent. By default, only the last oscillator makes any sound. However, you can use these knobs to listen to previous oscillators, as well as to mix them into your instrument.
 
+### Bug Reports / Feature Requests
+If you find any bugs or think of features you'd like, please file an issue on our GitHub [HERE](https://github.com/bismuthsoft/fazeoid/issues).
+
 ## Running your own instance
 
 Download this repo and install pnpm on your system. Then, go into the directory of this repository and type:
