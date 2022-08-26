@@ -7,17 +7,25 @@
  export let keyLabel: 'none' | 'note' | 'noteOctave' = 'noteOctave';
  export let portrait: boolean;
 
- $: numKeys = portrait ? 18 : 36;
- let octave = 5;
  const MIN_OCTAVE = 1;
  const MAX_OCTAVE = 8;
+ let octave = 5;
  let noteOffset: number;
- $: {
-     noteOffset = (octave - Math.floor(numKeys/24)) * 12;
-     clearNotes();
- }
+ $: numKeys = portrait ? 18 : 36;
+ $: noteOffset = (octave - Math.floor(numKeys/24)) * 12;
+ $: noteOffset, clearNotes();
 
  $: keys = generateKeys(numKeys);
+
+ function generateKeys (numKeys: number) {
+     return Array(numKeys).fill(0).map((_, index: number) => {
+         const note = index;
+         const isWhite = isWhiteNote(note);
+         const row = isWhite ? 2 : 1;
+         const column = collapseColumn(note);
+         return {isWhite, row, column, note};
+     })
+ }
 
  type PianoNote = { keyboard?: Note, pointer?: Note };
  let notesDown: PianoNote[] = [];
@@ -66,16 +74,6 @@
  function collapseColumn(index: number) : number {
      const octave = Math.floor(index / 12) * 7;
      return [1,1,2,2,3,4,4,5,5,6,6,7][index % 12] + octave;
- }
-
- function generateKeys (numKeys: number) {
-     return Array(numKeys).fill(0).map((_, index: number) => {
-         const note = index;
-         const isWhite = isWhiteNote(note);
-         const row = isWhite ? 2 : 1;
-         const column = collapseColumn(note);
-         return {isWhite, row, column, note};
-     })
  }
 
  function keyboardDown (ev: KeyboardEvent) { return handleKeyboard(ev, true); }
