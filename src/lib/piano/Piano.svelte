@@ -84,13 +84,11 @@
 
  function handleKeyboard(ev: KeyboardEvent, down: boolean) {
      if ((down && (ev.altKey || ev.ctrlKey || ev.shiftKey)) ||
-         document.activeElement instanceof HTMLInputElement)
-     {
-         return;
+         document.activeElement instanceof HTMLInputElement) {
+         return undefined;
      }
-     const index = keyBinds[ev.code];
-     if (index !== undefined) {
-         const note = index;
+     const note = keyBinds[ev.code];
+     if (note !== undefined) {
          ev.preventDefault();
          if (ev.repeat) return;
          if (down) {
