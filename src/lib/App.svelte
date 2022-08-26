@@ -58,7 +58,7 @@
      display: flex;
      flex-direction: column;
      gap: .5rem;
-     padding: 0.5rem;
+     padding: 0.5rem 1rem;
      border-radius: 1em;
      background: var(--bg-color);
      --bg-color: #0008;
