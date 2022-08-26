@@ -71,6 +71,10 @@
      const octave = Math.floor(index / 12) * 7;
      return [1,1,2,2,3,4,4,5,5,6,6,7][index % 12] + octave;
  }
+ function keyLabelFn(note: number): string {
+     return noteNames[note % 12] +
+     (keyLabel === 'noteOctave' ? octave + Math.floor(note / 12) : '');
+ }
 
  function keyboardDown (ev: KeyboardEvent) { return handleKeyboard(ev, true); }
  function keyboardUp (ev: KeyboardEvent) { return handleKeyboard(ev, false); }
@@ -120,10 +124,11 @@
             on:mouseenter="{(ev) => {if (ev.buttons > 0) pressNote(note, 'pointer');}}"
             on:mouseleave="{() => releaseNote(note, 'pointer')}"
         >
-            <div class='keyLabel'>
-                {(keyLabel === 'noteOctave' ? noteNames[note % 12] : '') +
-                (keyLabel !== 'none' ? octave + Math.floor(note / 12) : '')}
-            </div>
+            {#if keyLabel !== 'none'}
+                <div class='keyLabel'>
+                    {keyLabelFn(note)}
+                </div>
+            {/if}
         </div>
     {/each}
 </div>
