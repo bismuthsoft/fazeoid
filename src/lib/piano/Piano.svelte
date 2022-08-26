@@ -8,16 +8,27 @@
  export let keyLabel: 'none' | 'note' | 'noteOctave' = 'noteOctave';
  export let portrait: boolean;
 
+ type PianoKey = {
+     isWhite: boolean,
+     row: number,
+     column: number,
+     note: number,
+ };
+
  const MIN_OCTAVE = 1;
  const MAX_OCTAVE = 8;
  let octave = 5;
  $: numKeys = portrait ? 18 : 36;
- $: noteOffset = (octave - Math.floor(numKeys/24)) * 12;
- $: noteOffset, clearNotes();
+ let keys: PianoKey[];
+ let noteOffset: number;
+ $: {
+     // Octave shift
+     noteOffset = (octave - Math.floor(numKeys/24)) * 12;
+     keys = generateKeys(numKeys);
+     clearNotes();
+ }
 
- $: keys = generateKeys(numKeys);
-
- function generateKeys (numKeys: number) {
+ function generateKeys (numKeys: number) : PianoKey[] {
      return Array(numKeys).fill(0).map((_, index: number) => {
          const note = index;
          const isWhite = isWhiteNote(note);
@@ -118,6 +129,7 @@
             style:grid-area="{row} / {column}"
             class:whiteKey="{isWhite}"
             class:blackKey="{!isWhite}"
+            class:oddOctave="{(note + noteOffset) % 24 < 12}"
             class:down="{notesDown[note]?.keyboard || notesDown[note]?.pointer}"
             on:pointerdown="{() => pressNote(note, 'pointer')}"
             on:pointerup="{() => releaseNote(note, 'pointer')}"
@@ -165,13 +177,7 @@
      border: solid #8888 .125em;
  }
  /* Octave coloring: */
- .whiteKey:nth-child(24n+13),
- .whiteKey:nth-child(24n+15),
- .whiteKey:nth-child(24n+17),
- .whiteKey:nth-child(24n+18),
- .whiteKey:nth-child(24n+20),
- .whiteKey:nth-child(24n+22),
- .whiteKey:nth-child(24n+24) {
+ .whiteKey.oddOctave {
      background: #dddddd;
  }
  .whiteKey.down {
