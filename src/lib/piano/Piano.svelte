@@ -50,9 +50,14 @@
      notesDown = [];
  }
 
- function releaseNote(note: Note, type: keyof PianoNote) {
-     dispatch('noteUp', note.uid);
-     notesDown[note.note - noteOffset][type] = undefined;
+ function releaseNote(note: number, type: keyof PianoNote) {
+     const noteObj = notesDown[note] && notesDown[note][type];
+     if (noteObj) {
+         dispatch('noteUp', noteObj.uid);
+         notesDown[noteObj.note - noteOffset][type] = undefined;
+     } else {
+         console.log('Bad ' + type + ' note up ' + note);
+     }
  }
 
  function isWhiteNote(index: number) : boolean {
@@ -91,12 +96,7 @@
          if (down) {
              pressNote(note, 'keyboard');
          } else {
-             const keyboardNote = notesDown[note]?.keyboard;
-             if (keyboardNote) {
-                 releaseNote(keyboardNote, 'keyboard');
-             } else {
-                 console.log('Bad keyboard note up ' + note);
-             }
+             releaseNote(note, 'keyboard');
          }
      }
  }
@@ -106,10 +106,7 @@
  }
 
  function pointerUp(note: number) {
-     const pointerNote = notesDown[note]?.pointer;
-     if (pointerNote) {
-         releaseNote(pointerNote, 'pointer');
-     }
+     releaseNote(note, 'pointer');
  }
 </script>
 
