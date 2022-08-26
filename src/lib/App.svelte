@@ -76,6 +76,7 @@
      display: flex;
      justify-content: space-between;
      letter-spacing: 0.2rem;
+     user-select: none;
  }
  /* latin-ext */
  @font-face {
