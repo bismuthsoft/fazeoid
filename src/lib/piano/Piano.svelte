@@ -25,7 +25,10 @@
  let noteuid = 0;
 
  const dispatch = createEventDispatcher();
- function pressNote(note: number, type: keyof PianoNote) : Note {
+ function pressNote(note: number, type: keyof PianoNote): Note | undefined {
+     if (notesDown[note] && notesDown[note][type]) {
+         return undefined;
+     }
      const pressed: Note = {
          note: note + noteOffset,
          uid: noteuid++,
@@ -85,10 +88,10 @@
          const note = index;
          ev.preventDefault();
          if (ev.repeat) return;
-         const keyboardNote = notesDown[note]?.keyboard;
-         if (down && !keyboardNote) {
-             pressNote(note, 'keyboard')
-         } else if (!down) {
+         if (down) {
+             pressNote(note, 'keyboard');
+         } else {
+             const keyboardNote = notesDown[note]?.keyboard;
              if (keyboardNote) {
                  releaseNote(keyboardNote, 'keyboard');
              } else {
@@ -99,9 +102,7 @@
  }
 
  function pointerDown (note: number) {
-     if (!notesDown[note]?.pointer) {
-         pressNote(note, 'pointer');
-     }
+     pressNote(note, 'pointer');
  }
 
  function pointerUp(note: number) {
