@@ -61,6 +61,8 @@ This is the output volume of each oscillator in decibels, with 0 being the max v
 ### Bug Reports / Feature Requests
 If you find any bugs or think of features you'd like, please file an issue on our GitHub [HERE](https://github.com/bismuthsoft/fazeoid/issues).
 
+Please use the search functionality to make sure there is not already an open issue for your bug report / feature request.
+
 ## Running your own instance
 
 Download this repo and install pnpm on your system. Then, go into the directory of this repository and type:
