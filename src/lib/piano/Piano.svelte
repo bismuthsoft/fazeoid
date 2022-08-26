@@ -100,14 +100,6 @@
          }
      }
  }
-
- function pointerDown (note: number) {
-     pressNote(note, 'pointer');
- }
-
- function pointerUp(note: number) {
-     releaseNote(note, 'pointer');
- }
 </script>
 
 <svelte:window
@@ -137,10 +129,10 @@
             class:down="{notesDown[note]?.keyboard || notesDown[note]?.pointer}"
 
             draggable=false
-            on:pointerdown="{() => pointerDown(note)}"
-            on:pointerup="{() => pointerUp(note)}"
-            on:mouseenter="{(ev) => {if (ev.buttons > 0) pointerDown(note);}}"
-            on:mouseleave="{() => pointerUp(note)}"
+            on:pointerdown="{() => pressNote(note, 'pointer')}"
+            on:pointerup="{() => releaseNote(note, 'pointer')}"
+            on:mouseenter="{(ev) => {if (ev.buttons > 0) pressNote(note, 'pointer');}}"
+            on:mouseleave="{() => releaseNote(note, 'pointer')}"
         >
             <div class='keyLabel'>
                 {(keyLabel === 'noteOctave' ? noteNames[note % 12] : '') +
