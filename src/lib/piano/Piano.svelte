@@ -5,7 +5,7 @@
  import { createEventDispatcher } from 'svelte';
  const dispatch = createEventDispatcher();
 
- export let keyLabel: 'none' | 'note' | 'noteOctave' = 'noteOctave';
+ export let keyLabel: 'none' | 'note' | 'noteOctave' = 'none';
  export let portrait: boolean;
 
  type PianoKey = {
@@ -162,7 +162,7 @@
      grid-template-rows: 1fr 1fr;
      grid-auto-flow: none;
      touch-action: none;
-     opacity: 0.7;
+     opacity: 0.6;
      overflow-x: hidden;
      overflow-y: hidden;
  }
@@ -172,16 +172,15 @@
      user-select: none;
      transform: translate(0%, -40%);
      height: 170%;
-     background: #ffffff;
+     background: white;
      border-radius: 1em;
-     border: solid #8888 .125em;
  }
  /* Octave coloring: */
  .whiteKey.oddOctave {
-     background: #dddddd;
+     background: #ddd;
  }
  .whiteKey.down {
-     background: linear-gradient(#8cf, #08f);
+     background: radial-gradient(4em at bottom, #08f, #eee);
  }
  .blackKey {
      display: grid;
@@ -191,10 +190,10 @@
      height: 115%;
      z-index: 1;
      border-radius: 1em;
-     background: #000;
+     background: black;
  }
  .blackKey.down {
-     background: linear-gradient(#4bf, #048);
+     background: radial-gradient(4em at bottom, #08f, #000);
  }
 
  .keyLabel {
