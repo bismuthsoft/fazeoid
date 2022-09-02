@@ -143,7 +143,7 @@ class Oscillator {
         let out = 0;
         if (this.wave === 'sine') {
             if (integerSines >= 1) {
-                out = Math.sin(this.phase) * this.envelope.getPosition();
+                out = Math.sin(this.phase);
             }
         } else if (this.wave === 'saw') {
             for (let i=1; i < integerSines && i < MAX_SINES; i += 1) {
