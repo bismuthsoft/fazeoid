@@ -1,5 +1,5 @@
 <script lang="ts">
- import type { Instrument } from "$lib/audio/instrument";
+ import { type Instrument, addOscillator, removeOscillator } from "$lib/audio/instrument";
  import EnvelopeEditor from "$lib/EnvelopeEditor.svelte";
  import EnvelopeViewer from "$lib/EnvelopeViewer.svelte";
  import Knob from "$lib/Knob";
@@ -20,7 +20,17 @@
         <heading />
         <div class="box">
             {#each params.oscs as osc, oscIndex}
+                <button class="addRemoveOscillator"
+                        on:click="{() => params = addOscillator(params, oscIndex)}">
+                    +
+                </button>
                 <div class="rowLabel">{oscIndex+1}</div>
+                {#if params.oscs.length > 1}
+                    <button class="addRemoveOscillator"
+                            on:click="{() => params = removeOscillator(params, oscIndex)}">
+                        -
+                    </button>
+                {/if}
             {/each}
         </div>
     </section>
