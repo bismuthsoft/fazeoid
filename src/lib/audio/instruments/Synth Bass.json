@@ -4,8 +4,8 @@
   "oscs": [
     {
       "modulation": [],
-      "pitchRatio": 8,
-      "wave": "sine",
+      "pitchRatio": 3.5,
+      "wave": "saw",
       "envelope": {
         "tag": "adsr",
         "attack": 0.005,
@@ -33,7 +33,7 @@
     {
       "modulation": [
         51,
-        20
+        16
       ],
       "pitchRatio": 1,
       "wave": "sine",
@@ -48,11 +48,11 @@
     },
     {
       "modulation": [
-        25,
+        39,
         0,
-        30
+        35
       ],
-      "pitchRatio": 1,
+      "pitchRatio": 0.5,
       "wave": "sine",
       "envelope": {
         "tag": "adsr",
