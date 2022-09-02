@@ -5,6 +5,7 @@
  import Knob from "@bismuthsoft/svelte-dj-knob/ElegantKnob.svelte";
  import ModulationPanel from "./ModulationPanel.svelte";
  import OscilloscopePanel from "$lib/OscilloscopePanel.svelte";
+ import WaveSelector from "$lib/WaveSelector.svelte";
 
  export let params: Instrument;
  export let portrait: boolean;
@@ -54,13 +55,7 @@
         <heading> Wave </heading>
         <div class="box">
             {#each params.oscs as osc}
-                {#if osc.wave === 'sine'}
-                    <button class="waveSelect" on:click="{() => osc.wave = 'saw'}">Sine</button>
-                {:else if osc.wave === 'saw'}
-                    <button class="waveSelect" on:click="{() => osc.wave = 'square'}">Saw</button>
-                {:else if osc.wave === 'square'}
-                    <button class="waveSelect" on:click="{() => osc.wave = 'sine'}">Square</button>
-                {/if}
+                <WaveSelector bind:wave="{osc.wave}"/>
             {/each}
         </div>
     </section>
@@ -153,9 +148,5 @@
  heading {
      display: block;
      text-align: center;
- }
- .waveSelect {
-     width: 4rem;
-     height: 2rem;
  }
 </style>

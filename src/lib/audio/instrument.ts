@@ -20,7 +20,7 @@ export type OscillatorParams = {
     volume: number; // Volume in decibels
 }
 
-export type WaveType = 'sine' | 'square' | 'saw';
+export type WaveType = 'sine' | 'halfSine' | 'absSine' | 'triangle' | 'square' | 'saw';
 
 export type Note  = {
     note: number; // Frequency
