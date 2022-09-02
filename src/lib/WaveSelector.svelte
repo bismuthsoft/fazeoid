@@ -34,5 +34,6 @@
  .waveSelect {
      width: 4rem;
      height: 3rem;
+     padding: .125rem;
  }
 </style>
