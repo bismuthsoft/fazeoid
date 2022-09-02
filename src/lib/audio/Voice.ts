@@ -150,12 +150,14 @@ class Oscillator {
             for (let i=1; i < integerSines/2.0 && i < MAX_SINES; i++) {
                 out += Math.cos(this.phase * 2.0 * i) / (i*i*4 - 1);
             }
-            out = 1/Math.PI + Math.sin(this.phase)/2 - 2/Math.PI * out;
+            // Normalize wave
+            out = (Math.sin(this.phase)/2 - 2/Math.PI * out) / (1 - 1.0 / Math.PI);
         } else if (this.wave === 'absSine') {
             for (let i=1; i < integerSines/2.0 && i < MAX_SINES; i++) {
                 out += Math.cos(this.phase * 2.0 * i) / (i*i*4 - 1);
             }
-            out = 2.0 / Math.PI - 4.0 / Math.PI * out;
+            // Normalize wave
+            out = 2.0 * out;
         } else if (this.wave === 'triangle') {
             for (let i=1; i < integerSines/2 && i < MAX_SINES; i++) {
                 out += Math.cos(this.phase * (i*2-1)) / ((i*2-1) * (i*2-1));
