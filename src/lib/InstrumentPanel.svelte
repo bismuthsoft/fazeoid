@@ -51,6 +51,21 @@
     </section>
 
     <section>
+        <heading> Wave </heading>
+        <div class="box">
+            {#each params.oscs as osc}
+                {#if osc.wave === 'sine'}
+                    <button class="waveSelect" on:click="{() => osc.wave = 'saw'}">Sine</button>
+                {:else if osc.wave === 'saw'}
+                    <button class="waveSelect" on:click="{() => osc.wave = 'square'}">Saw</button>
+                {:else if osc.wave === 'square'}
+                    <button class="waveSelect" on:click="{() => osc.wave = 'sine'}">Square</button>
+                {/if}
+            {/each}
+        </div>
+    </section>
+
+    <section>
         <heading> Modulation </heading>
         <div class="box">
             <ModulationPanel bind:params {knobProps} {portrait} />
@@ -138,5 +153,9 @@
  heading {
      display: block;
      text-align: center;
+ }
+ .waveSelect {
+     width: 4rem;
+     height: 2rem;
  }
 </style>

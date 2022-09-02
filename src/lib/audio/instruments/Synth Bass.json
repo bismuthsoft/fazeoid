@@ -1,10 +1,11 @@
 {
-  "version": "0.0.3",
+  "version": "0.0.4-dev1",
   "basePitch": 440,
   "oscs": [
     {
       "modulation": [],
       "pitchRatio": 8,
+      "wave": "sine",
       "envelope": {
         "tag": "adsr",
         "attack": 0.005,
@@ -19,6 +20,7 @@
         0
       ],
       "pitchRatio": 0.66,
+      "wave": "sine",
       "envelope": {
         "tag": "adsr",
         "attack": 0.5124500000000003,
@@ -34,6 +36,7 @@
         20
       ],
       "pitchRatio": 1,
+      "wave": "sine",
       "envelope": {
         "tag": "adsr",
         "attack": 0.005,
@@ -50,6 +53,7 @@
         30
       ],
       "pitchRatio": 1,
+      "wave": "sine",
       "envelope": {
         "tag": "adsr",
         "attack": 0.005,
