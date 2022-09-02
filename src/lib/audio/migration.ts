@@ -16,6 +16,11 @@ export function migrateInstrument (instrument: any): Instrument {
             instrument.title = instrument.title ?? 'Instrument';
             instrument.version = '0.0.3';
         case '0.0.3':  // Latest version
+            instrument.oscs = instrument.oscs.map((osc: OscillatorParams) => ({
+                ...osc,
+                waveType: 'sine',
+            }))
+            instrument.version = '0.0.4-dev1';
             break;
         default:
             throw new Error('UNRECOGNIZED VERSION: ' + instrument.version);
