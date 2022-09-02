@@ -10,6 +10,11 @@ It will eventually have MIDI input, and a way to share music and instruments wit
 
 [Test it out here!](https://fazeoid.netlify.app/)
 
+Supported browsers:
+ - Chrome desktop
+ - Chrome mobile
+ - Firefox desktop
+
 ### Help test new features
 Interested in what's next? [Go to Pull Requests](https://github.com/bismuthsoft/fazeoid/pulls) open a particular feature PR, and then scroll down to "Deploy Preview". Click the link, and you can check out our new features and help us to debug them.
 
