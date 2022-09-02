@@ -16,7 +16,7 @@ Supported browsers:
  - Firefox desktop
 
 ### Help test new features
-Interested in what's next? [Go to Pull Requests](https://github.com/bismuthsoft/fazeoid/pulls) open a particular feature PR, and then scroll down to "Deploy Preview". Click the link, and you can check out our new features and help us to debug them.
+Interested in what's next? To test future features [go to Pull Requests](https://github.com/bismuthsoft/fazeoid/pulls), open a feature, and find the post by netlify (bot). Click the "Deploy Preview" link, and you will be brought to a version of Fazeoid with this testing feature enabled. If you find any issues with the new feature, please leave comments so we can fix it!
 
 ## Guide
 
