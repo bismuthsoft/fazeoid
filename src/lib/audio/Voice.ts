@@ -1,6 +1,7 @@
-import type {Instrument, Note, OscillatorParams} from "./instrument";
+import type { Instrument, Note, OscillatorParams, WaveType } from "./instrument";
 import { MIN_VOLUME } from "./instrument"
 import { Envelope } from "./envelope";
+
 
 export default class Voice {
     gate: boolean;
@@ -32,7 +33,7 @@ export default class Voice {
             (osc: OscillatorParams, index) => {
                 const pitch = this.calcPitch(instrument, index);
                 const envelope = new Envelope(osc.envelope, this.srate);
-                return new Oscillator(pitch, envelope, this.srate);
+                return new Oscillator(pitch, envelope, this.srate, osc.wave);
             });
         this.setModMatrix(instrument);
         this.setOutVolumes(instrument);
@@ -41,6 +42,8 @@ export default class Voice {
     // Live edit instrument
     updateInstrument (instrument: Instrument) {
         instrument.oscs.forEach((_osc: OscillatorParams, index) => {
+            this.oscs[index].wave = _osc.wave;
+            // MUST BE DONE IN THIS ORDER. SET WAVE THEN PITCH.
             this.oscs[index].setPitch(this.calcPitch(instrument, index));
         });
         this.setModMatrix(instrument);
@@ -106,12 +109,14 @@ function scaleOscillation (depth: number): number {
 }
 
 class Oscillator {
+    lastPhase = 0;
     phase = 0;
-    phaseadd = 1;
+    phaseadd = 0;
 
     constructor (private pitch: number,
                  public envelope: Envelope,
-                 public srate: number)
+                 public srate: number,
+                 public wave: WaveType)
     {
         this.calcFrequency();
     }
@@ -121,13 +126,37 @@ class Oscillator {
         this.calcFrequency();
     }
 
-    calcFrequency () {
+    calcFrequency() {
         this.phaseadd = Math.PI * 2.0 * this.pitch / this.srate;
     }
 
-    getSample () {
+    getSample(): number {
+        const MAX_FREQ = this.srate / 2.0; // Mutes all waves higher than this frequency
+        const MAX_SINES = 200; // Maximum number of times to generate sine waves
+
+
         this.phase += this.phaseadd;
-        return Math.sin(this.phase) * this.envelope.getPosition();
+        const realPhaseAdd = Math.abs(this.phase - this.lastPhase);
+        // How many integral sine waves can fit before passing nyquist frequency or max sines?
+        const integerSines = Math.PI / realPhaseAdd;
+
+        let out = 0;
+        if (this.wave === 'sine') {
+            if (integerSines >= 1) {
+                out = Math.sin(this.phase) * this.envelope.getPosition();
+            }
+        } else if (this.wave === 'saw') {
+            for (let i=1; i < integerSines && i < MAX_SINES; i += 1) {
+                out += Math.sin(this.phase * i) / i / 2;
+            }
+        } else if (this.wave === 'square') {
+            for (let i=1; i < integerSines && i < MAX_SINES * 2.0; i += 2) {
+                out += Math.sin(this.phase * i) / i;
+            }
+        }
+
+        this.lastPhase = this.phase;
+        return out * this.envelope.getPosition();
     }
 
     modulateWith (sample: number, modDepth: number) {
