@@ -4,7 +4,7 @@
  function generatePath (data: number[]) : string {
      const strs: string[] = [];
      data.forEach((d: number, i: number) => strs.push(
-         `${i / (waveData.length - 1)},${d}`
+         `${i / (waveData.length - 1)},${-d}`
      ));
      return strs.join(' ');
  }
