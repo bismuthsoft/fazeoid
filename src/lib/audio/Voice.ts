@@ -141,17 +141,33 @@ class Oscillator {
         const integerSines = Math.PI / realPhaseAdd;
 
         let out = 0;
+        // https://www.sfu.ca/sonic-studio-webdav/handbook/Fourier_Theorem.html
         if (this.wave === 'sine') {
             if (integerSines >= 1) {
                 out = Math.sin(this.phase);
             }
-        } else if (this.wave === 'saw') {
-            for (let i=1; i < integerSines && i < MAX_SINES; i += 1) {
-                out += Math.sin(this.phase * i) / i / 2;
+        } else if (this.wave === 'halfSine') {
+            for (let i=1; i < integerSines/2.0 && i < MAX_SINES; i++) {
+                out += Math.cos(this.phase * 2.0 * i) / (i*i*4 - 1);
             }
+            out = 1/Math.PI + Math.sin(this.phase)/2 - 2/Math.PI * out;
+        } else if (this.wave === 'absSine') {
+            for (let i=1; i < integerSines/2.0 && i < MAX_SINES; i++) {
+                out += Math.cos(this.phase * 2.0 * i) / (i*i*4 - 1);
+            }
+            out = 2.0 / Math.PI - 4.0 / Math.PI * out;
+        } else if (this.wave === 'triangle') {
+            for (let i=1; i < integerSines/2 && i < MAX_SINES; i++) {
+                out += Math.cos(this.phase * (i*2-1)) / ((i*2-1) * (i*2-1));
+            }
+            out *= 8 / Math.PI / Math.PI;
         } else if (this.wave === 'square') {
-            for (let i=1; i < integerSines && i < MAX_SINES * 2.0; i += 2) {
-                out += Math.sin(this.phase * i) / i;
+            for (let i=1; i < integerSines/2 && i < MAX_SINES; i++) {
+                out += Math.sin(this.phase * (i*2-1)) / (i*2-1);
+            }
+        } else if (this.wave === 'saw') {
+            for (let i=1; i < integerSines && i < MAX_SINES; i++) {
+                out += Math.sin(this.phase * i) / i / 2;
             }
         }
 
