@@ -21,6 +21,7 @@ export function migrateInstrument (instrument: any): Instrument {
                 waveType: 'sine',
             }))
             instrument.version = '0.0.4-dev1';
+        case '0.0.4-dev1':
             break;
         default:
             throw new Error('UNRECOGNIZED VERSION: ' + instrument.version);
