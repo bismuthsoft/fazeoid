@@ -3,19 +3,6 @@
 
  export let wave: WaveType;
 
- function cycleWave() {
-     wave = (() => {
-         switch (wave) {
-             case 'sine': return 'halfSine';
-             case 'halfSine': return 'absSine';
-             case 'absSine': return 'triangle';
-             case 'triangle': return 'square';
-             case 'square': return 'saw';
-             case 'saw': return 'sine';
-         }
-     })();
- }
-
  const waveNames: Record<WaveType, string> = {
      sine: 'Sine',
      halfSine: 'Half Sine',
@@ -26,13 +13,15 @@
  }
 </script>
 
-<button class="waveSelect" on:click="{cycleWave}">
-    {waveNames[wave]}
-</button>
+<select bind:value="{wave}">
+    {#each Object.entries(waveNames) as [value, name]}
+        <option {value}>{name}</option>
+    {/each}
+</select>
 
 <style>
- .waveSelect {
-     width: 4rem;
+ select {
+     width: 6rem;
      height: 3rem;
      padding: .125rem;
  }
