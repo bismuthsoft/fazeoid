@@ -61,10 +61,10 @@
      padding: 0.5rem 1rem;
      border-radius: 1em;
      background: var(--bg-color);
-     --bg-color: #0008;
+     --bg-color: #000000A2;
      backdrop-filter: blur(5px);
      color: white;
-     filter: drop-shadow(4px 4px 10px #3338);
+     box-shadow: 0 0 10px #3338;
  }
  @media (max-width: 680px) {
      .App {
