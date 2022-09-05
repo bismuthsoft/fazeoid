@@ -28,4 +28,8 @@
  input, textarea, select {
      font-family: inherit;
  }
+ /* netlify deploy preview bar */
+ div[data-netlify-deploy-id] {
+     display: none
+ }
 </style>
