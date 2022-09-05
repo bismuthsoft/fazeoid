@@ -11,7 +11,7 @@
 <div class="waveSelect" class:portrait>
     {#each waves as value}
         <button on:click="{() => wave = value}">
-            <WaveIcon wave="{value}"/>
+            <WaveIcon wave="{value}" selected="{value === wave}"/>
         </button>
     {/each}
 </div>
