@@ -28,6 +28,9 @@
  input, textarea, select {
      font-family: inherit;
  }
+ .ElegantKnob path.background {
+     opacity: 0.5;
+ }
  /* netlify deploy preview bar */
  div[data-netlify-deploy-id] {
      display: none

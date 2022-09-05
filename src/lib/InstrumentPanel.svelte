@@ -2,7 +2,7 @@
  import type { Instrument } from "$lib/audio/instrument";
  import EnvelopeEditor from "$lib/EnvelopeEditor.svelte";
  import EnvelopeViewer from "$lib/EnvelopeViewer.svelte";
- import Knob from "$lib/Knob";
+ import Knob from "@bismuthsoft/svelte-dj-knob/ElegantKnob.svelte";
  import ModulationPanel from "./ModulationPanel.svelte";
  import OscilloscopePanel from "$lib/OscilloscopePanel.svelte";
 
@@ -43,7 +43,7 @@
             {#each params.oscs as osc, oscIndex}
                 <Knob bind:value="{params.oscs[oscIndex].pitchRatio}"
                       min="{0}" max="{10}"
-                      pointerColor="#fb6060"
+                      valueColor="#fb6060"
                       {...knobProps}
                 />
             {/each}
@@ -63,7 +63,7 @@
             {#each params.oscs as osc, oscIndex}
                 <Knob bind:value="{params.oscs[oscIndex].volume}"
                       min="{-72}" max="{0}"
-                      pointerColor="#fff"
+                      valueColor="#fff"
                       {...knobProps}
                 />
             {/each}
