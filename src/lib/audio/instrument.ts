@@ -30,18 +30,26 @@ export function sineWave (numOscs = 4) : Instrument {
         title: 'Sine Wave',
         version: '0.0.3',
         basePitch: 440,
-        oscs: Array(numOscs).fill(0).map((_, i) => ({
-            modulation: Array(i).fill(0),
-            pitchRatio: 1,
-            envelope: {
-                tag: 'adsr',
-                attack: 0.125,
-                decay: 0.2,
-                sustain: 0.5,
-                release: 0.2,
-            },
-            volume: i === numOscs-1 ? -12 : MIN_VOLUME,
-        })),
+        oscs: Array(numOscs).fill(0).map((_, i) => (
+            i === numOscs - 1 ? defaultOscillator(i) : {
+                ...defaultOscillator(i),
+                volume: -12,
+            })),
+    }
+}
+
+export function defaultOscillator(index: number): OscillatorParams {
+    return {
+        modulation: Array(index).fill(0),
+        pitchRatio: 1,
+        envelope: {
+            tag: 'adsr',
+            attack: 0.125,
+            decay: 0.2,
+            sustain: 0.5,
+            release: 0.2,
+        },
+        volume: -72,
     }
 }
 
@@ -58,4 +66,33 @@ export function randomizeInstrument (params: Instrument) : Instrument {
             pitchRatio: i === params.oscs.length-1 ? 1 : Math.pow(Math.random(),2) * 10,
         })),
     }
+}
+
+// Remove an oscillator from an instrument
+export function removeOscillator(params: Instrument, index: number): Instrument {
+    if (params.oscs.length === 1) {
+        console.log('Refusing to make empty instrument');
+        return params;
+    }
+    let oscs = params.oscs.map(({modulation: mod, ...rest}) => ({
+        modulation: [...mod.slice(0,index), ...mod.slice(index+1)],
+        ...rest,
+    }));
+    console.log(oscs);
+    return {
+        ...params,
+        oscs: [...oscs.slice(0,index), ...oscs.slice(index+1)],
+    };
+}
+
+// Add an oscillator to an instrument
+export function addOscillator(params: Instrument, index: number): Instrument {
+    const oscs = params.oscs.map(({modulation: mod, ...rest}, i) => ({
+        ...rest,
+        modulation: i < index ? mod : [...mod.slice(0,index), 0, ...mod.slice(index)],
+    }));
+    return {
+        ...params,
+        oscs: [...oscs.slice(0,index), defaultOscillator(index), ...oscs.slice(index)],
+    };
 }
