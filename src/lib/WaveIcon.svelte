@@ -1,6 +1,7 @@
 <script lang="ts">
  import type { WaveType } from '$lib/audio/instrument';
  export let wave: WaveType;
+ export let selected: boolean;
 </script>
 
 <svg
@@ -11,7 +12,7 @@
     xmlns="http://www.w3.org/2000/svg"
     preserveAspectRatio="none"
 >
-    <path class="waveIcon {wave}" d="m 0,100 V 0 H 100 V 200 H 200 V 10"/>
+    <path class="waveIcon {wave}" class:selected d="m 0,100 V 0 H 100 V 200 H 200 V 10"/>
 </svg>
 
 <style>
@@ -23,7 +24,13 @@
      fill: none;
      stroke: white;
      stroke-width: 0.1em;
+     stroke-linejoin: round;
+     stroke-linecap: round;
      vector-effect: non-scaling-stroke;
+ }
+ path.selected {
+     stroke-width: 0.2em;
+     stroke: #4df;
  }
 
  .sine {
