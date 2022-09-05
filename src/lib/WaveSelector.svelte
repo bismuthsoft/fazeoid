@@ -1,28 +1,36 @@
 <script lang="ts">
  import type { WaveType } from '$lib/audio/instrument';
+ import WaveIcon from "$lib/WaveIcon.svelte";
 
  export let wave: WaveType;
+ export let portrait: boolean;
 
- const waveNames: Record<WaveType, string> = {
-     sine: 'Sine',
-     halfSine: 'Half Sine',
-     absSine: 'Abs Sine',
-     triangle: 'Triangle',
-     square: 'Square',
-     saw: 'Saw',
- }
+ const waves: WaveType[] = ['sine', 'halfSine', 'absSine', 'triangle', 'square', 'saw'];
 </script>
 
-<select bind:value="{wave}">
-    {#each Object.entries(waveNames) as [value, name]}
-        <option {value}>{name}</option>
+<div class="waveSelect" class:portrait>
+    {#each waves as value}
+        <button on:click="{() => wave = value}">
+            <WaveIcon wave="{value}"/>
+        </button>
     {/each}
-</select>
+</div>
 
 <style>
- select {
-     width: 6rem;
-     height: 3rem;
-     padding: .125rem;
+ .waveSelect {
+     display: grid;
+     grid-auto-flow: row;
+     grid-template-columns: 1fr 1fr;
+     grid-gap: 0.2em;
+ }
+
+ .waveSelect.portrait {
+     grid-template-columns: 1fr 1fr 1fr;
+ }
+
+ button {
+     width: 3em;
+     height: 2em;
+     padding: 0.2em;
  }
 </style>

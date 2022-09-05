@@ -55,7 +55,7 @@
         <heading> Wave </heading>
         <div class="box">
             {#each params.oscs as osc}
-                <WaveSelector bind:wave="{osc.wave}"/>
+                <WaveSelector bind:wave="{osc.wave}" {portrait}/>
             {/each}
         </div>
     </section>
