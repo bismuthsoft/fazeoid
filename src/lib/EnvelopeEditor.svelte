@@ -1,5 +1,5 @@
 <script lang="ts">
- import Knob from '$lib/Knob';
+ import Knob from '@bismuthsoft/svelte-dj-knob/ElegantKnob.svelte';
  import type { EnvelopeParams, AdsrEnvelope } from '$lib/audio/envelope';
 
  export let envelope: EnvelopeParams;
@@ -25,7 +25,7 @@
         {#each knobProps as {label, min, max}, index}
             <div class="knobContainer">
                 <Knob bind:value="{adsr[label]}" min="{min}" max="{max}"
-                      pointerColor="#80a0ff" size="3.5rem"
+                      valueColor="#80a0ff" size="3.5rem"
                       numTicks="{0}"
                 />
             </div>
