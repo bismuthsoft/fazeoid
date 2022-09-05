@@ -4,23 +4,22 @@
   "oscs": [
     {
       "modulation": [],
-      "pitchRatio": 3.5,
-      "wave": "saw",
+      "pitchRatio": 8,
       "envelope": {
         "tag": "adsr",
         "attack": 0.005,
         "decay": 0.4029999999999998,
         "sustain": 0.26000000000000006,
-        "release": 0.07465000000000001
+        "release": 0.085
       },
-      "volume": -72
+      "volume": -72,
+      "wave": "halfSine"
     },
     {
       "modulation": [
         0
       ],
       "pitchRatio": 0.66,
-      "wave": "sine",
       "envelope": {
         "tag": "adsr",
         "attack": 0.5124500000000003,
@@ -28,15 +27,15 @@
         "sustain": 0.52,
         "release": 0.07465000000000001
       },
-      "volume": -72
+      "volume": -72,
+      "wave": "sine"
     },
     {
       "modulation": [
         51,
-        16
+        20
       ],
       "pitchRatio": 1,
-      "wave": "sine",
       "envelope": {
         "tag": "adsr",
         "attack": 0.005,
@@ -44,16 +43,16 @@
         "sustain": 0.19,
         "release": 0.05475000000000001
       },
-      "volume": -72
+      "volume": -72,
+      "wave": "sine"
     },
     {
       "modulation": [
-        39,
+        25,
         0,
-        35
+        30
       ],
-      "pitchRatio": 0.5,
-      "wave": "sine",
+      "pitchRatio": 1,
       "envelope": {
         "tag": "adsr",
         "attack": 0.005,
@@ -61,7 +60,8 @@
         "sustain": 0.5,
         "release": 0.13034999999999974
       },
-      "volume": -12
+      "volume": -12,
+      "wave": "sine"
     }
   ],
   "title": "Synth Bass"
