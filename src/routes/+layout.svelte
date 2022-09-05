@@ -23,7 +23,7 @@
      cursor: pointer;
  }
  button path {
-     stroke: white !important;
+     stroke: white;
  }
  input, textarea, select {
      font-family: inherit;
