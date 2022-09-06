@@ -13,7 +13,7 @@ Supported browsers:
  - Chrome Android
  - Firefox desktop
 
-Please note that Firefox Android, Safari, and Chrome on iOS are all unsupported.
+Please note that Firefox Android, Safari, and all iOS browsers are unsupported.
 
 ### Help test new features
 Interested in what's next? To test future features [go to Pull Requests](https://github.com/bismuthsoft/fazeoid/pulls), open a feature, and find the post by netlify (bot). Click the "Deploy Preview" link, and you will be brought to a version of Fazeoid with this testing feature enabled. If you find any issues with the new feature, please leave comments so we can fix it!
