@@ -4,7 +4,7 @@
 
 ## What is This?
 
-This is a synthesizer web application. It is designed to make it easy to design and visualize your own sounds.
+This is a FM synthesizer web application. It is designed to make it easy to design and visualize your own sounds.
 
 [Test it out here!](https://fazeoid.netlify.app/)
 
@@ -13,16 +13,13 @@ Supported browsers:
  - Chrome Android
  - Firefox desktop
 
-Unspported browsers:
- - Firefox Android
- - Safari
- - Chrome iOS
+Please note that Firefox Android, Safari, and Chrome on iOS are all unsupported.
 
 ### Help test new features
 Interested in what's next? To test future features [go to Pull Requests](https://github.com/bismuthsoft/fazeoid/pulls), open a feature, and find the post by netlify (bot). Click the "Deploy Preview" link, and you will be brought to a version of Fazeoid with this testing feature enabled. If you find any issues with the new feature, please leave comments so we can fix it!
 
 ### Bug Reports / Feature Requests
-If you find any bugs or think of features you'd like, please file an issue on our GitHub [HERE](https://github.com/bismuthsoft/fazeoid/issues).
+If you find any bugs or think of features you'd like, [please file an issue on our GitHub](https://github.com/bismuthsoft/fazeoid/issues).
 
 Please use the search functionality to make sure there is not already an open issue for your bug report / feature request.
 
@@ -33,41 +30,40 @@ An envelope controls the volume of a wave over time. This volume is the depth at
 
 ![](https://raw.githubusercontent.com/bismuthsoft/fazeoid/master/assets/envelopes.png)
 
-When a note is pressed, its volume will 'attack' up to full volume, and then 'decay' down to the sustain level. It will stay at the sustain level until released. When a note is let go, the volume will 'release' down to 0. This is represented by the envelope graph next to the 4 knobs.
+When a note is pressed, its volume will 'attack' up to full volume, and then 'decay' down to the sustain level. It will stay at the sustain level until released. When a note is let go, the volume will 'release' down to 0. All off this is represented by the envelope graph next to the 4 knobs.
 
-TIP: For longer envelope, feel free to type in a higher value.
+> TIP: For longer envelope, single click a knob to type in a higher value.
 
-TIP: A value of 0 is actually a very short release as to avoid clicking. Typing in a 0 gives a genuinely instant slope, which may cause an audible click.
+> TIP: A value of 0 is actually a very short release as to avoid clicking. Typing in a 0 gives a genuinely instant slope, which may cause an audible click.
 
 ### Pitch Ratio
 ![](https://raw.githubusercontent.com/bismuthsoft/fazeoid/master/assets/pitchratio.png)
 
-This is the pitch of an oscillator, which is added to the modulation inputs to determine the total pitch.
+This is the pitch of an oscillator, which is added to the modulation inputs to determine the total pitch. A ratio of 1 is the current note, 0.5 is half, 2 is double, etc. A pitch ratio of 0 means the oscillator's pitch is determined entirely by the sum of modulation inputs.
 
-If there is no modulation, the oscillator is just a wave at this pitch. For example, a pitch ratio of 1 is the same frequency as the currently playing note, 2 is twice the frequency, and 0.5 is half.
-A pitch ratio of 0 means the oscillator's phase is determined entirely by the sum of modulation inputs.
-If there is both a pitch ratio above 0 and modulation inputs, the phase of the wave is the sum of this base pitch and the modulation inputs.
+> TIP: It sounds the most consistent when every pitch ratio is set to some integer fraction, for example 1/4th (0.25) or 3/2s (1.5).
 
-TIP: Phase modulation synths sound the most consistent when every pitch ratio is set to some integer fraction, for example 1/4th (0.25) or 3/2s (1.5).
-
-TIP: To emulate a pitch LFO, you can set the pitch ratio to a very small number.
+> TIP: To emulate a pitch LFO or vibrato, you can set the pitch ratio to a very small number.
 
 ### Modulation
-#### What is Phase Modulation?
-The type of modulation used is called "phase modulation", but it is pretty much the same as FM, or "frequency modulation". It works like this: one wave is the "modulator", this is the lower-numbered wave. The other is the "carrier", the higher-numbered wave. The modulator's amplitude is used to change the carrier's phase. When the modulator has a positive amplitude (the wave is in the top half of the scope), it is raising the pitch of the carrier wave (adding to the carrier's phase). When it has a negative amplitude, it is lowering the pitch (subtracting from its phase). This causes the pitch of the carrier wave to vary at the frequency of the modulator, which results in a harmonically rich signal characteristic of FM synths.
+Modulation flows from the lowest oscillator to the highest, which causes an oscillating change in frequency -- similar to a pitch vibrato, but taken to its mathematical extreme.
 
-#### The Modulation Matrix
-The modulation matrix controls how much each oscillator modulates higher-numbered oscillators. The volume of a modulator is added to the phase of a carrier in the amount specified by the knob position. 0 is no modulation, 100 is the highest level of modulation. This knob is non-linear for the sake of ergonomics.
+The amplitude of each oscillator changes the frequency of each higher-numbered oscillator by the amount specified in the modulation matrix. The number and arrow shows which oscillator is the source (modulator) for that row or column. The destination (carrier) is determined by the oscillator label at the start of the row or column. Oscillator 1 can only be a modulator, and Oscillator 4 can only be a carrier. Oscillators between function both as carriers and modulators; modulation flows into them and is transformed into a different modulation which flows out.
 
-The arrow pointing in shows which oscillator is the modulator for that row or column. The carrier is determined by the oscillator label at the start of the row or column.
+Modulation depth range ((x/100) ^ e)
+ - 0 No modulation
+ - 25 25Hz
+ - 50 150Hz
+ - 75 450Hz
+ - 100 1000Hz
 
 Landscape mode matrix:
 
-![](https://raw.githubusercontent.com/bismuthsoft/fazeoid/master/assets/modulation2.png)
+<img src=https://raw.githubusercontent.com/bismuthsoft/fazeoid/master/assets/modulation2.png style="width:60%"></img>
 
 Portrait mode matrix:
 
-![](https://raw.githubusercontent.com/bismuthsoft/fazeoid/master/assets/modulation3.png)
+<img src=https://raw.githubusercontent.com/bismuthsoft/fazeoid/master/assets/modulation3.png style="width:70%"></img>
 
 ### Volume
 This is the output volume of each oscillator in decibels, with 0 being the max volume and -72 being silent. By default, only the last oscillator makes any sound. However, you can use these knobs to hear any oscillator.
