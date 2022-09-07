@@ -12,7 +12,7 @@
     xmlns="http://www.w3.org/2000/svg"
     preserveAspectRatio="none"
 >
-    <path class="waveIcon {wave}" class:selected d="m 0,100 V 0 H 100 V 200 H 200 V 10"/>
+    <path class="{wave}" class:selected d="m 0,100 V 0 H 100 V 200 H 200 V 10"/>
 </svg>
 
 <style>
