@@ -10,7 +10,7 @@
  }
 </script>
 
-<svg class="scope" viewBox="-0.05 -1.05 1.1 2.1" preserveAspectRatio="none">
+<svg class="scope" viewBox="-0.05 -1.25 1.1 2.5" preserveAspectRatio="none">
     <polyline class="scopeLine" points="{generatePath(waveData)}"/>
 </svg>
 
