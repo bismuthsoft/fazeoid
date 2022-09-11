@@ -156,19 +156,34 @@ class Oscillator {
                 out += Math.cos(this.phase * 2 * i) / (i*i*4 - 1);
             }
             out = 2 * out;
-        } else if (this.wave === 'triangle') {
-            for (let i=1; i < integerSines/2 && i < MAX_SINES; i++) {
-                out += Math.cos(this.phase * (i*2-1)) / ((i*2-1) * (i*2-1));
+        } else if (this.wave === 'quarterSine') {
+            // NOTE: this wave has the same harmonic profile as saw wave, but
+            // different phase relationships make this more useful.
+
+            // Generate absolute value sine
+            let absSine = 1/2;
+            for (let i=1; i < integerSines/2 && i < MAX_SINES/2; i++) {
+                absSine -= Math.cos(this.phase * i) / (i*i*4 - 1);
             }
-            out *= 8 / Math.PI / Math.PI;
+            // Multiply by pulse wave to get pulsed sine
+            let square = 0;
+            for (let i=1; i < integerSines/2 && i < MAX_SINES/2; i++) {
+                square += Math.sin(this.phase * (i*2-1)) / (i*2-1);
+            }
+            out = absSine * (square / Math.PI * 2.0 + 0.5);
+            out = (out - 1/4) * 2.0;
+        } else if (this.wave === 'pulseSine') {
+            // Generate a square wave
+            for (let i=1; i < integerSines/2 && i < MAX_SINES; i++) {
+                out += Math.sin(this.phase * (i*2-1)) / (i*2-1);
+            }
+            // Multiply by sine wave to get pulsed sine
+            out = Math.sin(this.phase * 2.0) * (out / Math.PI * 2.0 + 0.5);
         } else if (this.wave === 'square') {
             for (let i=1; i < integerSines/2 && i < MAX_SINES; i++) {
                 out += Math.sin(this.phase * (i*2-1)) / (i*2-1);
             }
-        } else if (this.wave === 'saw') {
-            for (let i=1; i < integerSines && i < MAX_SINES; i++) {
-                out += Math.sin(this.phase * i) / i / 2;
-            }
+            out = out / Math.PI * 4.0;
         }
 
         this.lastPhase = this.phase;

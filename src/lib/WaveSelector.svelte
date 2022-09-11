@@ -5,7 +5,7 @@
  export let wave: WaveType;
  export let portrait: boolean;
 
- const waves: WaveType[] = ['sine', 'halfSine', 'absSine', 'triangle', 'square', 'saw'];
+ const waves: WaveType[] = ['sine', 'halfSine', 'absSine', 'quarterSine', 'pulseSine', 'square'];
 </script>
 
 <div class="waveSelect" class:portrait>
