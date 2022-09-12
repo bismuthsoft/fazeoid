@@ -131,14 +131,12 @@ class Oscillator {
     }
 
     getSample(): number {
-        const MAX_FREQ = this.srate / 2.0; // Mutes all waves higher than this frequency
         const MAX_SINES = 200; // Maximum number of times to generate sine waves
-
 
         this.phase += this.phaseadd;
         const realPhaseAdd = Math.abs(this.phase - this.lastPhase);
         // How many integral sine waves can fit before passing nyquist frequency or max sines?
-        const integerSines = Math.PI / realPhaseAdd;
+        const integerSines = Math.floor(2.0 * Math.PI / realPhaseAdd);
 
         let out = 0;
         // https://www.sfu.ca/sonic-studio-webdav/handbook/Fourier_Theorem.html
