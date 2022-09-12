@@ -131,7 +131,8 @@ class Oscillator {
     }
 
     getSample(): number {
-        const MAX_SINES = 60; // Maximum number of times to generate sine waves
+        const MAX_SINES = 20; // Maximum number of times to generate sine waves
+        const rolloff = (x: number) => 1 - Math.pow((x-1)/MAX_SINES, 0.7);
 
         this.phase += this.phaseadd;
         const realPhaseAdd = Math.abs(this.phase - this.lastPhase);
@@ -166,19 +167,19 @@ class Oscillator {
             // Multiply by pulse wave to get pulsed sine
             let square = 0;
             for (let i=1; i < integerSines/2 && i < MAX_SINES/2; i++) {
-                square += Math.sin(this.phase * (i*2-1)) / (i*i);
+                square += Math.sin(this.phase * (i*2-1)) / (i*2-1) * rolloff(i*2);
             }
             out = (absSine + 0.5) * (square / Math.PI * 2.0 + 0.5) * 2 - 0.5;
         } else if (this.wave === 'pulseSine') {
             // Generate a square wave
             for (let i=1; i < integerSines/2 && i < MAX_SINES; i++) {
-                out += Math.sin(this.phase * (i*2-1)) / (i*i);
+                out += Math.sin(this.phase * (i*2-1)) / (i*2-1) * rolloff(i);
             }
             // Multiply by sine wave to get pulsed sine
             out = Math.sin(this.phase * 2.0) * (out / Math.PI * 2.0 + 0.5);
         } else if (this.wave === 'square') {
             for (let i=1; i < integerSines/2 && i < MAX_SINES; i++) {
-                out += Math.sin(this.phase * (i*2-1)) / (i*i);
+                out += Math.sin(this.phase * (i*2-1)) / (i*2-1) * rolloff(i);
             }
             out = out / Math.PI * 4.0;
         }
