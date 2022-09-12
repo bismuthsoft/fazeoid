@@ -56,13 +56,14 @@ export function defaultInstrument(): Instrument {
 
 export function randomizeInstrument (params: Instrument) : Instrument {
     const waves: WaveType[] = ['sine', 'halfSine', 'absSine', 'quarterSine', 'pulseSine', 'square'];
+    const ratio = () => Math.floor(Math.random() * 10) / Math.ceil(Math.random() * 11);
     return {
         ...params,
         oscs: Array(params.oscs.length).fill(0).map((_, i) => ({
             ...params.oscs[i],
             wave: waves[Math.floor(Math.random()*6)],
             modulation: Array(i).fill(0).map(() => Math.pow(Math.random(),params.oscs.length-1)*100),
-            pitchRatio: i === params.oscs.length-1 ? 1 : Math.pow(Math.random(),2) * 10,
+            pitchRatio: i === params.oscs.length-1 ? 1 : ratio(),
         })),
     }
 }
