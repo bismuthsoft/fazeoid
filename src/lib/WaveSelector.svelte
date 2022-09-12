@@ -5,7 +5,7 @@
  export let wave: WaveType;
  export let portrait: boolean;
 
- const waves: WaveType[] = ['sine', 'halfSine', 'absSine', 'quarterSine', 'pulseSine', 'square'];
+ const waves: WaveType[] = ['sine', 'absSine', 'halfSine', 'quarterSine', 'pulseSine', 'square'];
 </script>
 
 <div class="waveSelect" class:portrait>
@@ -25,7 +25,8 @@
  }
 
  .waveSelect.portrait {
-     grid-template-columns: 1fr 1fr 1fr;
+     grid-auto-flow: column;
+     grid-template-rows: 1fr 1fr;
  }
 
  button {
