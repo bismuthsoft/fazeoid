@@ -1,10 +1,11 @@
-import type {EnvelopeParams} from './envelope';
-import defaultInstrumentData from './instruments/Synth Bass.json';
+import VERSION from "../version";
+import type {EnvelopeParams} from "./envelope";
+import defaultInstrumentData from "./instruments/Synth Bass.json";
 
 export const MIN_VOLUME = -72; // Volume at which things will be zeroed
 
 export type Instrument = {
-    version: '0.0.4-dev1';
+    version: typeof VERSION;
     title: string; // Name of instrument
     basePitch: number; // Base pitch in Hz
     oscs: OscillatorParams[]; // Oscillator config
@@ -31,7 +32,7 @@ export type Note  = {
 export function sineWave (numOscs = 4) : Instrument {
     return {
         title: 'Sine Wave',
-        version: '0.0.4-dev1',
+        version: VERSION,
         basePitch: 440,
         oscs: Array(numOscs).fill(0).map((_, i) => ({
             modulation: Array(i).fill(0),
