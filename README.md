@@ -10,6 +10,8 @@ It will eventually have MIDI input, and a way to share music and instruments wit
 
 [Test it out here!](https://fazeoid.netlify.app/)
 
+[View changelog to see what's new.](https://github.com/bismuthsoft/fazeoid/blob/waveforms/CHANGES.md)
+
 ## Guide
 
 ### ADSR Envelope
