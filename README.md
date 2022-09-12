@@ -7,6 +7,7 @@
 This is a FM synthesizer web application. It is designed to make it easy to design and visualize your own sounds.
 
 [Test it out here!](https://fazeoid.netlify.app/)
+[View changelog to see what's new.](https://github.com/bismuthsoft/fazeoid/CHANGES.md)
 
 Supported browsers:
  - Chrome desktop
@@ -22,6 +23,7 @@ Interested in what's next? To test future features [go to Pull Requests](https:/
 If you find any bugs or think of features you'd like, [please file an issue on our GitHub](https://github.com/bismuthsoft/fazeoid/issues).
 
 Please use the search functionality to make sure there is not already an open issue for your bug report / feature request.
+
 
 ## Guide
 
