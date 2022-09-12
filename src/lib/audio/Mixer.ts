@@ -1,3 +1,4 @@
+import VERSION from '../version';
 import type {Note, Instrument} from './instrument'
 import Voice from './Voice.js'
 
@@ -11,7 +12,8 @@ export class Mixer {
 
     writeWave (channels: Float32Array[]) {
         channels.forEach((c) => c.fill(0));
-        this.voices.map((voice) => voice.addWave(channels));
+        this.voices.forEach((voice) => voice.addWave(channels));
+
         // Deallocate stopped notes. Doesn't need to run often.
         this.voices = this.voices.filter((v) => !v.isStopped());
     }
@@ -39,6 +41,11 @@ export class Mixer {
     }
 
     setInstrument (index: number, instrument: Instrument) {
+        if (instrument.version !== VERSION) {
+            throw new Error(`Incompatible instrument version:
+got: ${instrument.version}
+expected: ${VERSION}`);
+        }
         this.instruments[index] = instrument;
         this.voices.forEach(v => {
             // Live update
