@@ -5,6 +5,7 @@
  import Knob from "@bismuthsoft/svelte-dj-knob/ElegantKnob.svelte";
  import ModulationPanel from "./ModulationPanel.svelte";
  import OscilloscopePanel from "$lib/OscilloscopePanel.svelte";
+ import WaveSelector from "$lib/WaveSelector.svelte";
 
  export let params: Instrument;
  export let portrait: boolean;
@@ -46,6 +47,15 @@
                       valueColor="#fb6060"
                       {...knobProps}
                 />
+            {/each}
+        </div>
+    </section>
+
+    <section>
+        <heading> Wave </heading>
+        <div class="box">
+            {#each params.oscs as osc}
+                <WaveSelector bind:wave="{osc.wave}" {portrait}/>
             {/each}
         </div>
     </section>
