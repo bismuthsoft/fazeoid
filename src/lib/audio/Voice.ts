@@ -131,7 +131,7 @@ class Oscillator {
     }
 
     getSample(): number {
-        const MAX_SINES = 200; // Maximum number of times to generate sine waves
+        const MAX_SINES = 60; // Maximum number of times to generate sine waves
 
         this.phase += this.phaseadd;
         const realPhaseAdd = Math.abs(this.phase - this.lastPhase);
@@ -159,8 +159,8 @@ class Oscillator {
             // different phase relationships make this more useful.
 
             // Generate absolute value sine
-            let absSine = 1/2;
-            for (let i=1; i < integerSines/2 && i < MAX_SINES/2; i++) {
+            let absSine = 0;
+            for (let i=1; i < integerSines && i < MAX_SINES/2; i++) {
                 absSine -= Math.cos(this.phase * i) / (i*i*4 - 1);
             }
             // Multiply by pulse wave to get pulsed sine
@@ -168,8 +168,7 @@ class Oscillator {
             for (let i=1; i < integerSines/2 && i < MAX_SINES/2; i++) {
                 square += Math.sin(this.phase * (i*2-1)) / (i*i);
             }
-            out = absSine * (square / Math.PI * 2.0 + 0.5);
-            out = (out - 1/4) * 2.0;
+            out = (absSine + 0.5) * (square / Math.PI * 2.0 + 0.5) * 2 - 0.5;
         } else if (this.wave === 'pulseSine') {
             // Generate a square wave
             for (let i=1; i < integerSines/2 && i < MAX_SINES; i++) {
