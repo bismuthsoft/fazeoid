@@ -168,20 +168,20 @@ class Oscillator {
             // Multiply by pulse wave to get pulsed sine
             let square = 0;
             for (let i=1; i < integerSines/2 && i < MAX_SINES/2; i++) {
-                square += Math.sin(this.phase * (i*2-1)) / (i*2-1);
+                square += Math.sin(this.phase * (i*2-1)) / (i*i);
             }
             out = absSine * (square / Math.PI * 2.0 + 0.5);
             out = (out - 1/4) * 2.0;
         } else if (this.wave === 'pulseSine') {
             // Generate a square wave
             for (let i=1; i < integerSines/2 && i < MAX_SINES; i++) {
-                out += Math.sin(this.phase * (i*2-1)) / (i*2-1);
+                out += Math.sin(this.phase * (i*2-1)) / (i*i);
             }
             // Multiply by sine wave to get pulsed sine
             out = Math.sin(this.phase * 2.0) * (out / Math.PI * 2.0 + 0.5);
         } else if (this.wave === 'square') {
             for (let i=1; i < integerSines/2 && i < MAX_SINES; i++) {
-                out += Math.sin(this.phase * (i*2-1)) / (i*2-1);
+                out += Math.sin(this.phase * (i*2-1)) / (i*i);
             }
             out = out / Math.PI * 4.0;
         }
