@@ -8,11 +8,7 @@ const config = {
 	preprocess: preprocess(),
 
 	kit: {
-		adapter: adapter(),
-        browser: {
-            // disabling router app-wide saves some cpu cycles
-            router: false
-        }
+		adapter: adapter()
 	}
 };
 
