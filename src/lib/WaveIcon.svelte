@@ -5,8 +5,6 @@
 </script>
 
 <svg
-    width="200mm"
-    height="200mm"
     viewBox="-30 -30 260 260"
     version="1.1"
     xmlns="http://www.w3.org/2000/svg"
