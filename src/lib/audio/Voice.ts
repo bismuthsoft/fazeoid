@@ -136,8 +136,11 @@ class Oscillator {
 
         this.phase += this.phaseadd;
         const realPhaseAdd = Math.abs(this.phase - this.lastPhase);
-        // How many integral sine waves can fit before passing nyquist frequency or max sines?
-        const integerSines = Math.floor(2.0 * Math.PI / realPhaseAdd);
+        // How many integral sine waves can fit before passing nyquist frequency
+        // or max sines? DIVIDED BY 2. Why? Because it reduces the possibility
+        // of aliasing, and sounds more "analog".
+        const hardness = 0.5;
+        const integerSines = Math.floor(2.0 * Math.PI / realPhaseAdd * hardness);
 
         let out = 0;
         // https://www.sfu.ca/sonic-studio-webdav/handbook/Fourier_Theorem.html
