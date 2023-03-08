@@ -1,10 +1,11 @@
-import type {EnvelopeParams} from './envelope';
-import defaultInstrumentData from './instruments/Synth Bass.json';
+import VERSION from "../version";
+import type {EnvelopeParams} from "./envelope";
+import defaultInstrumentData from "./instruments/Synth Bass.json";
 
 export const MIN_VOLUME = -72; // Volume at which things will be zeroed
 
 export type Instrument = {
-    version: '0.0.3';
+    version: typeof VERSION;
     title: string; // Name of instrument
     basePitch: number; // Base pitch in Hz
     oscs: OscillatorParams[]; // Oscillator config
@@ -12,12 +13,15 @@ export type Instrument = {
 
 export type OscillatorParams = {
     envelope: EnvelopeParams; // Volume envelope
+    wave: WaveType;
     modulation: number[]; /* How much to modulate phase from previous oscillators.
                              Expected value 0 to 10. Real modulation is 2^x.
                              */
     pitchRatio: number; // Ratio of pitch from the base pitch.
     volume: number; // Volume in decibels
 }
+
+export type WaveType = 'sine' | 'halfSine' | 'absSine' | 'quarterSine' | 'pulseSine' | 'square';
 
 export type Note  = {
     note: number; // Frequency
@@ -28,7 +32,7 @@ export type Note  = {
 export function sineWave (numOscs = 4) : Instrument {
     return {
         title: 'Sine Wave',
-        version: '0.0.3',
+        version: VERSION,
         basePitch: 440,
         oscs: Array(numOscs).fill(0).map((_, i) => (
             i === numOscs - 1 ? defaultOscillator(i) : {
@@ -42,6 +46,7 @@ export function defaultOscillator(index: number): OscillatorParams {
     return {
         modulation: Array(index).fill(0),
         pitchRatio: 1,
+        wave: 'sine',
         envelope: {
             tag: 'adsr',
             attack: 0.125,
@@ -58,12 +63,15 @@ export function defaultInstrument(): Instrument {
 }
 
 export function randomizeInstrument (params: Instrument) : Instrument {
+    const waves: WaveType[] = ['sine', 'halfSine', 'absSine', 'quarterSine', 'pulseSine', 'square'];
+    const ratio = () => Math.floor(Math.random() * 10) / Math.ceil(Math.random() * 11);
     return {
         ...params,
         oscs: Array(params.oscs.length).fill(0).map((_, i) => ({
             ...params.oscs[i],
+            wave: waves[Math.floor(Math.random()*6)],
             modulation: Array(i).fill(0).map(() => Math.pow(Math.random(),params.oscs.length-1)*100),
-            pitchRatio: i === params.oscs.length-1 ? 1 : Math.pow(Math.random(),2) * 10,
+            pitchRatio: i === params.oscs.length-1 ? 1 : ratio(),
         })),
     }
 }

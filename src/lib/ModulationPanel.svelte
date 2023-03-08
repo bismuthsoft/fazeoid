@@ -1,5 +1,5 @@
 <script lang="ts">
- import Knob from "$lib/Knob";
+ import Knob from "@bismuthsoft/svelte-dj-knob/ElegantKnob.svelte";
  import type { ComponentProps } from "svelte";
  import type { Instrument } from "./audio/instrument";
 
@@ -22,7 +22,7 @@
                       min="{0}" max="{100}"
                       {...knobProps}
                       size="5rem"
-                      pointerColor="#fe3"
+                      valueColor="#fe3"
                 />
             </div>
         {/each}

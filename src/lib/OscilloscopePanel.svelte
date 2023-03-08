@@ -16,7 +16,7 @@
  }
 
  function getOscillators (voice: Voice) : number[][] {
-     const oscData = Array(resolution).fill(0).map(() => voice.getOscillators());
+     const oscData = Array(resolution).fill(0).map(() => voice.getOscillators()).slice(1);
      return rotateData(oscData);
  }
 

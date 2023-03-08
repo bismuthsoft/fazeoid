@@ -1,4 +1,5 @@
 import type { Instrument, OscillatorParams } from './instrument';
+import VERSION from '../version';
 
 export function migrateInstrument (instrument: any): Instrument {
     switch (instrument.version) {
@@ -14,11 +15,19 @@ export function migrateInstrument (instrument: any): Instrument {
             }))
         case '0.0.2':
             instrument.title = instrument.title ?? 'Instrument';
-            instrument.version = '0.0.3';
-        case '0.0.3':  // Latest version
+        case '0.0.3':
+            instrument.oscs = instrument.oscs.map((osc: OscillatorParams) => ({
+                ...osc,
+                wave: 'sine',
+            }))
+            instrument.version = '0.2.0';
+        case '0.2.0':
             break;
         default:
             throw new Error('UNRECOGNIZED VERSION: ' + instrument.version);
+    }
+    if (instrument.version !== VERSION) {
+        throw new Error('Migration has failed to set correct instrument version.')
     }
     return instrument;
 }

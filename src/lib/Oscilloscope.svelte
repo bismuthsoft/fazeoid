@@ -4,13 +4,13 @@
  function generatePath (data: number[]) : string {
      const strs: string[] = [];
      data.forEach((d: number, i: number) => strs.push(
-         `${i / (waveData.length - 1)},${d}`
+         `${i / (waveData.length - 1)},${-d}`
      ));
      return strs.join(' ');
  }
 </script>
 
-<svg class="scope" viewBox="-0.05 -1.05 1.1 2.1" preserveAspectRatio="none">
+<svg class="scope" viewBox="-0.05 -1.25 1.1 2.5" preserveAspectRatio="none">
     <polyline class="scopeLine" points="{generatePath(waveData)}"/>
 </svg>
 

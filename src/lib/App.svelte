@@ -1,7 +1,8 @@
 <script lang="ts">
- import { defaultInstrument } from "$lib/audio/instrument"
- import AudioController from "$lib/audio/Controller"
- import InstrumentPanel from "$lib/InstrumentPanel.svelte"
+ import { defaultInstrument } from "$lib/audio/instrument";
+ import VERSION from "$lib/version";
+ import AudioController from "$lib/audio/Controller";
+ import InstrumentPanel from "$lib/InstrumentPanel.svelte";
  import Piano from "$lib/piano/Piano.svelte";
 
  import { onDestroy } from 'svelte'
@@ -44,7 +45,7 @@
     <InstrumentPanel bind:params="{$instrument}" {portrait} />
     <Piano on:noteUp="{noteUp}" on:noteDown="{noteDown}" {portrait} />
     <footer>
-        <div>Fazeoid 0.1</div>
+        <div>Fazeoid {VERSION}</div>
         <div>Copyright © 2022 BismuthSoft</div>
     </footer>
 </div>
@@ -61,10 +62,10 @@
      padding: 0.5rem 1rem;
      border-radius: 1em;
      background: var(--bg-color);
-     --bg-color: #0008;
+     --bg-color: #000000A2;
      backdrop-filter: blur(5px);
      color: white;
-     filter: drop-shadow(4px 4px 10px #3338);
+     box-shadow: 0 0 10px #3338;
  }
  @media (max-width: 680px) {
      .App {
