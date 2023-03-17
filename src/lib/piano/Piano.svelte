@@ -188,14 +188,16 @@
     transform: translate(0%, -40%);
     height: 170%;
     background: white;
+    outline: 1px solid white;
     border-radius: 1em;
   }
   /* Octave coloring: */
   .whiteKey.oddOctave {
+    outline: 1px solid #ddd;
     background: #ddd;
   }
   .whiteKey.down {
-    background: radial-gradient(4em at bottom, #08f, #eee);
+    background: var(--highlight-opaque);
   }
   .blackKey {
     display: grid;
@@ -204,11 +206,12 @@
     transform: translate(50%, 0%);
     height: 115%;
     z-index: 1;
+    outline: 1px solid #222;
     border-radius: 1em;
-    background: black;
+    background: #222;
   }
   .blackKey.down {
-    background: radial-gradient(4em at bottom, #08f, #000);
+    background: var(--highlight-opaque);
   }
 
   .keyLabel {

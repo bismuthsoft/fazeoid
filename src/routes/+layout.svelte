@@ -2,7 +2,9 @@
 
 <style global>
   body {
-    --highlight: #0088dd7f;
+    --highlight: #00a8dd7f;
+    --highlight-opaque: #00a8dd;
+    --highlight-gradient: radial-gradient(#4cc, #44c);
     --background: #2020209f;
     --background-hover: #000000ff;
     margin: 0;
@@ -43,7 +45,7 @@
   button:active,
   input:active,
   .controlBG:active {
-    background: radial-gradient(#4cc, #44c);
-    fill: radial-gradient(#4cc, #44c);
+    background: var(--highlight-gradient);
+    fill: var(--highlight-gradient);
   }
 </style>
