@@ -2,10 +2,10 @@
   import type { Instrument } from "$lib/audio/instrument";
   import EnvelopeEditor from "$lib/EnvelopeEditor.svelte";
   import EnvelopeViewer from "$lib/EnvelopeViewer.svelte";
-  import Knob from "@bismuthsoft/svelte-dj-knob/ElegantKnob.svelte";
   import ModulationPanel from "./ModulationPanel.svelte";
   import OscilloscopePanel from "$lib/OscilloscopePanel.svelte";
   import WaveSelector from "$lib/WaveSelector.svelte";
+  import Knob from "$lib/Knob.svelte";
 
   export let params: Instrument;
   export let portrait: boolean;

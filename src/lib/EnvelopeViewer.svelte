@@ -42,11 +42,11 @@
     fill: white;
   }
   .scope {
+    background: var(--background);
     min-width: 4rem;
     width: 100%;
     height: 5rem;
-    border-radius: 1rem 0rem 1rem 0rem;
-    background: #0000007f;
+    border-radius: 0.5rem;
   }
   .scopeLine {
     fill: none;
