@@ -45,7 +45,7 @@
           bind:value={params.oscs[oscIndex].pitchRatio}
           min={0}
           max={10}
-          valueColor="#fb6060"
+          valueColor="#fb6090"
           {...knobProps}
         />
       {/each}
