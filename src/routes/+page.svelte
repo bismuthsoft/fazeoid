@@ -20,7 +20,7 @@
     color: white;
   }
   :global(body) {
-    background: center/cover url(/background.jpg);
+    background: repeat center/20% url(/background.jpg);
     background-attachment: fixed;
   }
 </style>
