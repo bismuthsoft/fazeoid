@@ -1,28 +1,28 @@
-import { Mixer } from '$lib/audio/Mixer';
+import { Mixer } from "$lib/audio/Mixer";
 
 class WaveGenerator extends AudioWorkletProcessor {
-    mixer: Mixer;
+  mixer: Mixer;
 
-    constructor () {
-        super();
-        this.mixer = new Mixer();
-        this.port.onmessage = (msg: MessageEvent) => {
-            const method: keyof Mixer = msg.data[0];
-            if (typeof this.mixer[method] === 'function') {
-                (this.mixer[method] as Function)(...msg.data.splice(1));
-            } else {
-                console.log(`Bad message: ${msg.data}`)
-            }
-        }
-    }
-    process (_inputs: Float32Array[][],
-             outputs: Float32Array[][],
-             _parameters: Record<string, Float32Array>)
-    : boolean
-    {
-        this.mixer.writeWave(outputs[0]);
-        return true;
-    }
+  constructor() {
+    super();
+    this.mixer = new Mixer();
+    this.port.onmessage = (msg: MessageEvent) => {
+      const method: keyof Mixer = msg.data[0];
+      if (typeof this.mixer[method] === "function") {
+        (this.mixer[method] as Function)(...msg.data.splice(1));
+      } else {
+        console.log(`Bad message: ${msg.data}`);
+      }
+    };
+  }
+  process(
+    _inputs: Float32Array[][],
+    outputs: Float32Array[][],
+    _parameters: Record<string, Float32Array>
+  ): boolean {
+    this.mixer.writeWave(outputs[0]);
+    return true;
+  }
 }
 
-registerProcessor('wave-generator', WaveGenerator);
+registerProcessor("wave-generator", WaveGenerator);

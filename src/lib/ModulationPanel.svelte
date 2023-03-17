@@ -1,7 +1,7 @@
 <script lang="ts">
- import Knob from "@bismuthsoft/svelte-dj-knob/ElegantKnob.svelte";
  import type { ComponentProps } from "svelte";
  import type { Instrument } from "./audio/instrument";
+  import Knob from "$lib/Knob.svelte";
 
  export let params: Instrument;
  export let knobProps: ComponentProps<Knob>;

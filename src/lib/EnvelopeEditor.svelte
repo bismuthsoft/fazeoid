@@ -1,6 +1,6 @@
 <script lang="ts">
- import Knob from '@bismuthsoft/svelte-dj-knob/ElegantKnob.svelte';
  import type { EnvelopeParams, AdsrEnvelope } from '$lib/audio/envelope';
+  import Knob from "$lib/Knob.svelte";
 
  export let envelope: EnvelopeParams;
  $: adsr = envelope.tag === 'adsr' && envelope;

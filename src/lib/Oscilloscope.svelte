@@ -15,10 +15,6 @@
 </svg>
 
 <style>
- .scope {
-     background: #0000007f;
-     border-radius: 1rem 0;
- }
  .scopeLine {
      fill: none;
      stroke: white;
@@ -27,4 +23,8 @@
      stroke-linecap: round;
      stroke-linejoin: round;
  }
+  .scope {
+    background: var(--background);
+    border-radius: 1rem;
+  }
 </style>
