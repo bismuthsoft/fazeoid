@@ -7,6 +7,7 @@
   import OscilloscopePanel from "$lib/OscilloscopePanel.svelte";
   import WaveSelector from "$lib/WaveSelector.svelte";
   import OscillatorMenu from "$lib/OscillatorMenu.svelte";
+  import FractionPicker from "$lib/FractionPicker.svelte";
 
   export let params: Instrument;
   export let portrait: boolean;
@@ -46,14 +47,13 @@
   </section>
 
   <section>
-    <heading> Pitch ratio </heading>
+    <heading> Pitch </heading>
     <div class="box">
       {#each params.oscs as osc, oscIndex}
-        <Knob
-          bind:value={params.oscs[oscIndex].pitchRatio}
-          min={0}
-          max={10}
-          valueColor="#fb6090"
+        <FractionPicker
+          bind:numerator={params.oscs[oscIndex].pitchFraction[0]}
+          bind:denominator={params.oscs[oscIndex].pitchFraction[1]}
+          {portrait}
           {...knobProps}
         />
       {/each}
@@ -156,6 +156,7 @@
   heading {
     font-weight: bold;
     min-width: 1.8rem;
+    white-space: nowrap;
   }
   .rowLabel {
     text-align: center;

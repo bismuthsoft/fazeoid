@@ -18,7 +18,7 @@ export type OscillatorParams = {
   modulation: number[] /* How much to modulate phase from previous oscillators.
                              Expected value 0 to 10. Real modulation is 2^x.
                              */;
-  pitchRatio: number; // Ratio of pitch from the base pitch.
+  pitchFraction: [number, number]; // Fraction of pitch from the base pitch.
   volume: number; // Volume in decibels
 };
 
