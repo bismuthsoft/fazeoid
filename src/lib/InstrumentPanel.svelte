@@ -2,10 +2,11 @@
   import type { Instrument } from "$lib/audio/instrument";
   import EnvelopeEditor from "$lib/EnvelopeEditor.svelte";
   import EnvelopeViewer from "$lib/EnvelopeViewer.svelte";
+  import Knob from "$lib/Knob.svelte";
   import ModulationPanel from "./ModulationPanel.svelte";
   import OscilloscopePanel from "$lib/OscilloscopePanel.svelte";
   import WaveSelector from "$lib/WaveSelector.svelte";
-  import Knob from "$lib/Knob.svelte";
+  import OscillatorMenu from "$lib/OscillatorMenu.svelte";
 
   export let params: Instrument;
   export let portrait: boolean;
@@ -20,24 +21,12 @@
     <heading />
     <div class="box">
       {#each params.oscs as osc, oscIndex}
-        <button
-          class="addRemoveOscillator"
-          on:click={() => (params = addOscillator(params, oscIndex))}
-        >
-          +
-        </button>
         <div class="rowLabel">{oscIndex + 1}</div>
-        {#if params.oscs.length > 1}
-          <button
-            class="addRemoveOscillator"
-            on:click={() => (params = removeOscillator(params, oscIndex))}
-          >
-            -
-          </button>
-        {/if}
+        <OscillatorMenu {params} {oscIndex} {portrait} />
       {/each}
     </div>
   </section>
+
   <section>
     <heading> ADSR Envelope </heading>
     <div class="box">
