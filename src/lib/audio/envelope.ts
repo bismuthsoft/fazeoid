@@ -91,9 +91,9 @@ export class Envelope {
           // Use an inverse power function to get a smooth transition
           const p1 = this.params.points[this.pointIndex - 1];
           const p2 = this.params.points[this.pointIndex];
-          let t = p1.dx - this.segmentTimer;
+          let t = p2.dx - this.segmentTimer;
           //console.log(p1, p2, t, this.position);
-          this.position = p2.y + Math.pow(t + 1, -1 / p2.dx) * (p1.y - p2.y);
+          this.position = p2.y + Math.pow(t + 1, -2 / p2.dx) * (p1.y - p2.y);
         } else if (this.segmentTimer > 0) {
           this.position += this.slope;
         } else {
