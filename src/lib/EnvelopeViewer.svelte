@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { EnvelopeParams, EnvelopePoint } from "$lib/audio/envelope";
+  import { decaySlope } from "$lib/audio/envelope";
   import { envelopeToPoints } from "$lib/audio/envelope";
 
   export let envelope: EnvelopeParams;
@@ -10,9 +11,19 @@
     const strs: string[] = [];
 
     let { points, sustainPoint, release } = envelopeToPoints(envelope);
+    let decaySlopePoints = 20;
     let visualPoints = [
-      ...points.slice(0, sustainPoint),
-      { dx: 0.1, y: points[sustainPoint - 1].y },
+      ...points.slice(0, sustainPoint - 1),
+      ...Array(decaySlopePoints)
+        .fill(0)
+        .map((_, i) => ({
+          dx: points[sustainPoint - 1].dx / decaySlopePoints,
+          y: decaySlope(
+            i / decaySlopePoints,
+            points[sustainPoint - 2],
+            points[sustainPoint - 1]
+          ),
+        })),
       ...points.slice(sustainPoint),
       { dx: 1.0 / release, y: 0 },
     ];

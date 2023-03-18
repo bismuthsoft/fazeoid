@@ -62,6 +62,10 @@ export function flatEnvelope(
   };
 }
 
+export function decaySlope(t: number, p1: EnvelopePoint, p2: EnvelopePoint): number {
+  return p2.y + Math.pow(t + 1, -2 / p2.dx) * (p1.y - p2.y);
+}
+
 export class Envelope {
   position: number; // Current position
   pointIndex = 0; // 1-indexed envelope point index
@@ -92,8 +96,7 @@ export class Envelope {
           const p1 = this.params.points[this.pointIndex - 1];
           const p2 = this.params.points[this.pointIndex];
           let t = p2.dx - this.segmentTimer;
-          //console.log(p1, p2, t, this.position);
-          this.position = p2.y + Math.pow(t + 1, -2 / p2.dx) * (p1.y - p2.y);
+          this.position = decaySlope(t, p1, p2);
         } else if (this.segmentTimer > 0) {
           this.position += this.slope;
         } else {
