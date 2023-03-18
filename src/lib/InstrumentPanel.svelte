@@ -24,7 +24,7 @@
         <div class="numberHeading">
           <div class="rowLabel">{oscIndex + 1}</div>
           <OscillatorMenu
-            {params}
+            bind:params
             {oscIndex}
             rightmostPortrait={portrait && oscIndex == params.oscs.length - 1}
           />

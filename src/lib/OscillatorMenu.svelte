@@ -44,7 +44,8 @@
   ];
 
   function onSelect(ev: Event) {
-    console.log("onSelect", ev);
+    const entry = entries.find((e) => e.text === ev.detail.selected);
+    entry?.action();
   }
 </script>
 
