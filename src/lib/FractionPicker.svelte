@@ -53,7 +53,9 @@
 
   hr {
     width: 2em;
-    border: 1px solid white;
+    background-color: white;
+    height: 1px;
+    border: none;
     margin: 0.2em;
     transform: rotate(-10deg);
   }
