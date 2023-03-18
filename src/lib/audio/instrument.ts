@@ -93,7 +93,7 @@ export function randomizeInstrument(params: Instrument): Instrument {
         wave: waves[Math.floor(Math.random() * 6)],
         modulation: Array(i)
           .fill(0)
-          .map(() => Math.pow(Math.random(), params.oscs.length - 1) * 100),
+          .map(() => Math.floor(Math.pow(Math.random(), params.oscs.length - 1) * 100)),
         pitchFraction: i === params.oscs.length - 1 ? [1, 1] : [rand(0, 13), rand(1, 13)],
       })),
   };
