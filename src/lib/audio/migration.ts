@@ -38,7 +38,6 @@ export function migrateInstrument(instrument: any): Instrument {
         if (best[2] > 0.01) {
           console.log('Instrument migration warning: pitch ratio is not a simple fraction: ' + n);
         }
-        console.log(best);
         return best.slice(0, 2) as any;
       }
       instrument.oscs = instrument.oscs.map((osc: OscillatorParams & { pitchRatio: number }) => ({
