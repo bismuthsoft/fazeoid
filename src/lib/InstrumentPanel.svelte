@@ -21,8 +21,14 @@
     <heading />
     <div class="box">
       {#each params.oscs as osc, oscIndex}
-        <div class="rowLabel">{oscIndex + 1}</div>
-        <OscillatorMenu {params} {oscIndex} {portrait} />
+        <div class="numberHeading">
+          <div class="rowLabel">{oscIndex + 1}</div>
+          <OscillatorMenu
+            {params}
+            {oscIndex}
+            rightmostPortrait={portrait && oscIndex == params.oscs.length - 1}
+          />
+        </div>
       {/each}
     </div>
   </section>
@@ -115,6 +121,11 @@
     align-items: center;
     gap: 0.5rem;
   }
+  .numberHeading {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
   section .box {
     display: flex;
     flex-grow: 1;
@@ -123,6 +134,9 @@
     justify-content: space-around;
   }
   @media (min-width: 920px) {
+    .numberHeading {
+      flex-direction: column;
+    }
     .InstrumentPanel section {
       flex-direction: column;
     }
