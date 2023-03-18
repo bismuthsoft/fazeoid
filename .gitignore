@@ -5,4 +5,5 @@ node_modules
 /package
 .env
 .env.*
+/src/lib/version.ts
 !.env.example
