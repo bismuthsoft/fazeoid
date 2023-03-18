@@ -23,8 +23,10 @@ export function migrateInstrument(instrument: any): Instrument {
         ...osc,
         wave: "sine",
       }));
-      instrument.version = "0.2.0";
     case "0.2.0":
+      // No change
+      instrument.version = "0.3.0";
+    case "0.3.0":
       break;
     default:
       throw new Error("UNRECOGNIZED VERSION: " + instrument.version);
