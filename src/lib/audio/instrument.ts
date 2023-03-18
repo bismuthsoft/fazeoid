@@ -47,9 +47,9 @@ export function sineWave(numOscs = 4): Instrument {
         i === numOscs - 1
           ? defaultOscillator(i)
           : {
-              ...defaultOscillator(i),
-              volume: -12,
-            }
+            ...defaultOscillator(i),
+            volume: -12,
+          }
       ),
   };
 }
@@ -57,7 +57,7 @@ export function sineWave(numOscs = 4): Instrument {
 export function defaultOscillator(index: number): OscillatorParams {
   return {
     modulation: Array(index).fill(0),
-    pitchRatio: 1,
+    pitchFraction: [1, 1],
     wave: "sine",
     envelope: {
       tag: "adsr",
@@ -83,8 +83,7 @@ export function randomizeInstrument(params: Instrument): Instrument {
     "pulseSine",
     "square",
   ];
-  const ratio = () =>
-    Math.floor(Math.random() * 10) / Math.ceil(Math.random() * 11);
+  const rand = (a: number, b: number) => Math.floor(Math.random() * (b - a)) + a;
   return {
     ...params,
     oscs: Array(params.oscs.length)
@@ -95,7 +94,7 @@ export function randomizeInstrument(params: Instrument): Instrument {
         modulation: Array(i)
           .fill(0)
           .map(() => Math.pow(Math.random(), params.oscs.length - 1) * 100),
-        pitchRatio: i === params.oscs.length - 1 ? 1 : ratio(),
+        pitchFraction: i === params.oscs.length - 1 ? [1, 1] : [rand(0, 13), rand(1, 13)],
       })),
   };
 }
