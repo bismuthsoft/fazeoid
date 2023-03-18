@@ -24,8 +24,7 @@ export function migrateInstrument(instrument: any): Instrument {
         wave: "sine",
       }));
     case "0.2.0":
-      // No change
-      instrument.version = "0.3.0";
+    // No change
     case "0.3.0":
       function estimateFraction(n: number): [number, number] {
         let best = [1, 1, Infinity];
@@ -47,6 +46,7 @@ export function migrateInstrument(instrument: any): Instrument {
         pitchFraction: estimateFraction(osc.pitchRatio),
         pitchRatio: undefined,
       }));
+      instrument.version = "0.4.0";
     case "0.4.0":
       break;
     default:
