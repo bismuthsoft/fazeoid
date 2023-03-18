@@ -188,7 +188,7 @@ class Oscillator {
                 out += getWave(true, i * 2 - 1, i * 2 - 1);
             }
             // Multiply by sine wave to get pulsed sine
-            out = getWave(true, 2, 1) * (out / Math.PI * 2.0 + 0.5);
+            out = Math.sin(this.phase * 2) * (out / Math.PI * 2.0 + 0.5);
         } else if (this.wave === 'square') {
             for (let i = 1; i < integerSines / 2 && i < MAX_SINES; i++) {
                 out += getWave(true, i * 2 - 1, i * 2 - 1);
