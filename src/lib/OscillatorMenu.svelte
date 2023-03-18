@@ -5,9 +5,11 @@
     removeOscillator,
   } from "$lib/audio/instrument";
   import { createMenu } from "svelte-headlessui";
-  import More from "svelte-grommet-icons/lib/More.svelte";
-  import AddCircle from "svelte-grommet-icons/lib/AddCircle.svelte";
-  import Trash from "svelte-grommet-icons/lib/Trash.svelte";
+  import {
+    MoreVerticalIcon,
+    PlusCircleIcon,
+    TrashIcon,
+  } from "svelte-feather-icons";
 
   export let params: Instrument;
   export let oscIndex: number;
@@ -25,17 +27,17 @@
 
   const entries = [
     {
-      icon: AddCircle,
+      icon: PlusCircleIcon,
       text: "Add Oscillator Above",
       action: () => addOsc(oscIndex),
     },
     {
-      icon: AddCircle,
+      icon: PlusCircleIcon,
       text: "Add Oscillator Below",
       action: () => addOsc(oscIndex + 1),
     },
     {
-      icon: Trash,
+      icon: TrashIcon,
       text: "Remove Oscillator",
       action: () => removeOsc(oscIndex),
     },
@@ -47,7 +49,7 @@
 </script>
 
 <div style:position="relative">
-  <button use:menu.button on:select={onSelect}><More size="small" /></button>
+  <button use:menu.button on:select={onSelect}><MoreVerticalIcon /></button>
   <div hidden={!$menu.expanded} class="menuPopup">
     <div use:menu.items class="menuItems">
       {#each entries as entry}
@@ -70,14 +72,16 @@
   }
 
   .menuItems {
-    position: sticky;
-    width: fit-content;
+    position: absolute;
     background-color: #fff;
     margin: 0;
-    padding: 1em;
+    padding: 0.5em;
     align-items: flex-start;
     display: flex;
     flex-direction: column;
+    border-radius: 0.5em;
+    top: 0;
+    left: 50%;
   }
 
   .entry {

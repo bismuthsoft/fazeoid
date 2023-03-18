@@ -25,6 +25,9 @@
   div[data-netlify-deploy-id] {
     display: none;
   }
+  button {
+    padding: 0.5rem 0.6rem 0.3rem 0.6rem;
+  }
   button,
   input,
   .controlBG {
@@ -32,7 +35,6 @@
     border: none;
     color: white;
     border-radius: 0.5em;
-    padding: 0.3rem 0.8rem;
     background: var(--background);
     fill: var(--background);
   }

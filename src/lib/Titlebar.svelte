@@ -1,10 +1,12 @@
 <script lang="ts">
   import { randomizeInstrument, type Instrument } from "./audio/instrument";
   import { migrateInstrument } from "./audio/migration";
-  import Cycle from "svelte-grommet-icons/lib/Cycle.svelte";
-  import DocumentDownload from "svelte-grommet-icons/lib/DocumentDownload.svelte";
-  import DocumentUpload from "svelte-grommet-icons/lib/DocumentUpload.svelte";
-  import Help from "svelte-grommet-icons/lib/Help.svelte";
+  import {
+    ShuffleIcon,
+    UploadIcon,
+    DownloadIcon,
+    HelpCircleIcon,
+  } from "svelte-feather-icons";
 
   export let params: Instrument;
 
@@ -59,17 +61,17 @@
   </a>
   <input title="Instrument Name" bind:value={params.title} type="text" />
   <button title="Randomize" on:click={randomize}>
-    <Cycle />
+    <ShuffleIcon />
   </button>
   <button title="Save Instrument" on:click={downloadInstrument}>
-    <DocumentDownload />
+    <DownloadIcon />
   </button>
   <button title="Load Instrument" on:click={uploadInstrument}>
-    <DocumentUpload />
+    <UploadIcon />
   </button>
   <a href="https://github.com/bismuthsoft/fazeoid#readme">
     <button title="Help" class="helpbutton">
-      <Help />
+      <HelpCircleIcon />
     </button>
   </a>
 </div>
