@@ -7,6 +7,7 @@
     DownloadIcon,
     HelpCircleIcon,
   } from "svelte-feather-icons";
+  import PresetSelector from "./PresetSelector.svelte";
 
   export let params: Instrument;
 
@@ -59,7 +60,7 @@
   >
     <img alt="Fazeoid" src="/fazeoid.svg" height="100%" />
   </a>
-  <input title="Instrument Name" bind:value={params.title} type="text" />
+  <PresetSelector bind:params />
   <button title="Randomize" on:click={randomize}>
     <ShuffleIcon />
   </button>
@@ -81,12 +82,6 @@
     padding: inherit;
     display: flex;
     gap: 0.3em;
-  }
-  .titlebar input {
-    font-size: 1.5em;
-    padding: 0 0.5em;
-    margin-right: 0.5em;
-    flex-grow: 1;
   }
   .helpbutton {
     height: 100%;
