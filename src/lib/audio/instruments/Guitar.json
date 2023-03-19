@@ -1,0 +1,69 @@
+
+{
+  "version": "0.2.0",
+  "basePitch": 440,
+  "oscs": [
+    {
+      "modulation": [],
+      "pitchRatio": 4,
+      "envelope": {
+        "tag": "adsr",
+        "attack": 0.005,
+        "decay": 0.4029999999999998,
+        "sustain": 0.26000000000000006,
+        "release": 0.085
+      },
+      "volume": -72,
+      "wave": "halfSine"
+    },
+    {
+      "modulation": [
+        0
+      ],
+      "pitchRatio": 0.33,
+      "envelope": {
+        "tag": "adsr",
+        "attack": 0.5124500000000003,
+        "decay": 0.38905,
+        "sustain": 0.52,
+        "release": 0.07465000000000001
+      },
+      "volume": -72,
+      "wave": "sine"
+    },
+    {
+      "modulation": [
+        65,
+        24
+      ],
+      "pitchRatio": 0.5,
+      "envelope": {
+        "tag": "adsr",
+        "attack": 0.005,
+        "decay": 0.21989999999999998,
+        "sustain": 0.19,
+        "release": 0.05475000000000001
+      },
+      "volume": -72,
+      "wave": "sine"
+    },
+    {
+      "modulation": [
+        43,
+        0,
+        34
+      ],
+      "pitchRatio": 0.5,
+      "envelope": {
+        "tag": "adsr",
+        "attack": 0.005,
+        "decay": 0.2,
+        "sustain": 0.5,
+        "release": 0.13034999999999974
+      },
+      "volume": -11,
+      "wave": "sine"
+    }
+  ],
+  "title": "Guitar"
+}
