@@ -17,7 +17,7 @@
 
   const MIN_OCTAVE = 2;
   const MAX_OCTAVE = 6;
-  let octave = 5;
+  let octave = 4;
   $: numKeys = portrait ? 18 : 36;
   let keys: PianoKey[];
   let noteOffset: number;

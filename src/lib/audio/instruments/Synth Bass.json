@@ -4,7 +4,7 @@
   "oscs": [
     {
       "modulation": [],
-      "pitchRatio": 4,
+      "pitchRatio": 8,
       "envelope": {
         "tag": "adsr",
         "attack": 0.005,
@@ -19,7 +19,7 @@
       "modulation": [
         0
       ],
-      "pitchRatio": 0.33,
+      "pitchRatio": 0.66666,
       "envelope": {
         "tag": "adsr",
         "attack": 0.5124500000000003,
@@ -35,7 +35,7 @@
         65,
         24
       ],
-      "pitchRatio": 0.5,
+      "pitchRatio": 1,
       "envelope": {
         "tag": "adsr",
         "attack": 0.005,
@@ -52,7 +52,7 @@
         0,
         34
       ],
-      "pitchRatio": 0.5,
+      "pitchRatio": 1,
       "envelope": {
         "tag": "adsr",
         "attack": 0.005,
