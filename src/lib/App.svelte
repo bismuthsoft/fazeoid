@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { defaultInstrument } from "$lib/audio/instrument";
+  import { sineWave } from "$lib/audio/instrument";
   import VERSION from "$lib/version";
   import AudioController from "$lib/audio/Controller";
   import InstrumentPanel from "$lib/InstrumentPanel.svelte";
@@ -9,7 +9,7 @@
   import { writable } from "svelte/store";
   import Titlebar from "./Titlebar.svelte";
 
-  let instrument = writable(defaultInstrument(4));
+  let instrument = writable(sineWave(1));
 
   let ctrl = new AudioController();
   let hackInitialize = false;

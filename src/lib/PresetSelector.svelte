@@ -7,36 +7,27 @@
 
   export let params: Instrument;
 
-  //let NEW_INSTRUMENT = "New Instrument...";
-  let listItems = [...instruments]; ///[...instruments, { name: NEW_INSTRUMENT } as any];
-  let input: HTMLInputElement;
+  let listItems = [...instruments];
+  let defaultInstrument = instruments.find((i) => i.title === "Piano");
 
   const listbox = createListbox({
     label: "Instruments",
-    selected: instruments[0],
+    selected: defaultInstrument,
   });
 
   function onSelect(ev: any) {
-    // if (ev.detail.selected.name === NEW_INSTRUMENT) {
-    //   console.log("new instrument");
-    //   console.log(input.value);
-    //   return;
-    // }
-    params = migrateInstrument(ev.detail.selected.data);
+    params = migrateInstrument(ev.detail.selected);
   }
 
-  function clearInput() {
-    input.value = "";
-    input.focus();
-  }
-
-  function newInstrument() {}
+  onSelect({
+    detail: { selected: defaultInstrument },
+  });
 </script>
 
 <div class="presetSelector controlBG">
   <div class="presetListbox" use:listbox.button on:select={onSelect}>
     <div class="presetName">
-      {$listbox.selected.name}
+      {$listbox.selected.title}
     </div>
     <div class="presetButton">
       <ChevronDownIcon />
@@ -47,16 +38,13 @@
       {#each listItems as entry}
         {@const active = $listbox.active === entry}
         {@const selected = $listbox.selected === entry}
-        <!-- {@const newInstrument = entry.name === NEW_INSTRUMENT} -->
         <li use:listbox.item={{ value: entry }} class="entry" class:active>
           <div class="bullet">
             {#if selected}
               <CheckIcon />
-              <!-- {:else if newInstrument}
-              <PlusIcon /> -->
             {/if}
           </div>
-          {entry.name}
+          {entry.title}
         </li>
       {/each}
     </ul>

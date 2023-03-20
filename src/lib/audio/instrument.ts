@@ -1,7 +1,5 @@
 import VERSION from "../version";
 import type { EnvelopeParams } from "./envelope";
-import defaultInstrumentData from "./instruments/Synth Bass.json";
-import { migrateInstrument } from "./migration";
 
 export const MIN_VOLUME = -72; // Volume at which things will be zeroed
 
@@ -68,10 +66,6 @@ export function defaultOscillator(index: number): OscillatorParams {
     },
     volume: -72,
   };
-}
-
-export function defaultInstrument(): Instrument {
-  return migrateInstrument(defaultInstrumentData);
 }
 
 export function randomizeInstrument(params: Instrument): Instrument {
