@@ -1,11 +1,25 @@
-import guitar from "./Guitar.json";
+import bass from "./Bass.json";
+import bell from "./Bell.json";
+import horn from "./Horn.json";
+import metalPiano from "./Metal Piano.json";
+import Oboe from "./Oboe.json";
+import organ from "./Organ.json";
 import piano from "./Piano.json";
-import bass from "./Synth Bass.json";
+import sitar from "./Sitar.json";
+import superBass from "./Super Bass.json";
+import ufo from "./UFO.json";
 
 let instruments = [
-    {name: 'Guitar', data: guitar},
-    {name: 'Piano', data: piano},
-    {name: 'Synth Bass', data: bass},
+    bass,
+    bell,
+    horn,
+    metalPiano,
+    Oboe,
+    organ,
+    piano,
+    sitar,
+    superBass,
+    ufo,
 ]
 
 export default instruments;

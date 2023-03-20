@@ -1,0 +1,41 @@
+{
+  "version": "0.4.0",
+  "basePitch": 440,
+  "oscs": [
+    {
+      "modulation": [],
+      "envelope": {
+        "tag": "adsr",
+        "attack": 0.005,
+        "decay": 1,
+        "sustain": 0.8299999999999998,
+        "release": 0.19405000000000008
+      },
+      "volume": -72,
+      "wave": "absSine",
+      "pitchFraction": [
+        1,
+        2
+      ]
+    },
+    {
+      "modulation": [
+        36
+      ],
+      "envelope": {
+        "tag": "adsr",
+        "attack": 0.03485000000000002,
+        "decay": 0.2597000000000005,
+        "sustain": 0.4900000000000002,
+        "release": 0.11445000000000001
+      },
+      "volume": -12,
+      "wave": "pulseSine",
+      "pitchFraction": [
+        1,
+        1
+      ]
+    }
+  ],
+  "title": "Oboe"
+}

@@ -1,0 +1,60 @@
+{
+  "version": "0.4.0",
+  "basePitch": 440,
+  "oscs": [
+    {
+      "modulation": [],
+      "pitchFraction": [
+        1,
+        48
+      ],
+      "wave": "sine",
+      "envelope": {
+        "tag": "adsr",
+        "attack": 0.3638,
+        "decay": 0.005,
+        "sustain": 1,
+        "release": 0.005
+      },
+      "volume": -72
+    },
+    {
+      "envelope": {
+        "tag": "adsr",
+        "attack": 0.034850000000000075,
+        "decay": 0.6477499999999999,
+        "sustain": 0,
+        "release": 0.31345000000000023
+      },
+      "volume": -25,
+      "wave": "sine",
+      "pitchFraction": [
+        1,
+        1
+      ],
+      "modulation": [
+        3
+      ]
+    },
+    {
+      "envelope": {
+        "tag": "adsr",
+        "attack": 0.005,
+        "decay": 1,
+        "sustain": 0,
+        "release": 0.3193999999999997
+      },
+      "volume": -17,
+      "wave": "quarterSine",
+      "pitchFraction": [
+        1,
+        1
+      ],
+      "modulation": [
+        3,
+        30
+      ]
+    }
+  ],
+  "title": "Horn"
+}
