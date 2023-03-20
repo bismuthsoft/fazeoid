@@ -28,6 +28,7 @@
   }
 
   function doSave() {
+    params.title = input.value || defaultName;
     hideDialog();
     download(
       `${input.value || defaultName}.json`,
