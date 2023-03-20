@@ -84,6 +84,7 @@
           bind:value={params.oscs[oscIndex].volume}
           min={-72}
           max={0}
+          step={0.5}
           valueColor="#fff"
           {...knobProps}
         />
