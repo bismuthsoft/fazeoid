@@ -1,0 +1,60 @@
+{
+  "version": "0.4.0",
+  "basePitch": 440,
+  "oscs": [
+    {
+      "modulation": [],
+      "pitchFraction": [
+        0,
+        1
+      ],
+      "wave": "absSine",
+      "envelope": {
+        "tag": "adsr",
+        "attack": 0.005,
+        "decay": 0.6577000000000003,
+        "sustain": 0,
+        "release": 0.2
+      },
+      "volume": -72
+    },
+    {
+      "envelope": {
+        "tag": "adsr",
+        "attack": 0.005,
+        "decay": 1,
+        "sustain": 0,
+        "release": 0.33335000000000015
+      },
+      "volume": -72,
+      "wave": "sine",
+      "pitchFraction": [
+        1,
+        40
+      ],
+      "modulation": [
+        25
+      ]
+    },
+    {
+      "envelope": {
+        "tag": "adsr",
+        "attack": 0.5821000000000002,
+        "decay": 0.9064500000000005,
+        "sustain": 0,
+        "release": 0.13034999999999974
+      },
+      "volume": -12,
+      "wave": "sine",
+      "pitchFraction": [
+        4,
+        1
+      ],
+      "modulation": [
+        0,
+        40
+      ]
+    }
+  ],
+  "title": "UFO"
+}

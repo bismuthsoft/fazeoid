@@ -1,11 +1,9 @@
-
 {
-  "version": "0.2.0",
+  "version": "0.4.0",
   "basePitch": 440,
   "oscs": [
     {
       "modulation": [],
-      "pitchRatio": 4,
       "envelope": {
         "tag": "adsr",
         "attack": 0.005,
@@ -14,13 +12,16 @@
         "release": 0.085
       },
       "volume": -72,
-      "wave": "halfSine"
+      "wave": "halfSine",
+      "pitchFraction": [
+        8,
+        1
+      ]
     },
     {
       "modulation": [
         0
       ],
-      "pitchRatio": 0.33,
       "envelope": {
         "tag": "adsr",
         "attack": 0.5124500000000003,
@@ -29,23 +30,30 @@
         "release": 0.07465000000000001
       },
       "volume": -72,
-      "wave": "sine"
+      "wave": "sine",
+      "pitchFraction": [
+        2,
+        3
+      ]
     },
     {
       "modulation": [
         65,
         24
       ],
-      "pitchRatio": 0.5,
       "envelope": {
         "tag": "adsr",
         "attack": 0.005,
         "decay": 0.21989999999999998,
         "sustain": 0.19,
-        "release": 0.05475000000000001
+        "release": 0.3035000000000001
       },
       "volume": -72,
-      "wave": "sine"
+      "wave": "sine",
+      "pitchFraction": [
+        1,
+        1
+      ]
     },
     {
       "modulation": [
@@ -53,7 +61,6 @@
         0,
         34
       ],
-      "pitchRatio": 0.5,
       "envelope": {
         "tag": "adsr",
         "attack": 0.005,
@@ -61,9 +68,13 @@
         "sustain": 0.5,
         "release": 0.13034999999999974
       },
-      "volume": -11,
-      "wave": "sine"
+      "volume": -12,
+      "wave": "sine",
+      "pitchFraction": [
+        1,
+        1
+      ]
     }
   ],
-  "title": "Guitar"
+  "title": "Super Bass"
 }
