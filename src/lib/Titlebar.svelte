@@ -8,27 +8,12 @@
     HelpCircleIcon,
   } from "svelte-feather-icons";
   import PresetSelector from "./PresetSelector.svelte";
+  import SaveDialog from "$lib/SaveDialog.svelte";
 
   export let params: Instrument;
 
   function randomize() {
     params = randomizeInstrument(params);
-  }
-  function download(filename: string, type: string, data: string) {
-    const a = document.createElement("a");
-    a.href = window.URL.createObjectURL(new Blob([data], { type }));
-    a.download = filename;
-    a.style.display = "none";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  }
-  function downloadInstrument() {
-    download(
-      `${params.title}.json`,
-      "application/json",
-      JSON.stringify(params, null, 2)
-    );
   }
   function uploadInstrument() {
     const input = document.createElement("input");
@@ -64,9 +49,7 @@
   <button title="Randomize" on:click={randomize}>
     <ShuffleIcon />
   </button>
-  <button title="Save Instrument" on:click={downloadInstrument}>
-    <DownloadIcon />
-  </button>
+  <SaveDialog {params} />
   <button title="Load Instrument" on:click={uploadInstrument}>
     <UploadIcon />
   </button>
