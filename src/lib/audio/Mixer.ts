@@ -34,7 +34,8 @@ export class Mixer {
     const voice = this.voices.find(
       (v) =>
         v.note.note === note.note &&
-        v.note.instrumentIndex === note.instrumentIndex
+        v.note.instrumentIndex === note.instrumentIndex &&
+        v.gate == true
     );
     if (voice) {
       voice.gate = false;
