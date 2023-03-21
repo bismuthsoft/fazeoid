@@ -9,7 +9,7 @@
   export let keyLabel: "none" | "note" | "noteOctave" = "none";
   export let portrait: boolean;
 
-  let notesDown: Note[] = [];
+  let notesDown: Record<number, Note> = {};
   type Mode = "keyboard" | "pointer" | "touch" | "MIDI";
 
   const MIN_OCTAVE = 2;
@@ -18,9 +18,6 @@
   let noteOffset: number;
 
   function pressNote(note: number, mode: Mode): Note | undefined {
-    if (notesDown[note]) {
-      return undefined;
-    }
     const pressed: Note = {
       note: note + noteOffset,
       instrumentIndex: 0,
@@ -42,10 +39,8 @@
   }
 
   function clearNotes() {
-    notesDown.forEach((note) => {
-      dispatch("noteUp", note);
-    });
     notesDown = [];
+    dispatch("clear");
   }
 
   function keyLabelFn(note: number): string {
@@ -129,7 +124,6 @@
     <Midi
       on:noteDown={(ev) => handleMidi(ev.detail, true)}
       on:noteUp={(ev) => handleMidi(ev.detail, false)}
-      on:midiStarted={clearNotes}
     />
   </div>
   <div class="octavePicker">
