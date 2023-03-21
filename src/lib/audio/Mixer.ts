@@ -30,12 +30,16 @@ export class Mixer {
     }
   }
 
-  noteUp(uid: number) {
-    const index = this.voices.findIndex((v) => v.uid === uid);
+  noteUp(note: Note) {
+    const index = this.voices.findIndex(
+      (v) =>
+        v.note.note === note.note &&
+        v.note.instrumentIndex === note.instrumentIndex
+    );
     if (index > -1) {
       this.voices[index].gate = false;
     } else {
-      console.log(`Bad note up ${uid}`);
+      console.log(`Bad note up ${note}`);
     }
   }
 

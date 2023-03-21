@@ -8,7 +8,6 @@ export default class Voice {
     volume!: number; // Volume amount 0.0 thru 1.0.
     instrumentIndex: number;
     srate: number;
-    uid: number;
 
     private oscs!: Oscillator[];
     private modMatrix!: number[][];
@@ -16,12 +15,11 @@ export default class Voice {
 
     constructor(
         instrument: Instrument,
-        private note: Note,
+        public note: Note,
         srate: number) {
         this.instrumentIndex = note.instrumentIndex;
         this.srate = srate;
         this.gate = true;
-        this.uid = note.uid;
 
         this.setInstrument(instrument);
     }

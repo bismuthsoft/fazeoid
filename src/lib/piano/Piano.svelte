@@ -8,82 +8,44 @@
   export let keyLabel: "none" | "note" | "noteOctave" = "none";
   export let portrait: boolean;
 
-  type PianoKey = {
-    isWhite: boolean;
-    row: number;
-    column: number;
-    note: number;
-  };
+  let notesDown: Note[] = [];
+  type Mode = "keyboard" | "pointer" | "touch" | "MIDI";
 
   const MIN_OCTAVE = 2;
   const MAX_OCTAVE = 6;
   let octave = 4;
-  $: numKeys = portrait ? 18 : 36;
-  let keys: PianoKey[];
   let noteOffset: number;
-  $: {
-    // Octave shift
-    noteOffset = (octave - Math.floor(numKeys / 24)) * 12;
-    keys = generateKeys(numKeys);
-    clearNotes();
-  }
 
-  function generateKeys(numKeys: number): PianoKey[] {
-    return Array(numKeys)
-      .fill(0)
-      .map((_, index: number) => {
-        const note = index;
-        const isWhite = isWhiteNote(note);
-        const row = isWhite ? 2 : 1;
-        const column = collapseColumn(note);
-        return { isWhite, row, column, note };
-      });
-  }
-
-  type PianoNote = { keyboard?: Note; pointer?: Note };
-  let notesDown: PianoNote[] = [];
-  let noteuid = 0;
-
-  function pressNote(note: number, type: keyof PianoNote): Note | undefined {
-    if (notesDown[note] && notesDown[note][type]) {
+  function pressNote(note: number, noteMode: Mode): Note | undefined {
+    if (notesDown[note]) {
       return undefined;
     }
     const pressed: Note = {
       note: note + noteOffset,
-      uid: noteuid++,
       instrumentIndex: 0,
     };
-    notesDown[note] = {
-      ...(notesDown[note] ?? {}),
-      [type]: pressed,
-    };
+    notesDown[note] = pressed;
     dispatch("noteDown", pressed);
     return pressed;
   }
-  function releaseNote(note: number, type: keyof PianoNote) {
-    const noteObj = notesDown[note] && notesDown[note][type];
+
+  function releaseNote(note: number, noteMode: Mode) {
+    const noteObj = notesDown[note];
     if (noteObj) {
-      dispatch("noteUp", noteObj.uid);
-      notesDown[noteObj.note - noteOffset][type] = undefined;
+      dispatch("noteUp", noteObj);
+      delete notesDown[noteObj.note - noteOffset];
+      notesDown = notesDown;
     } else {
-      console.log("Bad " + type + " note up " + note);
+      console.log("Bad " + noteMode + " note up " + note);
     }
   }
   function clearNotes() {
     notesDown.forEach((note) => {
-      if (note.keyboard) dispatch("noteUp", note.keyboard.uid);
-      if (note.pointer) dispatch("noteUp", note.pointer.uid);
+      dispatch("noteUp", note);
     });
     notesDown = [];
   }
 
-  function isWhiteNote(index: number): boolean {
-    return [1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1][index % 12] === 1;
-  }
-  function collapseColumn(index: number): number {
-    const octave = Math.floor(index / 12) * 7;
-    return [1, 1, 2, 2, 3, 4, 4, 5, 5, 6, 6, 7][index % 12] + octave;
-  }
   function keyLabelFn(note: number): string {
     return (
       noteNames[note % 12] +
@@ -91,19 +53,12 @@
     );
   }
 
-  function keyboardDown(ev: KeyboardEvent) {
-    return handleKeyboard(ev, true);
-  }
-  function keyboardUp(ev: KeyboardEvent) {
-    return handleKeyboard(ev, false);
-  }
-
   function handleKeyboard(ev: KeyboardEvent, down: boolean) {
     if (
       (down && (ev.altKey || ev.ctrlKey || ev.shiftKey)) ||
       document.activeElement instanceof HTMLInputElement
     ) {
-      return undefined;
+      return;
     }
     const note = keyBinds[ev.code];
     if (note !== undefined) {
@@ -116,9 +71,48 @@
       }
     }
   }
+
+  let keys: PianoKey[];
+  $: numKeys = portrait ? 18 : 36;
+
+  $: {
+    // Octave shift
+    noteOffset = (octave - Math.floor(numKeys / 24)) * 12;
+    keys = generateKeys(numKeys);
+    clearNotes();
+  }
+
+  type PianoKey = {
+    isWhite: boolean;
+    row: number;
+    column: number;
+    note: number;
+  };
+
+  function generateKeys(numKeys: number): PianoKey[] {
+    let isWhiteNote = (index: number) => {
+      return [1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1][index % 12] === 1;
+    };
+    let collapseColumn = (index: number) => {
+      const octave = Math.floor(index / 12) * 7;
+      return [1, 1, 2, 2, 3, 4, 4, 5, 5, 6, 6, 7][index % 12] + octave;
+    };
+    return Array(numKeys)
+      .fill(0)
+      .map((_, index: number) => {
+        const note = index;
+        const isWhite = isWhiteNote(note);
+        const row = isWhite ? 2 : 1;
+        const column = collapseColumn(note);
+        return { isWhite, row, column, note };
+      });
+  }
 </script>
 
-<svelte:window on:keydown={keyboardDown} on:keyup={keyboardUp} />
+<svelte:window
+  on:keydown={(ev) => handleKeyboard(ev, true)}
+  on:keyup={(ev) => handleKeyboard(ev, false)}
+/>
 
 <div class="pianoBar">
   <button
@@ -143,7 +137,7 @@
       class:whiteKey={isWhite}
       class:blackKey={!isWhite}
       class:oddOctave={(note + noteOffset) % 24 < 12}
-      class:down={notesDown[note]?.keyboard || notesDown[note]?.pointer}
+      class:down={notesDown[note]}
       on:pointerdown={() => pressNote(note, "pointer")}
       on:pointerup={() => releaseNote(note, "pointer")}
       on:mouseenter={(ev) => {
