@@ -2,6 +2,7 @@
   import type { Note } from "$lib/audio/instrument";
   import keyBinds from "./keyBinds";
   import noteNames from "./noteNames";
+  import Midi from "./MIDI.svelte";
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
 
@@ -16,7 +17,7 @@
   let octave = 4;
   let noteOffset: number;
 
-  function pressNote(note: number, noteMode: Mode): Note | undefined {
+  function pressNote(note: number, mode: Mode): Note | undefined {
     if (notesDown[note]) {
       return undefined;
     }
@@ -29,16 +30,17 @@
     return pressed;
   }
 
-  function releaseNote(note: number, noteMode: Mode) {
+  function releaseNote(note: number, mode: Mode) {
     const noteObj = notesDown[note];
     if (noteObj) {
       dispatch("noteUp", noteObj);
       delete notesDown[noteObj.note - noteOffset];
       notesDown = notesDown;
     } else {
-      console.log("Bad " + noteMode + " note up " + note);
+      console.log("Bad " + mode + " note up " + note);
     }
   }
+
   function clearNotes() {
     notesDown.forEach((note) => {
       dispatch("noteUp", note);
@@ -69,6 +71,14 @@
       } else {
         releaseNote(note, "keyboard");
       }
+    }
+  }
+
+  function handleMidi(note: number, down: boolean) {
+    if (down) {
+      pressNote(note - noteOffset, "MIDI");
+    } else {
+      releaseNote(note - noteOffset, "MIDI");
     }
   }
 
@@ -115,19 +125,28 @@
 />
 
 <div class="pianoBar">
-  <button
-    class="octaveButton"
-    on:click={() => (octave = Math.max(MIN_OCTAVE, octave - 1))}
-  >
-    -
-  </button>
-  Octave: {octave}
-  <button
-    class="octaveButton"
-    on:click={() => (octave = Math.min(MAX_OCTAVE, octave + 1))}
-  >
-    +
-  </button>
+  <div style:width="7em">
+    <Midi
+      on:noteDown={(ev) => handleMidi(ev.detail, true)}
+      on:noteUp={(ev) => handleMidi(ev.detail, false)}
+    />
+  </div>
+  <div class="octavePicker">
+    <button
+      class="octaveButton"
+      on:click={() => (octave = Math.max(MIN_OCTAVE, octave - 1))}
+    >
+      -
+    </button>
+    Octave: {octave}
+    <button
+      class="octaveButton"
+      on:click={() => (octave = Math.min(MAX_OCTAVE, octave + 1))}
+    >
+      +
+    </button>
+  </div>
+  <button on:click={clearNotes}>Stop Notes</button>
 </div>
 
 <div class="piano">
@@ -156,7 +175,10 @@
 
 <style>
   .pianoBar {
-    align-self: center;
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    width: 100%;
   }
   .octaveButton {
     font-size: 1rem;
