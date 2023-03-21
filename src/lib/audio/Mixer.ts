@@ -31,16 +31,21 @@ export class Mixer {
   }
 
   noteUp(note: Note) {
-    const index = this.voices.findIndex(
+    const voice = this.voices.find(
       (v) =>
         v.note.note === note.note &&
         v.note.instrumentIndex === note.instrumentIndex
     );
-    if (index > -1) {
-      this.voices[index].gate = false;
+    if (voice) {
+      voice.gate = false;
     } else {
       console.log(`Bad note up ${note}`);
     }
+  }
+
+  clear() {
+    this.voices = [];
+    //    this.voices.forEach((v) => (v.gate = false));
   }
 
   setInstrument(index: number, instrument: Instrument) {

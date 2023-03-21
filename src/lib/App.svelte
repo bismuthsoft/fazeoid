@@ -44,7 +44,12 @@
 <div class="App">
   <Titlebar bind:params={$instrument} />
   <InstrumentPanel bind:params={$instrument} {portrait} />
-  <Piano on:noteUp={noteUp} on:noteDown={noteDown} {portrait} />
+  <Piano
+    on:noteUp={noteUp}
+    on:noteDown={noteDown}
+    on:clear={() => ctrl.postMessage("clear")}
+    {portrait}
+  />
   <footer>
     <div>Fazeoid {VERSION}</div>
     <div>Copyright © 2022 BismuthSoft</div>
