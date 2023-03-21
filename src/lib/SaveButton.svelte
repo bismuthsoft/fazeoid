@@ -1,6 +1,7 @@
 <script lang="ts">
   import { DownloadIcon } from "svelte-feather-icons";
   import type { Instrument } from "./audio/instrument";
+  import Modal from "./Modal.svelte";
 
   export let params: Instrument;
   let expanded = false;
@@ -41,34 +42,16 @@
 <button title="Save Instrument" on:click={showDialog}>
   <DownloadIcon />
 </button>
-<div class="modal" style:visibility={expanded ? "visible" : "hidden"}>
+<Modal {expanded}>
   <h2>Save Instrument As...</h2>
   <input on:submit={doSave} bind:this={input} value={defaultName} />
   <div>
     <button on:click={doSave} class="saveButton">Save</button>
     <button on:click={hideDialog} class="saveButton">Cancel</button>
   </div>
-</div>
+</Modal>
 
 <style>
-  .modal {
-    background-color: #888888af;
-    backdrop-filter: blur(5px);
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 1.5em;
-    border-radius: 1em;
-    transition: 0.3s;
-  }
-
   input {
     font-size: 2em;
     padding: 1em;

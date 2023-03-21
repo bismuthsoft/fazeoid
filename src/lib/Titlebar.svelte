@@ -8,7 +8,7 @@
     HelpCircleIcon,
   } from "svelte-feather-icons";
   import PresetSelector from "./PresetSelector.svelte";
-  import SaveDialog from "$lib/SaveDialog.svelte";
+  import SaveButton from "$lib/SaveButton.svelte";
 
   export let params: Instrument;
 
@@ -49,7 +49,7 @@
   <button title="Randomize" on:click={randomize}>
     <ShuffleIcon />
   </button>
-  <SaveDialog {params} />
+  <SaveButton {params} />
   <button title="Load Instrument" on:click={uploadInstrument}>
     <UploadIcon />
   </button>
