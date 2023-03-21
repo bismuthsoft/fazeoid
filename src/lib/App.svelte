@@ -3,6 +3,7 @@
   import VERSION from "$lib/version";
   import AudioController from "$lib/audio/Controller";
   import InstrumentPanel from "$lib/InstrumentPanel.svelte";
+  import UserAgentWarn from "./UserAgentWarn.svelte";
   import Piano from "$lib/piano/Piano.svelte";
 
   import { onDestroy } from "svelte";
@@ -49,6 +50,8 @@
     <div>Copyright © 2022 BismuthSoft</div>
   </footer>
 </div>
+
+<UserAgentWarn />
 
 <style>
   .App {
