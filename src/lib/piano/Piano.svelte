@@ -129,6 +129,7 @@
     <Midi
       on:noteDown={(ev) => handleMidi(ev.detail, true)}
       on:noteUp={(ev) => handleMidi(ev.detail, false)}
+      on:midiStarted={clearNotes}
     />
   </div>
   <div class="octavePicker">
