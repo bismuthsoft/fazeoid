@@ -2,10 +2,10 @@
 
 <style global>
   body {
-    --highlight: #00a8dd7f;
-    --highlight-opaque: #00a8dd;
-    --highlight-gradient: radial-gradient(#4cc, #44c);
-    --background: #2020209f;
+    --highlight: #00a8a87f;
+    --highlight-opaque: #00bfff;
+    --highlight-gradient: radial-gradient(#6ff, #44c);
+    --background: #2030309f;
     --background-hover: #000000ff;
     margin: 0;
     font-family: "Helvetica Neue", "TeX Gyre Heros", Roboto, Arial, sans-serif;

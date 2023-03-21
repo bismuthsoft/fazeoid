@@ -62,7 +62,7 @@
     padding: 0.5rem 1rem;
     border-radius: 1em;
     background: var(--bg-color);
-    --bg-color: #000000a2;
+    --bg-color: #0000007f;
     backdrop-filter: blur(5px);
     color: white;
     box-shadow: 0 0 10px #3338;
