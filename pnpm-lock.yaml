@@ -5,6 +5,7 @@ specifiers:
   '@sveltejs/adapter-auto': 1.0.0-next.74
   '@sveltejs/kit': 1.0.0-next.482
   '@types/audioworklet': ^0.0.32
+  '@types/webmidi': ^2.0.7
   '@typescript-eslint/eslint-plugin': ^5.37.0
   '@typescript-eslint/parser': ^5.37.0
   esbuild: ^0.15.7
@@ -27,6 +28,7 @@ devDependencies:
   '@sveltejs/adapter-auto': 1.0.0-next.74
   '@sveltejs/kit': 1.0.0-next.482_svelte@3.50.1+vite@3.1.0
   '@types/audioworklet': 0.0.32
+  '@types/webmidi': 2.0.7
   '@typescript-eslint/eslint-plugin': 5.37.0_22c5fnooleyfkzrkkgdmel5kmi
   '@typescript-eslint/parser': 5.37.0_irgkl5vooow2ydyo6aokmferha
   esbuild: 0.15.7
@@ -283,6 +285,10 @@ packages:
     resolution: {integrity: sha512-BPdoIt1lfJ6B7rw35ncdwBZrAssjcwzI5LByIrYs+tpXlj/CAkuVdRsgZDdP4lq5EjyWzwxZCqAoFyHKFwp32g==}
     dependencies:
       '@types/node': 18.7.18
+    dev: true
+
+  /@types/webmidi/2.0.7:
+    resolution: {integrity: sha512-BMVefNAum/swSmQJdTbRWBuDPeWT7fHAZEzmtY6eBl1ObvkWVzh39VvAFC8v9n7Y5XoOpWmeYzyUUVfmpq3ggQ==}
     dev: true
 
   /@typescript-eslint/eslint-plugin/5.37.0_22c5fnooleyfkzrkkgdmel5kmi:
