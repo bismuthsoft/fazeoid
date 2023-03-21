@@ -31,7 +31,6 @@ export type WaveType =
 export type Note = {
   note: number; // Frequency
   instrumentIndex: number;
-  uid: number;
 };
 
 export function sineWave(numOscs = 4): Instrument {
@@ -45,9 +44,9 @@ export function sineWave(numOscs = 4): Instrument {
         i === numOscs - 1
           ? defaultOscillator(i)
           : {
-            ...defaultOscillator(i),
-            volume: -12,
-          }
+              ...defaultOscillator(i),
+              volume: -12,
+            }
       ),
   };
 }
@@ -77,7 +76,8 @@ export function randomizeInstrument(params: Instrument): Instrument {
     "pulseSine",
     "square",
   ];
-  const rand = (a: number, b: number) => Math.floor(Math.random() * (b - a)) + a;
+  const rand = (a: number, b: number) =>
+    Math.floor(Math.random() * (b - a)) + a;
   return {
     ...params,
     oscs: Array(params.oscs.length)
@@ -87,8 +87,11 @@ export function randomizeInstrument(params: Instrument): Instrument {
         wave: waves[Math.floor(Math.random() * 6)],
         modulation: Array(i)
           .fill(0)
-          .map(() => Math.floor(Math.pow(Math.random(), params.oscs.length - 1) * 100)),
-        pitchFraction: i === params.oscs.length - 1 ? [1, 1] : [rand(0, 13), rand(1, 13)],
+          .map(() =>
+            Math.floor(Math.pow(Math.random(), params.oscs.length - 1) * 100)
+          ),
+        pitchFraction:
+          i === params.oscs.length - 1 ? [1, 1] : [rand(0, 13), rand(1, 13)],
       })),
   };
 }
