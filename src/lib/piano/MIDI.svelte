@@ -86,6 +86,7 @@
       midiAccess.inputs.forEach((entry) => {
         entry.onmidimessage = onMIDIMessage;
       });
+      dispatch("midiStarted");
       status = "running";
     } catch (err) {
       status = "failed";
