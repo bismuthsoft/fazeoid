@@ -111,12 +111,13 @@ function scaleOscillation(depth: number): number {
 class Oscillator {
     lastPhase = 0;
     phase = 0;
-    maxFreq = 20000;
+    maxFreq = 24000;
 
     constructor(private pitch: number,
         public envelope: Envelope,
         public srate: number,
         public wave: WaveType) {
+        this.maxFreq = Math.min(this.maxFreq, this.srate / 2.0);
     }
 
     setPitch(pitch: number) {
