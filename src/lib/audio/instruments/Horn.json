@@ -6,13 +6,13 @@
       "modulation": [],
       "pitchFraction": [
         1,
-        48
+        30
       ],
       "wave": "sine",
       "envelope": {
         "tag": "adsr",
-        "attack": 0.3638,
-        "decay": 0.005,
+        "attack": 1,
+        "decay": 0.41295000000000026,
         "sustain": 1,
         "release": 0.005
       },
@@ -21,13 +21,13 @@
     {
       "envelope": {
         "tag": "adsr",
-        "attack": 0.034850000000000075,
-        "decay": 0.6477499999999999,
-        "sustain": 0,
-        "release": 0.31345000000000023
+        "attack": 0.6915500000000006,
+        "decay": 0.6318499999999997,
+        "sustain": 1,
+        "release": 0.19405000000000003
       },
-      "volume": -25,
-      "wave": "sine",
+      "volume": -72,
+      "wave": "quarterSine",
       "pitchFraction": [
         1,
         1
@@ -42,16 +42,16 @@
         "attack": 0.005,
         "decay": 1,
         "sustain": 0,
-        "release": 0.3193999999999997
+        "release": 0.2596999999999994
       },
-      "volume": -17,
+      "volume": -12,
       "wave": "quarterSine",
       "pitchFraction": [
         1,
         1
       ],
       "modulation": [
-        3,
+        0,
         30
       ]
     }
