@@ -1,0 +1,41 @@
+{
+  "version": "0.4.0",
+  "basePitch": 440,
+  "oscs": [
+    {
+      "modulation": [],
+      "envelope": {
+        "tag": "adsr",
+        "attack": 1,
+        "decay": 0.45870000000000005,
+        "sustain": 1,
+        "release": 0.22
+      },
+      "volume": -72,
+      "wave": "square",
+      "pitchFraction": [
+        2,
+        7
+      ]
+    },
+    {
+      "modulation": [
+        33
+      ],
+      "envelope": {
+        "tag": "adsr",
+        "attack": 0.005,
+        "decay": 0.6577000000000001,
+        "sustain": 0,
+        "release": 0.22
+      },
+      "volume": -12,
+      "wave": "square",
+      "pitchFraction": [
+        7,
+        2
+      ]
+    }
+  ],
+  "title": "Laser"
+}

@@ -8,18 +8,20 @@ import piano from "./Piano.json";
 import sitar from "./Sitar.json";
 import superBass from "./Super Bass.json";
 import ufo from "./UFO.json";
+import laser from "./Laser.json";
 
 let instruments = [
-    bass,
-    bell,
-    horn,
+    piano,
     metalPiano,
+    bass,
+    superBass,
+    horn,
     reed,
     organ,
-    piano,
+    bell,
     sitar,
-    superBass,
     ufo,
+    laser,
 ]
 
 export default instruments;
