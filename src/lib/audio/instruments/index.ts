@@ -2,7 +2,7 @@ import bass from "./Bass.json";
 import bell from "./Bell.json";
 import horn from "./Horn.json";
 import metalPiano from "./Metal Piano.json";
-import Oboe from "./Oboe.json";
+import reed from "./Reed.json";
 import organ from "./Organ.json";
 import piano from "./Piano.json";
 import sitar from "./Sitar.json";
@@ -14,7 +14,7 @@ let instruments = [
     bell,
     horn,
     metalPiano,
-    Oboe,
+    reed,
     organ,
     piano,
     sitar,

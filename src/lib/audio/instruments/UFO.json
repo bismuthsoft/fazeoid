@@ -14,7 +14,7 @@
         "attack": 0.005,
         "decay": 0.6577000000000003,
         "sustain": 0,
-        "release": 0.2
+        "release": 2
       },
       "volume": -72
     },
@@ -24,7 +24,7 @@
         "attack": 0.005,
         "decay": 1,
         "sustain": 0,
-        "release": 0.33335000000000015
+        "release": 2
       },
       "volume": -72,
       "wave": "sine",
@@ -42,7 +42,7 @@
         "attack": 0.5821000000000002,
         "decay": 0.9064500000000005,
         "sustain": 0,
-        "release": 0.13034999999999974
+        "release": 0.78
       },
       "volume": -12,
       "wave": "sine",

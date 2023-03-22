@@ -6,10 +6,10 @@
       "modulation": [],
       "envelope": {
         "tag": "adsr",
-        "attack": 0.35325000000000006,
+        "attack": 0.72,
         "decay": 0.39900000000000024,
         "sustain": 0.5000000000000001,
-        "release": 0.05475000000000001
+        "release": 1
       },
       "volume": -72,
       "wave": "sine",
@@ -27,7 +27,7 @@
         "attack": 0.005,
         "decay": 0.9064500000000005,
         "sustain": 0,
-        "release": 0.13034999999999974
+        "release": 0.57
       },
       "volume": -12,
       "wave": "pulseSine",

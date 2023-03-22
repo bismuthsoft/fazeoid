@@ -27,7 +27,7 @@
         "attack": 0.005,
         "decay": 0.6119499999999998,
         "sustain": 0,
-        "release": 0.13034999999999974
+        "release": 0.84
       },
       "volume": -17,
       "wave": "sine",

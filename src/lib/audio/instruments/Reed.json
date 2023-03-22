@@ -9,7 +9,7 @@
         "attack": 0.005,
         "decay": 1,
         "sustain": 0.8299999999999998,
-        "release": 0.19405000000000008
+        "release": 0.41
       },
       "volume": -72,
       "wave": "absSine",
@@ -27,7 +27,7 @@
         "attack": 0.03485000000000002,
         "decay": 0.2597000000000005,
         "sustain": 0.4900000000000002,
-        "release": 0.11445000000000001
+        "release": 0.27
       },
       "volume": -12,
       "wave": "pulseSine",
@@ -37,5 +37,5 @@
       ]
     }
   ],
-  "title": "Oboe"
+  "title": "Reed"
 }
