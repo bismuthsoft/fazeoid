@@ -3,6 +3,7 @@
   import keyBinds from "./keyBinds";
   import noteNames from "./noteNames";
   import Midi from "./MIDI.svelte";
+  import { ChevronDownIcon, ChevronUpIcon } from "svelte-feather-icons";
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
 
@@ -130,15 +131,17 @@
     <button
       class="octaveButton"
       on:click={() => (octave = Math.max(MIN_OCTAVE, octave - 1))}
+      disabled={octave === MIN_OCTAVE}
     >
-      -
+      <ChevronDownIcon size="16" />
     </button>
     Octave: {octave}
     <button
       class="octaveButton"
       on:click={() => (octave = Math.min(MAX_OCTAVE, octave + 1))}
+      disabled={octave === MAX_OCTAVE}
     >
-      +
+      <ChevronUpIcon size="16" />
     </button>
   </div>
   <button on:click={clearNotes}>Stop Notes</button>
