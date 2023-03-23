@@ -60,22 +60,27 @@
 
 <style>
   .container {
-    display: flex;
-    align-items: center;
-    width: calc(50% - 1rem);
+    display: grid;
+    width: calc(33% - 1rem);
   }
   .container :global(svg) {
     width: 100%;
     height: 6rem;
   }
   .label {
-    width: 1.2em;
+    z-index: 2;
+    grid-area: 1 / 1;
+    width: 1.5em;
+    border-radius: 0.4em;
+    text-align: center;
   }
   .content {
+    grid-area: 1 / 1 / 4 / 1;
     flex-grow: 1;
   }
   @media (min-width: 920px) {
     .label {
+      width: calc(50% - 1rem);
       display: none;
     }
     .container {
