@@ -95,11 +95,15 @@
 </script>
 
 <div>
-  <button on:click={midiButton} class="midiButton">
+  <button
+    on:click={midiButton}
+    class="midiButton"
+    disabled={status != "stopped"}
+  >
     {#if status == "stopped"}
       Start MIDI
     {:else if status == "running"}
-      MIDI is Live
+      MIDI Live
     {:else if status == "failed"}
       MIDI Failed!
     {/if}

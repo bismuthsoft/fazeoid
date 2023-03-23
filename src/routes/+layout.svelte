@@ -50,4 +50,11 @@
     background: var(--highlight-gradient);
     fill: var(--highlight-gradient);
   }
+  button:disabled,
+  input:disabled,
+  .controlBG:disabled {
+    background: var(--background);
+    fill: var(--background);
+    opacity: 0.5;
+  }
 </style>
