@@ -5,7 +5,7 @@
   import Oscilloscope from "./Oscilloscope.svelte";
 
   export let instrument: Instrument;
-  export let zoom = 0.5; // How many periods to show
+  export let zoom = 0.25; // How many periods to show
   export let portrait: boolean;
 
   let resolution = 400;
@@ -25,7 +25,7 @@
     return rotateData(oscData);
   }
 
-  const note: Note = { note: 69, instrumentIndex: 0, uid: 0 };
+  const note: Note = { note: 57, instrumentIndex: 0 };
   $: flatInstrument = {
     ...instrument,
     oscs: instrument.oscs.map((o) => ({
