@@ -120,7 +120,7 @@
   on:keyup={(ev) => handleKeyboard(ev, false)}
 />
 
-<div class="pianoBar">
+<div class="pianoBar" class:portrait>
   <div style:width="7em">
     <Midi
       on:noteDown={(ev) => handleMidi(ev.detail, true)}
@@ -177,6 +177,10 @@
     flex-flow: row;
     justify-content: space-between;
     width: 100%;
+  }
+  .pianoBar.portrait {
+    justify-content: space-around;
+    width: calc(100% - 2em);
   }
   .octaveButton {
     font-size: 1rem;
