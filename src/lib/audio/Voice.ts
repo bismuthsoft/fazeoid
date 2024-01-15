@@ -9,6 +9,8 @@ import { Envelope } from "./envelope";
 import { WaveTable } from "./WaveTable";
 
 const MOD_RATE = 500.0; // Used to set global modulation
+const FILTER_FREQ = 8000.0; // Lowpass filter for oscillators
+const FILTER_STAGES = 4;
 
 export default class Voice {
     gate: boolean;
@@ -135,7 +137,7 @@ class Oscillator {
     ) {
         this.maxFreq = Math.min(this.maxFreq, this.srate / 2.0);
         this.waveTable = new WaveTable(srate);
-        this.filter = new Filter();
+        this.filter = new Filter(FILTER_FREQ / srate, FILTER_STAGES);
     }
 
     setPitch(pitch: number) {
@@ -163,21 +165,25 @@ class Oscillator {
 }
 
 class Filter {
-    constructor(private f0 = new OnePole(),
-    private f1 = new OnePole(),
-    ) {}
+    private filters: OnePole[];
+
+    constructor(fc: number, poles: number) {
+        this.filters = Array(poles).fill(0).map(() => new OnePole(fc));
+    }
 
     step(sample: number) {
-        return this.f0.step(this.f1.step(sample));
+        return this.filters.reduce((acc, f) => f.step(acc), sample);
     }
 }
 
 // https://www.earlevel.com/main/2012/12/15/a-one-pole-filter/
 class OnePole {
-    constructor(private z1 = 0) {}
+    private z1 = 0;
+
+    constructor(private fc: number) {}
 
     step(sample: number) {
-        const b1 = Math.exp(-2 * Math.PI * 1/16);
+        const b1 = Math.exp(-2 * Math.PI * this.fc);
         const a0 = 1.0 - b1;
         this.z1 = sample * a0 + this.z1 * b1;
         return this.z1;
