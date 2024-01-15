@@ -1,7 +1,12 @@
-import type { Instrument, Note, OscillatorParams, WaveType } from "./instrument";
-import { MIN_VOLUME } from "./instrument"
+import type {
+    Instrument,
+    Note,
+    OscillatorParams,
+    WaveType,
+} from "./instrument";
+import { MIN_VOLUME } from "./instrument";
 import { Envelope } from "./envelope";
-import { WaveTable } from './WaveTable';
+import { WaveTable } from "./WaveTable";
 
 const MOD_RATE = 500.0; // Used to set global modulation
 
@@ -15,10 +20,7 @@ export default class Voice {
     private modMatrix!: number[][];
     private outVolumes!: number[];
 
-    constructor(
-        instrument: Instrument,
-        public note: Note,
-        srate: number) {
+    constructor(instrument: Instrument, public note: Note, srate: number) {
         this.instrumentIndex = note.instrumentIndex;
         this.srate = srate;
         this.gate = true;
@@ -28,12 +30,11 @@ export default class Voice {
 
     // Initial playback
     setInstrument(instrument: Instrument) {
-        this.oscs = instrument.oscs.map(
-            (osc: OscillatorParams, index) => {
-                const pitch = this.calcPitch(instrument, index);
-                const envelope = new Envelope(osc.envelope, this.srate);
-                return new Oscillator(pitch, envelope, this.srate, osc.wave);
-            });
+        this.oscs = instrument.oscs.map((osc: OscillatorParams, index) => {
+            const pitch = this.calcPitch(instrument, index);
+            const envelope = new Envelope(osc.envelope, this.srate);
+            return new Oscillator(pitch, envelope, this.srate, osc.wave);
+        });
         this.setModMatrix(instrument);
         this.setOutVolumes(instrument);
     }
@@ -51,28 +52,34 @@ export default class Voice {
 
     private setModMatrix(instrument: Instrument) {
         this.modMatrix = instrument.oscs.map((osc: OscillatorParams) =>
-            osc.modulation.map(scaleOscillation));
+            osc.modulation.map(scaleOscillation)
+        );
     }
 
     private setOutVolumes(instrument: Instrument) {
-        this.outVolumes = instrument.oscs.map(
-            ({ volume }: OscillatorParams) => decibelToScale(volume));
+        this.outVolumes = instrument.oscs.map(({ volume }: OscillatorParams) =>
+            decibelToScale(volume)
+        );
     }
 
     // Calculate the pitch for an oscillator on self
     private calcPitch(instrument: Instrument, index: number) {
         let frac = ([a, b]: [number, number]) => a / b;
-        return instrument.basePitch *
+        return (
+            instrument.basePitch *
             frac(instrument.oscs[index].pitchFraction) *
-            noteToFreq(this.note.note);
+            noteToFreq(this.note.note)
+        );
     }
 
     addWave(channels: Float32Array[]) {
-        channels.forEach(channel => {
+        channels.forEach((channel) => {
             for (let i = 0; i < channel.length; ++i) {
                 const oscs = this.getOscillators();
                 channel[i] += oscs.reduce(
-                    (acc, x, i) => acc + x * this.outVolumes[i], 0);
+                    (acc, x, i) => acc + x * this.outVolumes[i],
+                    0
+                );
             }
         });
     }
@@ -82,15 +89,20 @@ export default class Voice {
         this.oscs.forEach((osc: Oscillator, i: number) => {
             oscCache[i] = osc.getSample();
             this.modMatrix[i].forEach((depth: number, i: number) =>
-                osc.modulateWith(oscCache[i], depth * noteToFreq(this.note.note)))
+                osc.modulateWith(
+                    oscCache[i],
+                    depth * noteToFreq(this.note.note)
+                )
+            );
             osc.envelope.stepPosition(this.gate);
-        })
+        });
         return oscCache;
     }
 
     isStopped(): boolean {
-        return !this.oscs.some((osc, i) =>
-            this.outVolumes[i] > 0 && !osc.envelope.isStopped());
+        return !this.oscs.some(
+            (osc, i) => this.outVolumes[i] > 0 && !osc.envelope.isStopped()
+        );
     }
 }
 
@@ -113,13 +125,17 @@ class Oscillator {
     maxFreq = 24000;
 
     private waveTable: WaveTable;
+    private filter: Filter;
 
-    constructor(public pitch: number,
+    constructor(
+        public pitch: number,
         public envelope: Envelope,
         public srate: number,
-        public wave: WaveType) {
+        public wave: WaveType
+    ) {
         this.maxFreq = Math.min(this.maxFreq, this.srate / 2.0);
         this.waveTable = new WaveTable(srate);
+        this.filter = new Filter();
     }
 
     setPitch(pitch: number) {
@@ -133,11 +149,37 @@ class Oscillator {
         let realPitch = phaseStep * this.srate;
         if (realPitch == 0) realPitch = 1;
         this.lastPhase = this.phase;
-        const sample = this.waveTable.getSample(this.wave, realPitch, this.phase);
-        return sample * this.envelope.getPosition();
+        const sample = this.waveTable.getSample(
+            this.wave,
+            realPitch,
+            this.phase
+        );
+        return this.filter.step(sample * this.envelope.getPosition());
     }
 
     modulateWith(sample: number, modDepth: number) {
-        this.phase += sample * modDepth / this.srate * 100;
+        this.phase += ((sample * modDepth) / this.srate) * 100;
+    }
+}
+
+class Filter {
+    constructor(private f0 = new OnePole(),
+    private f1 = new OnePole(),
+    ) {}
+
+    step(sample: number) {
+        return this.f0.step(this.f1.step(sample));
+    }
+}
+
+// https://www.earlevel.com/main/2012/12/15/a-one-pole-filter/
+class OnePole {
+    constructor(private z1 = 0) {}
+
+    step(sample: number) {
+        const b1 = Math.exp(-2 * Math.PI * 1/16);
+        const a0 = 1.0 - b1;
+        this.z1 = sample * a0 + this.z1 * b1;
+        return this.z1;
     }
 }
