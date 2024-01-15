@@ -88,8 +88,11 @@ export default class Voice {
 
     getOscillators(): number[] {
         const oscCache: number[] = [];
+        const rawOscs: number[] = [];
         this.oscs.forEach((osc: Oscillator, i: number) => {
-            oscCache[i] = osc.getSample();
+            const [filter, raw] = osc.getSample();
+            oscCache[i] = filter;
+            rawOscs[i] = raw;
             this.modMatrix[i].forEach((depth: number, i: number) =>
                 osc.modulateWith(
                     oscCache[i],
@@ -98,7 +101,7 @@ export default class Voice {
             );
             osc.envelope.stepPosition(this.gate);
         });
-        return oscCache;
+        return rawOscs;
     }
 
     isStopped(): boolean {
@@ -144,7 +147,7 @@ class Oscillator {
         this.pitch = pitch;
     }
 
-    getSample(): number {
+    getSample(): [number, number] {
         this.phase += this.pitch / this.srate; // Base pitch
         // Calc wave pitch
         const phaseStep = Math.abs(this.phase - this.lastPhase);
@@ -156,7 +159,8 @@ class Oscillator {
             realPitch,
             this.phase
         );
-        return this.filter.step(sample * this.envelope.getPosition());
+        const out = sample * this.envelope.getPosition();
+        return [this.filter.step(out), out];
     }
 
     modulateWith(sample: number, modDepth: number) {
