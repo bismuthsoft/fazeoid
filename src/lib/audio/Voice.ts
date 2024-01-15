@@ -9,7 +9,7 @@ import { Envelope } from "./envelope";
 import { WaveTable } from "./WaveTable";
 
 const MOD_RATE = 500.0; // Used to set global modulation
-const FILTER_FREQ = 8000.0; // Lowpass filter for oscillators
+const FILTER_FREQ = 4000.0; // Lowpass filter for oscillators
 const FILTER_STAGES = 4;
 
 export default class Voice {
