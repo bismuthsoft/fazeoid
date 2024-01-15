@@ -68,8 +68,7 @@ function generateSample(
 ): number {
     const getWave = (isSin: boolean, pitch: number, amplitude: number) => {
         const wave = isSin ? Math.sin : Math.cos;
-        //        const rampLevel = this.ramp(realPitch * pitch, maxFreq);
-        return wave(phase * pitch) / amplitude; // * rampLevel;
+        return wave(phase * pitch) / amplitude;
     };
 
     // https://www.sfu.ca/sonic-studio-webdav/handbook/Fourier_Theorem.html
@@ -122,13 +121,3 @@ function generateSample(
 
     throw new Error(`Unknown wave type "${waveType}"!`);
 }
-
-// Ramp function for additive generation
-// function ramp(f: number, rampTop: number): number {
-//     if (f > rampTop) {
-//         //            throw new Error(`You just tried to make a frequency ${f} above the max frequency`);
-//         return 0;
-//     } else {
-//         return Math.pow((f - rampTop) / rampTop, 2);
-//     }
-// }

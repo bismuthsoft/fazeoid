@@ -3,7 +3,7 @@ import { MIN_VOLUME } from "./instrument"
 import { Envelope } from "./envelope";
 import { WaveTable } from './WaveTable';
 
-const MAX_MOD = 500.0; // Used to set global modulation amount
+const MOD_RATE = 500.0; // Used to set global modulation
 
 export default class Voice {
     gate: boolean;
@@ -104,7 +104,7 @@ function decibelToScale(db: number): number {
 
 // Depth 0-100 scaled from 0 to 1000 using a x^e curve
 function scaleOscillation(depth: number): number {
-    return Math.pow(depth / 100.0, Math.E) * MAX_MOD;
+    return Math.min(Math.pow(depth / 100.0, Math.E) * MOD_RATE);
 }
 
 class Oscillator {
