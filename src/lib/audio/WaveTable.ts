@@ -30,7 +30,7 @@ export class WaveTable {
         const s1 = t1 ? t1[phaseIndex] : 0;
         const s2 = t2 ? t2[phaseIndex] : 0;
         const tableFrac = freqIndex - tableIndex;
-        return s1 - tableFrac * (s2 - s1);
+        return s1 + tableFrac * (s2 - s1);
     }
 }
 
