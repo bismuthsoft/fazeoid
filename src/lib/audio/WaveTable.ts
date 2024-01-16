@@ -6,11 +6,15 @@ const minFreq = 20;
 type WaveTableEntries = number[][];
 
 const squareTable: WaveTableEntries = [];
+const absSineTable: WaveTableEntries = [];
 const sawTable: WaveTableEntries = [];
 
 export class WaveTable {
+    maxFreq: number;
+
     constructor(public srate: number) {
-        createTables(srate);
+        this.maxFreq = Math.min(20000, srate / 2);
+        createTables(srate, this.maxFreq);
     }
 
     getSample(waveType: WaveType, freq: number, _phase: number) {
@@ -18,26 +22,24 @@ export class WaveTable {
 
         switch(waveType) {
         case "sine":
-            return this.getSineSample(phase, freq, this.srate/2)
+            return this.getSineSample(phase, freq, this.maxFreq)
         case "absSine": {
-            const sine = this.getSineSample(phase, freq, this.srate/2);
-            const square = this.getWaveSample(squareTable, phase, freq, this.srate/2 - freq);
-            return sine * square - (2/Math.PI);
+            return this.getWaveSample(absSineTable, phase, freq, this.maxFreq - freq) / 2;
         }
         case "halfSine": {
-            const sine = this.getSineSample(phase, freq, this.srate/2);
-            const square = this.getWaveSample(squareTable, phase, freq, this.srate/2 - freq);
-            return sine * (square/2+0.5) - (1/Math.PI);
+            const sine = this.getSineSample(phase, freq, this.maxFreq)
+            const absSine = this.getWaveSample(absSineTable, phase, freq, this.maxFreq - freq) / 2;
+            return sine - absSine;
         }
         case "pulseSine": {
-            const sine = this.getSineSample(phase*2-0.25, freq*2, this.srate/2);
-            const square = this.getWaveSample(squareTable, phase, freq, this.srate/2 - freq*2);
+            const sine = this.getSineSample(phase*2-0.25, freq*2, this.maxFreq);
+            const square = this.getWaveSample(squareTable, phase, freq, this.maxFreq - freq*2);
             return sine * (square/2+0.5);
         }
         case "square":
-            return this.getWaveSample(squareTable, phase, freq, this.srate/2) / 2;
+            return this.getWaveSample(squareTable, phase, freq, this.maxFreq) / 2;
         case "saw": {
-            return this.getWaveSample(sawTable, phase, freq, this.srate/2) / 2;
+            return this.getWaveSample(sawTable, phase, freq, this.maxFreq) / 2;
         }
         }
 
@@ -51,7 +53,7 @@ export class WaveTable {
 
     getWaveSample(waveTable: WaveTableEntries, phase: number, freq: number, maxFreq: number) {
         const phaseIndex = Math.floor(phase * TABLE_SIZE);
-        const scaledFreq = freq * (this.srate / 2) / maxFreq / minFreq;
+        const scaledFreq = freq * this.maxFreq / maxFreq / minFreq;
         const freqIndex = Math.max(0, Math.log2(scaledFreq) * 2);
         const tableIndex = Math.floor(freqIndex);
         // Linearly interpolate between two tables (or 0)
@@ -68,23 +70,25 @@ export class WaveTable {
 
 let initialized = false;
 
-function createTables(srate: number) {
+function createTables(srate: number, maxFreq: number) {
     if (initialized) {
         return;
     }
-    createTable(squareTable, srate, pulseSeries(0.5));
-    createTable(sawTable, srate, sawSeries);
+    createTable(squareTable, srate, maxFreq, pulseSeries(0.5));
+    createTable(sawTable, srate, maxFreq, sawSeries);
+    createTable(absSineTable, srate, maxFreq, absSineSeries);
     initialized = true;
     return;
 }
 
-type SeriesFn = (i: number) => { amplitude: number, phase: number }
+type SeriesEntry = { amplitude: number, phase: number }
+type SeriesFn = (i: number) => SeriesEntry;
 
 // Ideally, call this function before generating any sound.
-function createTable(waveTable: WaveTableEntries, srate: number, series: SeriesFn) {
+function createTable(waveTable: WaveTableEntries, srate: number, maxFreq: number, series: SeriesFn) {
     for (
-        let numSines = srate / minFreq / 2 / Math.sqrt(2);
-        numSines >= 1;
+        let numSines = maxFreq / minFreq;
+        numSines >= Math.sqrt(2);
         numSines /= Math.sqrt(2)
     ) {
         waveTable.push([]);
@@ -100,7 +104,7 @@ function generateSample(
     phase: number,
     integerSines: number,
     series: SeriesFn,
-) {
+): number {
     let out = series(0).amplitude;
     for (let i = 1; i < integerSines; i += 1) {
         const { amplitude, phase: phaseOffset } = series(i);
@@ -109,7 +113,14 @@ function generateSample(
     return (out / Math.PI) * 4.0;
 }
 
-function sawSeries(i: number) {
+function absSineSeries(i: number): SeriesEntry {
+    if(i == 0) {
+        return { amplitude: 0, phase: 0 };
+    }
+    return { amplitude: i % 2 == 0 ? 2 / (i * i - 1) : 0, phase: Math.PI/2 };
+}
+
+function sawSeries(i: number): SeriesEntry {
     if(i == 0) {
         return { amplitude: 0, phase: 0 };
     }
