@@ -24,9 +24,9 @@ export type WaveType =
   | "sine"
   | "halfSine"
   | "absSine"
-  | "quarterSine"
   | "pulseSine"
-  | "square";
+  | "square"
+  | "saw";
 
 export type Note = {
   note: number; // Frequency
@@ -72,9 +72,9 @@ export function randomizeInstrument(params: Instrument): Instrument {
     "sine",
     "halfSine",
     "absSine",
-    "quarterSine",
     "pulseSine",
     "square",
+    "saw",
   ];
   const rand = (a: number, b: number) =>
     Math.floor(Math.random() * (b - a)) + a;

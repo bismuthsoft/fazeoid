@@ -9,9 +9,9 @@
     "sine",
     "absSine",
     "halfSine",
-    "quarterSine",
     "pulseSine",
     "square",
+    "saw",
   ];
 </script>
 

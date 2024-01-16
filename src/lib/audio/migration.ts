@@ -1,4 +1,4 @@
-import type { Instrument, OscillatorParams } from "./instrument";
+import type { Instrument, OscillatorParams, WaveType } from "./instrument";
 import VERSION from "../version";
 
 export function migrateInstrument(instrument: any): Instrument {
@@ -45,8 +45,13 @@ export function migrateInstrument(instrument: any): Instrument {
         pitchFraction: estimateFraction(osc.pitchRatio),
         pitchRatio: undefined,
       }));
-      instrument.version = "0.4.0";
     case "0.4.0":
+      instrument.oscs = instrument.oscs.map((osc: OscillatorParams) => ({
+        ...osc,
+        wave: (osc.wave as string) === 'quarterSine' ? 'saw' : osc.wave,
+      }));
+      instrument.version = "0.5.0";
+    case "0.5.0":
       break;
     default:
       throw new Error("UNRECOGNIZED VERSION: " + instrument.version);
