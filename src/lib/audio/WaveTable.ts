@@ -27,9 +27,9 @@ export class WaveTable {
             return this.getWaveSample(absSineTable, phase, freq, this.maxFreq - freq) / 2;
         }
         case "halfSine": {
-            const sine = this.getSineSample(phase, freq, this.maxFreq)
+            const sine = this.getSineSample(phase + 0.25, freq, this.maxFreq)
             const absSine = this.getWaveSample(absSineTable, phase, freq, this.maxFreq - freq) / 2;
-            return sine - absSine;
+            return (sine - absSine) / 2;
         }
         case "pulseSine": {
             const sine = this.getSineSample(phase*2-0.25, freq*2, this.maxFreq);
