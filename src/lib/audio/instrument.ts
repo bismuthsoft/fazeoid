@@ -84,6 +84,13 @@ export function randomizeInstrument(params: Instrument): Instrument {
       .fill(0)
       .map((_, i) => ({
         ...params.oscs[i],
+        envelope: {
+          tag: "adsr",
+          attack: 0.01 + Math.random() * Math.random(),
+          sustain: (Math.random() + Math.random())/2,
+          decay: 0.01 + Math.random(),
+          release: 0.01 + Math.random(),
+        },
         wave: waves[Math.floor(Math.random() * 6)],
         modulation: Array(i)
           .fill(0)
