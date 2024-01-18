@@ -17,9 +17,7 @@ export class WaveTable {
         createTables(srate, this.maxFreq);
     }
 
-    getSample(waveType: WaveType, freq: number, _phase: number) {
-        const phase = _phase < 0 ? 1 - (-_phase) % 1.0 : _phase % 1.0;
-
+    getSample(waveType: WaveType, freq: number, phase: number) {
         switch(waveType) {
         case "sine":
             return this.getSineSample(phase, freq, this.maxFreq)
@@ -28,11 +26,11 @@ export class WaveTable {
         }
         case "halfSine": {
             const sine = this.getSineSample(phase + 0.25, freq, this.maxFreq)
-            const absSine = this.getWaveSample(absSineTable, phase, freq, this.maxFreq - freq) / 2;
+            const absSine = this.getWaveSample(absSineTable, phase, freq, this.maxFreq) / 2;
             return (sine - absSine) / 2;
         }
         case "pulseSine": {
-            const sine = this.getSineSample(phase*2-0.25, freq*2, this.maxFreq);
+            const sine = this.getSineSample(phase*2+0.25, freq*2, this.maxFreq);
             const square = this.getWaveSample(squareTable, phase, freq, this.maxFreq - freq*2);
             return sine * (square/2+0.5);
         }
@@ -52,7 +50,11 @@ export class WaveTable {
     }
 
     getWaveSample(waveTable: WaveTableEntries, phase: number, freq: number, maxFreq: number) {
-        const phaseIndex = Math.floor(phase * TABLE_SIZE);
+        if (maxFreq < 0) {
+            return 0;
+        }
+        const truemod1 = (v: number) => v < 0 ? 1 - ((-v) % 1.0) : v % 1.0;
+        const phaseIndex = Math.floor(truemod1(phase) * TABLE_SIZE);
         const scaledFreq = freq * this.maxFreq / maxFreq / minFreq;
         const freqIndex = Math.max(0, Math.log2(scaledFreq) * 2);
         const tableIndex = Math.floor(freqIndex);
