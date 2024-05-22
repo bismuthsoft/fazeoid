@@ -9,7 +9,7 @@ export default class AudioController {
 
   async setupWorklet() {
     this.audioContext = new AudioContext();
-    await this.audioContext.audioWorklet.addModule("audio-worklet.js");
+    await this.audioContext.audioWorklet.addModule("/audio-worklet.js");
     this.waveNode = new AudioWorkletNode(this.audioContext, "wave-generator");
     this.waveNode.connect(this.audioContext.destination);
 
