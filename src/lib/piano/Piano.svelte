@@ -61,8 +61,10 @@
     const note = keyBinds[ev.code];
     if (note !== undefined) {
       ev.preventDefault();
-      if (ev.repeat) return;
       if (down) {
+        if (notesDown[note]) {
+          return;
+        }
         pressNote(note, "keyboard");
       } else {
         releaseNote(note, "keyboard");
