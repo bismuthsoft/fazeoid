@@ -1,7 +1,6 @@
 import express from 'express';
 import mongoose, { ConnectOptions } from 'mongoose';
 import { json } from 'body-parser';
-import cors from 'cors';
 import routes from './routes/index';
 
 // Middleware
@@ -10,7 +9,6 @@ import config from './config';
 
 const app = express();
 app.use(json());
-app.use(cors());
 
 // Add the routes with the base prefix
 app.use('/' + config.prefix, routes);
