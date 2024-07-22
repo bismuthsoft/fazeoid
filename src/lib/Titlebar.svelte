@@ -45,7 +45,7 @@
   >
     <img alt="Fazeoid" src="/fazeoid.svg" height="100%" />
   </a>
-  <!-- <PresetSelector bind:params /> -->
+  <PresetSelector bind:params />
   <button title="Randomize" on:click={randomize}>
     <ShuffleIcon />
   </button>
