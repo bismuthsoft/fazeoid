@@ -1,8 +1,15 @@
 <script lang="ts">
   import IntegerPicker from "./IntegerPicker.svelte";
-  export let portrait = false;
-  export let numerator = 1;
-  export let denominator = 1;
+
+  let {
+    portrait = false,
+    numerator = $bindable(1),
+    denominator = $bindable(1),
+  }: {
+    portrait?: boolean;
+    numerator?: number;
+    denominator?: number;
+  } = $props();
 
   let numParams = {
     min: 0,

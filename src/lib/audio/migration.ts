@@ -1,6 +1,7 @@
-import type { Instrument, OscillatorParams, WaveType } from "./instrument";
+import type { Instrument, OscillatorParams } from "./instrument";
 import VERSION from "../version";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- JSON.parse boundary: untrusted instrument data
 export function migrateInstrument(instrument: any): Instrument {
   switch (instrument.version) {
     case "0.0.1":
@@ -16,21 +17,25 @@ export function migrateInstrument(instrument: any): Instrument {
               release: 1 / osc.envelope.release,
             },
       }));
+      // fall through
     case "0.0.2":
       instrument.title = instrument.title ?? "Instrument";
+      // fall through
     case "0.0.3":
       instrument.oscs = instrument.oscs.map((osc: OscillatorParams) => ({
         ...osc,
         wave: "sine",
       }));
+      // fall through
     case "0.2.0":
     // No change
-    case "0.3.0":
+    // fall through
+    case "0.3.0": {
       function estimateFraction(n: number): [number, number] {
         let best = [1, 1, Infinity];
         for (let i = 1; i < 12; ++i) {
-          let guess = [Math.round(i * n), i];
-          let error = Math.abs(n - guess[0] / guess[1]);
+          const guess = [Math.round(i * n), i];
+          const error = Math.abs(n - guess[0] / guess[1]);
           if (guess[0] <= 12 && best[2] - error > 0.01) {
             best = guess.concat(error);
           }
@@ -38,6 +43,7 @@ export function migrateInstrument(instrument: any): Instrument {
         if (best[2] > 0.01) {
           console.log('Instrument migration warning: pitch ratio is not a simple fraction: ' + n);
         }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- slice() widens tuple to number[]
         return best.slice(0, 2) as any;
       }
       instrument.oscs = instrument.oscs.map((osc: OscillatorParams & { pitchRatio: number }) => ({
@@ -45,12 +51,15 @@ export function migrateInstrument(instrument: any): Instrument {
         pitchFraction: estimateFraction(osc.pitchRatio),
         pitchRatio: undefined,
       }));
+    }
+    // fall through
     case "0.4.0":
       instrument.oscs = instrument.oscs.map((osc: OscillatorParams) => ({
         ...osc,
         wave: (osc.wave as string) === 'quarterSine' ? 'saw' : osc.wave,
       }));
       instrument.version = "0.5.0";
+      // fall through
     case "0.5.0":
       break;
     default:

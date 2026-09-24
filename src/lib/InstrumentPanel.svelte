@@ -9,8 +9,10 @@
   import OscillatorMenu from "$lib/OscillatorMenu.svelte";
   import FractionPicker from "$lib/FractionPicker.svelte";
 
-  export let params: Instrument;
-  export let portrait: boolean;
+  let {
+    params = $bindable<Instrument>(),
+    portrait,
+  }: { params: Instrument; portrait: boolean } = $props();
 
   const knobProps = {
     size: "6rem",
@@ -21,7 +23,7 @@
   <section>
     <heading />
     <div class="box">
-      {#each params.oscs as osc, oscIndex}
+      {#each params.oscs.map((_, i) => i) as oscIndex}
         <div class="numberHeading">
           <div class="rowLabel">{oscIndex + 1}</div>
           <OscillatorMenu
@@ -49,10 +51,10 @@
   <section>
     <heading> Pitch </heading>
     <div class="box">
-      {#each params.oscs as osc, oscIndex}
+      {#each params.oscs as osc}
         <FractionPicker
-          bind:numerator={params.oscs[oscIndex].pitchFraction[0]}
-          bind:denominator={params.oscs[oscIndex].pitchFraction[1]}
+          bind:numerator={osc.pitchFraction[0]}
+          bind:denominator={osc.pitchFraction[1]}
           {portrait}
           {...knobProps}
         />
@@ -79,9 +81,9 @@
   <section>
     <heading> Volume </heading>
     <div class="box">
-      {#each params.oscs as osc, oscIndex}
+      {#each params.oscs as osc}
         <Knob
-          bind:value={params.oscs[oscIndex].volume}
+          bind:value={osc.volume}
           min={-72}
           max={0}
           step={0.5}
@@ -95,7 +97,7 @@
   <section>
     <heading> Scope </heading>
     <div class="box" style:flex-wrap="wrap">
-      <OscilloscopePanel instrument={params} {portrait} />
+      <OscilloscopePanel instrument={params} />
     </div>
   </section>
 </div>

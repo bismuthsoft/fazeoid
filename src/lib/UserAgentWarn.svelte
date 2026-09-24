@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import Modal from "./Modal.svelte";
-  let warning = false;
+  let warning = $state(false);
 
   onMount(() => {
     const ua = window.navigator.userAgent;
@@ -13,7 +13,7 @@
 </script>
 
 <Modal expanded={warning}>
-  <div class="warning" on:click={() => (warning = false)}>
+  <div class="warning" onclick={() => (warning = false)}>
     <h2>
       <p>Warning: Unsupported browser.</p>
       <p>

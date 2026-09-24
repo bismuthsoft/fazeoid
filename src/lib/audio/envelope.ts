@@ -95,7 +95,7 @@ export class Envelope {
           // Use an inverse power function to get a smooth transition
           const p1 = this.params.points[this.pointIndex - 1];
           const p2 = this.params.points[this.pointIndex];
-          let t = p2.dx - this.segmentTimer;
+          const t = p2.dx - this.segmentTimer;
           this.position = decaySlope(t, p1, p2);
         } else if (this.segmentTimer > 0) {
           this.position += this.slope;

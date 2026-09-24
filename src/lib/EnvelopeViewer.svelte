@@ -3,11 +3,9 @@
   import { decaySlope } from "$lib/audio/envelope";
   import { envelopeToPoints } from "$lib/audio/envelope";
 
-  export let envelope: EnvelopeParams;
-  let windowSize = 1.0;
-  let windowSizePrinted = 1.0;
+  let { envelope }: { envelope: EnvelopeParams } = $props();
 
-  function generatePath(env: EnvelopeParams): string {
+  let viz = $derived.by(() => {
     const strs: string[] = [];
 
     let { points, sustainPoint, release } = envelopeToPoints(envelope);
@@ -28,23 +26,23 @@
       { dx: 1.0 / release, y: 0 },
     ];
 
-    windowSize = Math.max(
+    const windowSize = Math.max(
       1,
       visualPoints.reduce((sum, { dx }) => sum + dx, 0)
     );
-    windowSizePrinted = Math.floor(windowSize * 100 + 0.5) / 100;
+    const windowSizePrinted = Math.floor(windowSize * 100 + 0.5) / 100;
     let x = 0;
     visualPoints.forEach(({ dx, y }: EnvelopePoint) =>
       strs.push(`${((x += dx), x * 1.5) / windowSize},${1 - y}`)
     );
-    return strs.join(" ");
-  }
+    return { path: strs.join(" "), windowSize: windowSizePrinted };
+  });
 </script>
 
 <svg class="scope" viewBox="-0.1 -0.1 1.7 1.4" preserveAspectRatio="none">
-  <polyline class="scopeLine" points={generatePath(envelope)} />
+  <polyline class="scopeLine" points={viz.path} />
   <text x="0" y="1.2" text-anchor="start">0</text>
-  <text x="1.5" y="1.2" text-anchor="end">{windowSizePrinted}</text>
+  <text x="1.5" y="1.2" text-anchor="end">{viz.windowSize}</text>
 </svg>
 
 <style>

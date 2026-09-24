@@ -3,12 +3,12 @@
   import type { Instrument } from "./audio/instrument";
   import Modal from "./Modal.svelte";
 
-  export let params: Instrument;
-  let expanded = false;
+  let { params }: { params: Instrument } = $props();
+  let expanded = $state(false);
 
   const defaultName = "Untitled Instrument";
 
-  let input: HTMLInputElement;
+  let input: HTMLInputElement = $state()!;
 
   function download(filename: string, type: string, data: string) {
     const a = document.createElement("a");
@@ -39,15 +39,15 @@
   }
 </script>
 
-<button title="Save Instrument" on:click={showDialog}>
+<button title="Save Instrument" onclick={showDialog}>
   <DownloadIcon />
 </button>
 <Modal {expanded}>
   <h2>Save Instrument As...</h2>
-  <input on:submit={doSave} bind:this={input} value={defaultName} />
+  <input bind:this={input} value={defaultName} />
   <div>
-    <button on:click={doSave} class="saveButton">Save</button>
-    <button on:click={hideDialog} class="saveButton">Cancel</button>
+    <button onclick={doSave} class="saveButton">Save</button>
+    <button onclick={hideDialog} class="saveButton">Cancel</button>
   </div>
 </Modal>
 

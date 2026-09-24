@@ -10,7 +10,7 @@ import superBass from "./Super Bass.json";
 import ufo from "./UFO.json";
 import laser from "./Laser.json";
 
-let instruments = [
+const instruments = [
     piano,
     metalPiano,
     bass,

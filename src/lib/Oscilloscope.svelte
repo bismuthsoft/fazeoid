@@ -1,17 +1,17 @@
 <script lang="ts">
-  export let waveData: number[] = [];
+  let { waveData = [] }: { waveData?: number[] } = $props();
 
-  function generatePath(data: number[]): string {
+  let path = $derived.by(() => {
     const strs: string[] = [];
-    data.forEach((d: number, i: number) =>
+    waveData.forEach((d: number, i: number) =>
       strs.push(`${i / (waveData.length - 1)},${-d}`)
     );
     return strs.join(" ");
-  }
+  });
 </script>
 
 <svg class="scope" viewBox="-0.05 -1.5 1.1 3" preserveAspectRatio="none">
-  <polyline class="scopeLine" points={generatePath(waveData)} />
+  <polyline class="scopeLine" points={path} />
 </svg>
 
 <style>

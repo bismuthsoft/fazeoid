@@ -9,17 +9,13 @@ class WaveGenerator extends AudioWorkletProcessor {
     this.port.onmessage = (msg: MessageEvent) => {
       const method: keyof Mixer = msg.data[0];
       if (typeof this.mixer[method] === "function") {
-        (this.mixer[method] as Function)(...msg.data.splice(1));
+        (this.mixer[method] as (...args: unknown[]) => void)(...msg.data.splice(1));
       } else {
         console.log(`Bad message: ${msg.data}`);
       }
     };
   }
-  process(
-    _inputs: Float32Array[][],
-    outputs: Float32Array[][],
-    _parameters: Record<string, Float32Array>
-  ): boolean {
+  process(_inputs: Float32Array[][], outputs: Float32Array[][]): boolean {
     this.mixer.writeWave(outputs[0]);
     return true;
   }

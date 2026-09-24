@@ -1,5 +1,8 @@
 <script lang="ts">
   import { sineWave } from "$lib/audio/instrument";
+  import type { Instrument, Note } from "$lib/audio/instrument";
+  import instruments from "$lib/audio/instruments/index.js";
+  import { migrateInstrument } from "$lib/audio/migration";
   import VERSION from "$lib/version";
   import AudioController from "$lib/audio/Controller";
   import InstrumentPanel from "$lib/InstrumentPanel.svelte";
@@ -7,47 +10,60 @@
   import Piano from "$lib/piano/Piano.svelte";
 
   import { onDestroy } from "svelte";
-  import { writable } from "svelte/store";
   import Titlebar from "./Titlebar.svelte";
 
-  let instrument = writable(sineWave(1));
+  function defaultInstrument(): Instrument {
+    const preset = instruments.find((i) => i.title === "Piano");
+    if (!preset) return sineWave(1);
+    // Clone: presets are shared module-level objects and migrateInstrument
+    // mutates in place.
+    return migrateInstrument(JSON.parse(JSON.stringify(preset)));
+  }
+
+  let instrument = $state(defaultInstrument());
 
   let ctrl = new AudioController();
   let hackInitialize = false;
-  instrument.subscribe((value) => {
-    ctrl.postMessage("setInstrument", 0, value);
+
+  $effect(() => {
+    // JSON round-trip: (a) deep-reads the $state proxy so ANY nested change
+    // re-triggers this effect, (b) produces a plain object — $state proxies
+    // must never be postMessage'd.
+    const snapshot = JSON.parse(JSON.stringify(instrument));
+    ctrl.postMessage("setInstrument", 0, snapshot);
   });
 
   onDestroy(() => ctrl.stop());
 
-  function noteUp(ev: CustomEvent) {
+  function noteUp(note: Note) {
     if (!hackInitialize) {
       ctrl.audioContext?.resume();
       hackInitialize = true;
     }
-    ctrl.postMessage("noteUp", ev.detail);
+    ctrl.postMessage("noteUp", note);
   }
 
-  function noteDown(ev: CustomEvent) {
+  function noteDown(note: Note) {
     if (!ctrl.started) {
       ctrl.started = true;
       ctrl.setupWorklet();
     }
-    ctrl.postMessage("noteDown", ev.detail);
+    ctrl.postMessage("noteDown", note);
   }
-  let innerWidth: number;
-  $: portrait = innerWidth < 920;
+
+  let innerWidth = $state(0);
+  let portrait = $derived(innerWidth < 920);
 </script>
 
 <svelte:window bind:innerWidth />
 
 <div class="App">
-  <Titlebar bind:params={$instrument} />
-  <InstrumentPanel bind:params={$instrument} {portrait} />
+  <Titlebar bind:params={instrument} />
+  <InstrumentPanel bind:params={instrument} {portrait} />
   <Piano
-    on:noteUp={noteUp}
-    on:noteDown={noteDown}
-    on:clear={() => ctrl.postMessage("clear")}
+    onnotedown={noteDown}
+    onnoteup={noteUp}
+    onclear={() => ctrl.postMessage("clear")}
     {portrait}
   />
   <footer>

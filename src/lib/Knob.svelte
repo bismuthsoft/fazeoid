@@ -1,38 +1,69 @@
-<script lang="js">
+<script lang="ts">
+  import type { Action } from "svelte/action";
+  import type { Writable } from "svelte/store";
   import knobdrag, {
     makeValueStore,
   } from "@bismuthsoft/svelte-dj-knob/knobdrag";
 
   import Input from "@bismuthsoft/svelte-dj-knob/Input.svelte";
 
-  // Parameters
-  export let min = 0;
-  export let max = 100;
-  export let step = (max - min) / 100;
-  export let value = (min + max) / 2;
-  const valueStore = makeValueStore(value, (newValue) => (value = newValue));
-  $: valueStore.set(value);
-  let inputElem;
-  $: knobParams = { min, max, step, valueStore, inputElem };
+  // dj-knob's Params type is not exported; mirror it locally with inputElem
+  // optional (it is briefly undefined until Input mounts) and cast the action
+  // once, which also fixes the pre-existing SVGPathElement/HTMLElement error.
+  type KnobParams = {
+    min: number;
+    max: number;
+    step: number;
+    valueStore: Writable<number>;
+    inputElem: HTMLInputElement | undefined;
+  };
+  const drag = knobdrag as unknown as Action<SVGPathElement, KnobParams>;
 
-  // Aesthetic
-  export let size = "5rem";
-  export let fgColor = "#ffffff";
-  export let valueColor = "#ffffff";
-  export let label = undefined;
-  export let numTicks = 6;
+  // Parameters
+  let {
+    min = 0,
+    max = 100,
+    step = (max - min) / 100,
+    value = $bindable((min + max) / 2),
+    // Aesthetic
+    size = "5rem",
+    fgColor = "#ffffff",
+    valueColor = "#ffffff",
+    label = undefined as string | undefined,
+    numTicks = 6,
+  }: {
+    min?: number;
+    max?: number;
+    step?: number;
+    value?: number;
+    size?: string;
+    fgColor?: string;
+    valueColor?: string;
+    label?: string;
+    numTicks?: number;
+  } = $props();
+
+  // makeValueStore subscribes (and registers onDestroy) immediately, so it
+  // must run during init, not inside $effect.
+  const valueStore = makeValueStore(value, (newValue) => (value = newValue));
+  $effect(() => valueStore.set(value));
+  let inputElem = $state<HTMLInputElement | undefined>();
+  let knobParams = $derived({ min, max, step, valueStore, inputElem });
 
   // Visual math functions
   const visualRange = 270;
   const visualStartPoint = 135;
-  const normalizeValue = (value) => (value - min) / (max - min);
-  const angleOnKnob = (normValue) => normValue * visualRange + visualStartPoint;
-  const valueOnKnob = (value) => angleOnKnob(normalizeValue(value));
-  $: ticks = Array(numTicks)
-    .fill(0)
-    .map((_, i) => ({
-      angle: angleOnKnob(numTicks === 1 ? 0.5 : i / (numTicks - 1)),
-    }));
+  const normalizeValue = (value: number) => (value - min) / (max - min);
+  const angleOnKnob = (normValue: number) =>
+    normValue * visualRange + visualStartPoint;
+  const valueOnKnob = (value: number) => angleOnKnob(normalizeValue(value));
+  let ticks = $derived(
+    Array(numTicks)
+      .fill(0)
+      .map((_, i) => ({
+        angle: angleOnKnob(numTicks === 1 ? 0.5 : i / (numTicks - 1)),
+      }))
+  );
 </script>
 
 <div class="ElegantKnob" style:width={size}>
@@ -47,7 +78,7 @@
   >
     <path
       class="background controlBG"
-      use:knobdrag={knobParams}
+      use:drag={knobParams}
       d="M 8.5,8.6 A 5,5 0 1 0 1.5,8.6"
     />
     {#if value >= min && value <= max}

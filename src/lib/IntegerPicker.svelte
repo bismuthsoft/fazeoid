@@ -1,24 +1,47 @@
 <script lang="ts">
+  import type { Action } from "svelte/action";
+  import type { Writable } from "svelte/store";
   import knobdrag, {
     makeValueStore,
   } from "@bismuthsoft/svelte-dj-knob/knobdrag";
   import Input from "@bismuthsoft/svelte-dj-knob/Input.svelte";
-  // Parameters
-  export let min = 0;
-  export let max = 10;
-  export let step = (max - min) / 1000;
-  export let value = (min + max) / 2;
 
-  const valueStore = makeValueStore(
-    value,
-    (newValue) => (value = Math.floor(newValue + 0.5))
+  // dj-knob's Params type is not exported; mirror it locally with inputElem
+  // optional (it is briefly undefined until Input mounts) and cast the action
+  // once below.
+  type KnobParams = {
+    min: number;
+    max: number;
+    step: number;
+    valueStore: Writable<number>;
+    inputElem: HTMLInputElement | undefined;
+  };
+  const drag = knobdrag as unknown as Action<HTMLDivElement, KnobParams>;
+
+  // Parameters
+  let {
+    min = 0,
+    max = 10,
+    step = (max - min) / 1000,
+    value = $bindable((min + max) / 2),
+    // Aesthetic
+    bgColor = "#fff",
+  }: {
+    min?: number;
+    max?: number;
+    step?: number;
+    value?: number;
+    bgColor?: string;
+  } = $props();
+
+  // makeValueStore subscribes (and registers onDestroy) immediately, so it
+  // must run during init, not inside $effect.
+  const valueStore = makeValueStore(value, (newValue) =>
+    (value = Math.floor(newValue + 0.5))
   );
-  $: valueStore.set(value);
-  let inputElem: any;
-  $: knobParams = { min, max, step, valueStore, inputElem };
-  // Aesthetic
-  export let bgColor = "#fff";
-  export let valueColor = "#7f9fff";
+  $effect(() => valueStore.set(value));
+  let inputElem = $state<HTMLInputElement | undefined>();
+  let knobParams = $derived({ min, max, step, valueStore, inputElem });
 </script>
 
 <div
@@ -26,7 +49,7 @@
   style:flex-direction="column"
   style:align-items="center"
 >
-  <div class="background controlBG" use:knobdrag={knobParams}>
+  <div class="background controlBG" use:drag={knobParams}>
     <Input bind:value bind:inputElem color={bgColor} />
   </div>
 </div>

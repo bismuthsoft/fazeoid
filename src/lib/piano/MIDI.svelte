@@ -1,8 +1,12 @@
 <script lang="ts">
-  import { createEventDispatcher } from "svelte";
-  const dispatch = createEventDispatcher();
+  type Props = {
+    onnoteup?: (key: number) => void;
+    onnotedown?: (key: number) => void;
+  };
 
-  let verbose = false;
+  let { onnoteup, onnotedown }: Props = $props();
+
+  let verbose = $state(false);
   // thanks to https://github.com/oscarhermoso/svelte-piano for his code
 
   function listInputsAndOutputs(midiAccess: WebMidi.MIDIAccess) {
@@ -49,7 +53,6 @@
         " bytes]: ";
       for (let i = 0; i < event.data.length; i++) {
         str += "0x" + event.data[i].toString(16) + " ";
-        event.data;
       }
       console.log(str);
     }
@@ -59,19 +62,19 @@
     switch (command) {
       case 144: // noteOn
         if (velocity > 0) {
-          dispatch("noteDown", key);
+          onnotedown?.(key);
         } else {
-          dispatch("noteUp", key);
+          onnoteup?.(key);
         }
         break;
       case 128: // noteOff
-        dispatch("noteUp", key);
+        onnoteup?.(key);
         break;
     }
   }
 
   type MidiStatus = "stopped" | "running" | "failed";
-  let status: MidiStatus = "stopped";
+  let status = $state<MidiStatus>("stopped");
 
   function midiButton() {
     if (status == "stopped") {
@@ -96,7 +99,7 @@
 
 <div>
   <button
-    on:click={midiButton}
+    onclick={midiButton}
     class="midiButton"
     disabled={status != "stopped"}
   >

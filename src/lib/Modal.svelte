@@ -1,9 +1,12 @@
 <script lang="ts">
-  export let expanded: boolean;
+  import type { Snippet } from "svelte";
+
+  let { expanded, children }: { expanded: boolean; children?: Snippet } =
+    $props();
 </script>
 
 <div class="modal" style:visibility={expanded ? "visible" : "hidden"}>
-  <slot />
+  {@render children?.()}
 </div>
 
 <style>

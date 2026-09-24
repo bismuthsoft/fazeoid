@@ -66,7 +66,7 @@ export default class Voice {
 
     // Calculate the pitch for an oscillator on self
     private calcPitch(instrument: Instrument, index: number) {
-        let frac = ([a, b]: [number, number]) => a / b;
+        const frac = ([a, b]: [number, number]) => a / b;
         return (
             instrument.basePitch *
             frac(instrument.oscs[index].pitchFraction) *

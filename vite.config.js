@@ -16,7 +16,7 @@ const config = {
 
 const versionFile = `
 // AUTO GENERATED -- DO NOT MODIFY
-const VERSION: "${pkg.version}" = "${pkg.version}";
+const VERSION = "${pkg.version}" as const;
 export default VERSION;`;
 
 writeFileSync('src/lib/version.ts', versionFile);

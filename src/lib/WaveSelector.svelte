@@ -2,8 +2,13 @@
   import type { WaveType } from "$lib/audio/instrument";
   import WaveIcon from "$lib/WaveIcon.svelte";
 
-  export let wave: WaveType;
-  export let portrait: boolean;
+  let {
+    wave = $bindable<WaveType>(),
+    portrait,
+  }: {
+    wave: WaveType;
+    portrait: boolean;
+  } = $props();
 
   const waves: WaveType[] = [
     "sine",
@@ -17,7 +22,7 @@
 
 <div class="waveSelect" class:portrait>
   {#each waves as value}
-    <button on:click={() => (wave = value)}>
+    <button onclick={() => (wave = value)}>
       <WaveIcon wave={value} selected={value === wave} />
     </button>
   {/each}

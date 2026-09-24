@@ -1,7 +1,6 @@
 <script lang="ts">
   import type { WaveType } from "$lib/audio/instrument";
-  export let wave: WaveType;
-  export let selected: boolean;
+  let { wave, selected }: { wave: WaveType; selected: boolean } = $props();
 </script>
 
 <svg

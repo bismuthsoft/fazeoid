@@ -2,8 +2,9 @@
   import Knob from "$lib/Knob.svelte";
   import type { EnvelopeParams, AdsrEnvelope } from "$lib/audio/envelope";
 
-  export let envelope: EnvelopeParams;
-  $: adsr = envelope.tag === "adsr" && envelope;
+  let { envelope = $bindable<EnvelopeParams>() }: { envelope: EnvelopeParams } =
+    $props();
+  let adsr = $derived(envelope.tag === "adsr" && envelope);
 
   type PropsEntry = {
     label: Exclude<keyof AdsrEnvelope, "tag">;
@@ -22,7 +23,7 @@
 
 {#if adsr}
   <div class="adsrGrid">
-    {#each knobProps as { label, min, max }, index}
+    {#each knobProps as { label, min, max }}
       <div class="knobContainer">
         <Knob
           bind:value={adsr[label]}

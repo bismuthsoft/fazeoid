@@ -4,44 +4,62 @@
   import noteNames from "./noteNames";
   import Midi from "./MIDI.svelte";
   import { ChevronDownIcon, ChevronUpIcon } from "svelte-feather-icons";
-  import { createEventDispatcher } from "svelte";
-  const dispatch = createEventDispatcher();
 
-  export let keyLabel: "none" | "note" | "noteOctave" = "none";
-  export let portrait: boolean;
+  type Props = {
+    keyLabel?: "none" | "note" | "noteOctave";
+    portrait: boolean;
+    onnoteup?: (note: Note) => void;
+    onnotedown?: (note: Note) => void;
+    onclear?: () => void;
+  };
 
-  let notesDown: Record<number, Note> = {};
+  let {
+    keyLabel = "none",
+    portrait,
+    onnoteup,
+    onnotedown,
+    onclear,
+  }: Props = $props();
+
+  let notesDown = $state<Record<number, Note>>({});
   type Mode = "keyboard" | "pointer" | "touch" | "MIDI";
 
   const MIN_OCTAVE = 2;
   const MAX_OCTAVE = 6;
-  let octave = 4;
-  let noteOffset: number;
+  let octave = $state(4);
+  let numKeys = $derived(portrait ? 18 : 36);
+  let noteOffset = $derived((octave - Math.floor(numKeys / 24)) * 12);
+  let keys = $derived(generateKeys(numKeys));
 
-  function pressNote(note: number, mode: Mode): Note | undefined {
+  $effect(() => {
+    void keys; // track
+    void noteOffset; // track
+    clearNotes(); // side effect: releases held notes when layout changes
+  });
+
+  function pressNote(note: number): Note | undefined {
     const pressed: Note = {
       note: note + noteOffset,
       instrumentIndex: 0,
     };
     notesDown[note] = pressed;
-    dispatch("noteDown", pressed);
+    onnotedown?.(pressed);
     return pressed;
   }
 
   function releaseNote(note: number, mode: Mode) {
     const noteObj = notesDown[note];
     if (noteObj) {
-      dispatch("noteUp", noteObj);
+      onnoteup?.(noteObj);
       delete notesDown[noteObj.note - noteOffset];
-      notesDown = notesDown;
     } else {
       console.log("Bad " + mode + " note up " + note);
     }
   }
 
   function clearNotes() {
-    notesDown = [];
-    dispatch("clear");
+    notesDown = {};
+    onclear?.();
   }
 
   function keyLabelFn(note: number): string {
@@ -65,7 +83,7 @@
         if (notesDown[note]) {
           return;
         }
-        pressNote(note, "keyboard");
+        pressNote(note);
       } else {
         releaseNote(note, "keyboard");
       }
@@ -74,20 +92,10 @@
 
   function handleMidi(note: number, down: boolean) {
     if (down) {
-      pressNote(note - noteOffset, "MIDI");
+      pressNote(note - noteOffset);
     } else {
       releaseNote(note - noteOffset, "MIDI");
     }
-  }
-
-  let keys: PianoKey[];
-  $: numKeys = portrait ? 18 : 36;
-
-  $: {
-    // Octave shift
-    noteOffset = (octave - Math.floor(numKeys / 24)) * 12;
-    keys = generateKeys(numKeys);
-    clearNotes();
   }
 
   type PianoKey = {
@@ -118,21 +126,21 @@
 </script>
 
 <svelte:window
-  on:keydown={(ev) => handleKeyboard(ev, true)}
-  on:keyup={(ev) => handleKeyboard(ev, false)}
+  onkeydown={(ev) => handleKeyboard(ev, true)}
+  onkeyup={(ev) => handleKeyboard(ev, false)}
 />
 
 <div class="pianoBar" class:portrait>
   <div style:width="7em">
     <Midi
-      on:noteDown={(ev) => handleMidi(ev.detail, true)}
-      on:noteUp={(ev) => handleMidi(ev.detail, false)}
+      onnotedown={(n) => handleMidi(n, true)}
+      onnoteup={(n) => handleMidi(n, false)}
     />
   </div>
   <div class="octavePicker">
     <button
       class="octaveButton"
-      on:click={() => (octave = Math.max(MIN_OCTAVE, octave - 1))}
+      onclick={() => (octave = Math.max(MIN_OCTAVE, octave - 1))}
       disabled={octave === MIN_OCTAVE}
     >
       <ChevronDownIcon size="16" />
@@ -140,13 +148,13 @@
     Octave: {octave}
     <button
       class="octaveButton"
-      on:click={() => (octave = Math.min(MAX_OCTAVE, octave + 1))}
+      onclick={() => (octave = Math.min(MAX_OCTAVE, octave + 1))}
       disabled={octave === MAX_OCTAVE}
     >
       <ChevronUpIcon size="16" />
     </button>
   </div>
-  <button on:click={clearNotes}>Stop Notes</button>
+  <button onclick={clearNotes}>Stop Notes</button>
 </div>
 
 <div class="piano">
@@ -157,12 +165,12 @@
       class:blackKey={!isWhite}
       class:oddOctave={(note + noteOffset) % 24 < 12}
       class:down={notesDown[note]}
-      on:pointerdown={() => pressNote(note, "pointer")}
-      on:pointerup={() => releaseNote(note, "pointer")}
-      on:mouseenter={(ev) => {
-        if (ev.buttons > 0) pressNote(note, "pointer");
+      onpointerdown={() => pressNote(note)}
+      onpointerup={() => releaseNote(note, "pointer")}
+      onmouseenter={(ev) => {
+        if (ev.buttons > 0) pressNote(note);
       }}
-      on:mouseleave={() => releaseNote(note, "pointer")}
+      onmouseleave={() => releaseNote(note, "pointer")}
     >
       {#if keyLabel !== "none"}
         <div class="keyLabel">

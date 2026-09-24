@@ -59,9 +59,6 @@ importers:
       svelte-feather-icons:
         specifier: ^4.2.0
         version: 4.2.0
-      svelte-headlessui:
-        specifier: ^0.0.46
-        version: 0.0.46(svelte@5.57.1(@typescript-eslint/types@8.70.1))
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -1073,11 +1070,6 @@ packages:
   svelte-feather-icons@4.2.0:
     resolution: {integrity: sha512-KuMTDrL6sA8aCxBv3RMgmmnnyIaAXaYcmWkmNa2r2Qj70vi+An2T6ZBAdiZr6wjx+a3eZJy+FRseeRkzQFGHPw==}
 
-  svelte-headlessui@0.0.46:
-    resolution: {integrity: sha512-yl3Pd7/LmIgl6uZ6dB9FuWNGJ+P7bazgJpwhNLA7Rk+AqYITv0vFXjGgl4D9ogAiPCrwjTkEAFMl8ovsk3FJ5Q==}
-    peerDependencies:
-      svelte: ^4.0.0 || ^5.0.0
-
   svelte@3.59.2:
     resolution: {integrity: sha512-vzSyuGr3eEoAtT/A6bmajosJZIUWySzY2CzB3w2pgPvnkUjGqlDnsNnA0PMO+mMAhuyMul6C2uuZzY6ELSkzyA==}
     engines: {node: '>= 8'}
@@ -2063,10 +2055,6 @@ snapshots:
   svelte-feather-icons@4.2.0:
     dependencies:
       svelte: 3.59.2
-
-  svelte-headlessui@0.0.46(svelte@5.57.1(@typescript-eslint/types@8.70.1)):
-    dependencies:
-      svelte: 5.57.1(@typescript-eslint/types@8.70.1)
 
   svelte@3.59.2: {}
 
