@@ -41,5 +41,10 @@
     flex-grow: 1;
     font-size: 1.5em;
     padding-left: 0.5em;
+    /* UA form controls don't inherit color: without this the value renders
+       system-dark on the dark controlBG. color-scheme also flips the native
+       arrow and option popup to the dark theme. */
+    color: white;
+    color-scheme: dark;
   }
 </style>
