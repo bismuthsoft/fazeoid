@@ -43,10 +43,25 @@ export default class Voice {
 
     // Live edit instrument
     updateInstrument(instrument: Instrument) {
-        instrument.oscs.forEach((_osc: OscillatorParams, index) => {
-            this.oscs[index].wave = _osc.wave;
+        // Presets can have a different oscillator count than the instrument
+        // this voice was created with: grow (new oscillators) or shrink
+        // (drop extras). Without resizing, modMatrix/outVolumes go out of
+        // sync with this.oscs and the next audio frame crashes on
+        // `this.modMatrix[i].forEach` (or `this.oscs[index].wave`).
+        this.oscs = instrument.oscs.map((_osc: OscillatorParams, index) => {
+            const existing = this.oscs[index];
+            if (!existing) {
+                return new Oscillator(
+                    this.calcPitch(instrument, index),
+                    new Envelope(_osc.envelope, this.srate),
+                    this.srate,
+                    _osc.wave
+                );
+            }
             // MUST BE DONE IN THIS ORDER. SET WAVE THEN PITCH.
-            this.oscs[index].setPitch(this.calcPitch(instrument, index));
+            existing.wave = _osc.wave;
+            existing.setPitch(this.calcPitch(instrument, index));
+            return existing;
         });
         this.setModMatrix(instrument);
         this.setOutVolumes(instrument);

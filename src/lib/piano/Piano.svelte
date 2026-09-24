@@ -50,7 +50,10 @@
   function releaseNote(note: number, mode: Mode) {
     const noteObj = notesDown[note];
     if (noteObj) {
-      onnoteup?.(noteObj);
+      // notesDown is $state, so noteObj is a deep proxy — structured clone
+      // (postMessage to the worklet) rejects proxies. Hand listeners a plain
+      // copy; otherwise the release throws and the note stays stuck.
+      onnoteup?.({ ...noteObj });
       delete notesDown[noteObj.note - noteOffset];
     } else {
       console.log("Bad " + mode + " note up " + note);
