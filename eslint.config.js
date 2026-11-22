@@ -3,7 +3,11 @@ import js from '@eslint/js';
 import ts from 'typescript-eslint';
 import svelte from 'eslint-plugin-svelte';
 import globals from 'globals';
-import svelteConfig from './svelte.config.js';
+import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
+
+// SvelteKit 3 dropped svelte.config.js (config now lives in vite.config.js),
+// so mirror the bits the Svelte parser needs here.
+const svelteConfig = { preprocess: vitePreprocess() };
 
 export default defineConfig(
 	{
@@ -15,6 +19,7 @@ export default defineConfig(
 			// NOT match the config-root path, so these must be bare.
 			'build',
 			'.svelte-kit',
+			'vendor',
 			'package',
 			'.env',
 			'.env.*',
@@ -59,7 +64,7 @@ export default defineConfig(
 	{
 		// Official typescript-eslint guidance: TypeScript already checks all
 		// identifiers, so core no-undef only false-positives on TS namespaces/
-		// types in these files (e.g. WebMidi from @types/webmidi).
+		// types in these files.
 		files: ['**/*.ts', '**/*.svelte'],
 		rules: {
 			'no-undef': 'off'

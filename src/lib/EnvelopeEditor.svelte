@@ -1,6 +1,6 @@
 <script lang="ts">
-  import Knob from "$lib/Knob.svelte";
-  import type { EnvelopeParams, AdsrEnvelope } from "$lib/audio/envelope";
+  import Knob from "#lib/Knob.svelte";
+  import type { EnvelopeParams, AdsrEnvelope } from "#lib/audio/envelope.js";
 
   let { envelope = $bindable<EnvelopeParams>() }: { envelope: EnvelopeParams } =
     $props();

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Knob from "$lib/Knob.svelte";
+  import Knob from "#lib/Knob.svelte";
   import type { ComponentProps } from "svelte";
   import type { Instrument } from "./audio/instrument";
 

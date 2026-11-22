@@ -1,6 +1,6 @@
 <script lang="ts">
-  import type { WaveType } from "$lib/audio/instrument";
-  import WaveIcon from "$lib/WaveIcon.svelte";
+  import type { WaveType } from "#lib/audio/instrument.js";
+  import WaveIcon from "#lib/WaveIcon.svelte";
 
   let {
     wave = $bindable<WaveType>(),

@@ -1,23 +1,6 @@
 <script lang="ts">
-  import type { Action } from "svelte/action";
-  import type { Writable } from "svelte/store";
-  import knobdrag, {
-    makeValueStore,
-  } from "@bismuthsoft/svelte-dj-knob/knobdrag";
-
-  import Input from "@bismuthsoft/svelte-dj-knob/Input.svelte";
-
-  // dj-knob's Params type is not exported; mirror it locally with inputElem
-  // optional (it is briefly undefined until Input mounts) and cast the action
-  // once, which also fixes the pre-existing SVGPathElement/HTMLElement error.
-  type KnobParams = {
-    min: number;
-    max: number;
-    step: number;
-    valueStore: Writable<number>;
-    inputElem: HTMLInputElement | undefined;
-  };
-  const drag = knobdrag as unknown as Action<SVGPathElement, KnobParams>;
+  import knobdrag from "#dj-knob/knobdrag.js";
+  import Input from "#dj-knob/Input.svelte";
 
   // Parameters
   let {
@@ -43,12 +26,15 @@
     numTicks?: number;
   } = $props();
 
-  // makeValueStore subscribes (and registers onDestroy) immediately, so it
-  // must run during init, not inside $effect.
-  const valueStore = makeValueStore(value, (newValue) => (value = newValue));
-  $effect(() => valueStore.set(value));
   let inputElem = $state<HTMLInputElement | undefined>();
-  let knobParams = $derived({ min, max, step, valueStore, inputElem });
+  let knobParams = $derived({
+    min,
+    max,
+    step,
+    getValue: () => value,
+    setValue: (newValue: number) => (value = newValue),
+    inputElem,
+  });
 
   // Visual math functions
   const visualRange = 270;
@@ -78,7 +64,7 @@
   >
     <path
       class="background controlBG"
-      use:drag={knobParams}
+      use:knobdrag={knobParams}
       d="M 8.5,8.6 A 5,5 0 1 0 1.5,8.6"
     />
     {#if value >= min && value <= max}

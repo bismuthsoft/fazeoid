@@ -1,4 +1,4 @@
-import { Mixer } from "$lib/audio/Mixer";
+import { Mixer } from "#lib/audio/Mixer.js";
 
 class WaveGenerator extends AudioWorkletProcessor {
   mixer: Mixer;

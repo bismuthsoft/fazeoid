@@ -1,13 +1,13 @@
 <script lang="ts">
-  import type { Instrument } from "$lib/audio/instrument";
-  import EnvelopeEditor from "$lib/EnvelopeEditor.svelte";
-  import EnvelopeViewer from "$lib/EnvelopeViewer.svelte";
-  import Knob from "$lib/Knob.svelte";
+  import type { Instrument } from "#lib/audio/instrument.js";
+  import EnvelopeEditor from "#lib/EnvelopeEditor.svelte";
+  import EnvelopeViewer from "#lib/EnvelopeViewer.svelte";
+  import Knob from "#lib/Knob.svelte";
   import ModulationPanel from "./ModulationPanel.svelte";
-  import OscilloscopePanel from "$lib/OscilloscopePanel.svelte";
-  import WaveSelector from "$lib/WaveSelector.svelte";
-  import OscillatorMenu from "$lib/OscillatorMenu.svelte";
-  import FractionPicker from "$lib/FractionPicker.svelte";
+  import OscilloscopePanel from "#lib/OscilloscopePanel.svelte";
+  import WaveSelector from "#lib/WaveSelector.svelte";
+  import OscillatorMenu from "#lib/OscillatorMenu.svelte";
+  import FractionPicker from "#lib/FractionPicker.svelte";
 
   let {
     params = $bindable<Instrument>(),

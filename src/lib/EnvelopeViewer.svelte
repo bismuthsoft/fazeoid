@@ -1,7 +1,7 @@
 <script lang="ts">
-  import type { EnvelopeParams, EnvelopePoint } from "$lib/audio/envelope";
-  import { decaySlope } from "$lib/audio/envelope";
-  import { envelopeToPoints } from "$lib/audio/envelope";
+  import type { EnvelopeParams, EnvelopePoint } from "#lib/audio/envelope.js";
+  import { decaySlope } from "#lib/audio/envelope.js";
+  import { envelopeToPoints } from "#lib/audio/envelope.js";
 
   let { envelope }: { envelope: EnvelopeParams } = $props();
 

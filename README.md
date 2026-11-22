@@ -72,11 +72,25 @@ This is the output volume of each oscillator in decibels, with 0 being the max v
 
 ## Running your own instance
 
-Download this repo and install pnpm on your system. Then, go into the directory of this repository and type:
+Download this repo and install pnpm on your system. The knob widgets come from
+[svelte-dj-knob](https://github.com/bismuthsoft/svelte-dj-knob), which is
+vendored as a git submodule, so clone with submodules (or initialise them
+afterwards):
+
+```bash
+git clone --recurse-submodules https://github.com/bismuthsoft/fazeoid
+# or, in an existing clone:
+git submodule update --init
+```
+
+Then, go into the directory of this repository and type:
 
 ```bash
 pnpm i
 pnpm run dev
 ```
+
+pnpm will fetch the Node version named in `devEngines` (26.13.1) if your system
+Node is older.
 
 The application should then be hosted on `localhost:5173`

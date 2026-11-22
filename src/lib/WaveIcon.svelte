@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { WaveType } from "$lib/audio/instrument";
+  import type { WaveType } from "#lib/audio/instrument.js";
   let { wave, selected }: { wave: WaveType; selected: boolean } = $props();
 </script>
 

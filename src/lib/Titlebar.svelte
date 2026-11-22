@@ -7,7 +7,7 @@
     HelpCircleIcon,
   } from "svelte-feather-icons";
   import PresetSelector from "./PresetSelector.svelte";
-  import SaveButton from "$lib/SaveButton.svelte";
+  import SaveButton from "#lib/SaveButton.svelte";
 
   let { params = $bindable<Instrument>() }: { params: Instrument } = $props();
 

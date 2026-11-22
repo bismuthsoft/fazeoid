@@ -1,13 +1,13 @@
 <script lang="ts">
-  import { sineWave } from "$lib/audio/instrument";
-  import type { Instrument, Note } from "$lib/audio/instrument";
-  import instruments from "$lib/audio/instruments/index.js";
-  import { migrateInstrument } from "$lib/audio/migration";
-  import VERSION from "$lib/version";
-  import AudioController from "$lib/audio/Controller";
-  import InstrumentPanel from "$lib/InstrumentPanel.svelte";
+  import { sineWave } from "#lib/audio/instrument.js";
+  import type { Instrument, Note } from "#lib/audio/instrument.js";
+  import instruments from "#lib/audio/instruments/index.js";
+  import { migrateInstrument } from "#lib/audio/migration.js";
+  import VERSION from "#lib/version.js";
+  import AudioController from "#lib/audio/Controller.js";
+  import InstrumentPanel from "#lib/InstrumentPanel.svelte";
   import UserAgentWarn from "./UserAgentWarn.svelte";
-  import Piano from "$lib/piano/Piano.svelte";
+  import Piano from "#lib/piano/Piano.svelte";
 
   import { onDestroy } from "svelte";
   import Titlebar from "./Titlebar.svelte";

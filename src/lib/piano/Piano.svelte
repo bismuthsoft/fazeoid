@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Note } from "$lib/audio/instrument";
+  import type { Note } from "#lib/audio/instrument.js";
   import keyBinds from "./keyBinds";
   import noteNames from "./noteNames";
   import Midi from "./MIDI.svelte";

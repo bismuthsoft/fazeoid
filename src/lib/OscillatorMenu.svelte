@@ -3,7 +3,7 @@
     type Instrument,
     addOscillator,
     removeOscillator,
-  } from "$lib/audio/instrument";
+  } from "#lib/audio/instrument.js";
   import {
     MoreVerticalIcon,
     PlusCircleIcon,

@@ -1,22 +1,6 @@
 <script lang="ts">
-  import type { Action } from "svelte/action";
-  import type { Writable } from "svelte/store";
-  import knobdrag, {
-    makeValueStore,
-  } from "@bismuthsoft/svelte-dj-knob/knobdrag";
-  import Input from "@bismuthsoft/svelte-dj-knob/Input.svelte";
-
-  // dj-knob's Params type is not exported; mirror it locally with inputElem
-  // optional (it is briefly undefined until Input mounts) and cast the action
-  // once below.
-  type KnobParams = {
-    min: number;
-    max: number;
-    step: number;
-    valueStore: Writable<number>;
-    inputElem: HTMLInputElement | undefined;
-  };
-  const drag = knobdrag as unknown as Action<HTMLDivElement, KnobParams>;
+  import knobdrag from "#dj-knob/knobdrag.js";
+  import Input from "#dj-knob/Input.svelte";
 
   // Parameters
   let {
@@ -34,14 +18,16 @@
     bgColor?: string;
   } = $props();
 
-  // makeValueStore subscribes (and registers onDestroy) immediately, so it
-  // must run during init, not inside $effect.
-  const valueStore = makeValueStore(value, (newValue) =>
-    (value = Math.floor(newValue + 0.5))
-  );
-  $effect(() => valueStore.set(value));
   let inputElem = $state<HTMLInputElement | undefined>();
-  let knobParams = $derived({ min, max, step, valueStore, inputElem });
+  let knobParams = $derived({
+    min,
+    max,
+    step,
+    getValue: () => value,
+    // the picker is integer-only: snap whatever the drag produces
+    setValue: (newValue: number) => (value = Math.floor(newValue + 0.5)),
+    inputElem,
+  });
 </script>
 
 <div
@@ -49,7 +35,7 @@
   style:flex-direction="column"
   style:align-items="center"
 >
-  <div class="background controlBG" use:drag={knobParams}>
+  <div class="background controlBG" use:knobdrag={knobParams}>
     <Input bind:value bind:inputElem color={bgColor} />
   </div>
 </div>

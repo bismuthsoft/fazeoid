@@ -1,6 +1,6 @@
 <script lang="ts">
-  import instruments from "$lib/audio/instruments/index.js";
-  import type { Instrument } from "$lib/audio/instrument";
+  import instruments from "#lib/audio/instruments/index.js";
+  import type { Instrument } from "#lib/audio/instrument.js";
   import { migrateInstrument } from "./audio/migration";
 
   let { params = $bindable<Instrument>() }: { params: Instrument } = $props();
