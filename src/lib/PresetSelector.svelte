@@ -41,10 +41,15 @@
     flex-grow: 1;
     font-size: 1.5em;
     padding-left: 0.5em;
-    /* UA form controls don't inherit color: without this the value renders
-       system-dark on the dark controlBG. color-scheme also flips the native
-       arrow and option popup to the dark theme. */
+    /* UA form controls don't inherit color: without this the value renders in
+       the system colour on the dark controlBG. */
     color: white;
-    color-scheme: dark;
+  }
+  /* The native dropdown is painted by the UA, which does not pick up the
+     select's transparent background, so state the app's colours outright
+     instead of leaning on color-scheme and the system theme. */
+  .presetName option {
+    color: white;
+    background-color: var(--background-opaque);
   }
 </style>

@@ -3,9 +3,24 @@ body {
   --highlight-opaque: #00bfff;
   --highlight-gradient: radial-gradient(#6ff, #44c);
   --background: #2030309f;
+  /* opaque form of --background, for surfaces the compositor paints on its
+     own (native <option> popups) where alpha is not reliable */
+  --background-opaque: #203030;
   --background-hover: #000000ff;
   margin: 0;
   font-family: "Helvetica Neue", "TeX Gyre Heros", Roboto, Arial, sans-serif;
+  /* The whole app is a control surface: dragging a knob, a modulation cell or
+     a piano key must never start a text selection. Set once here rather than
+     per-component. */
+  user-select: none;
+}
+/* Text fields are the exception, and must say `text` rather than `auto`:
+   `auto` computes to `none` when the parent is `none`. The knobs rely on
+   this, since clicking one calls select() on its input to type a value. */
+input,
+textarea,
+select {
+  user-select: text;
 }
 button {
   cursor: pointer;
@@ -27,6 +42,7 @@ button {
 }
 button,
 input,
+select,
 .controlBG {
   transition: 0.3s;
   border: none;
