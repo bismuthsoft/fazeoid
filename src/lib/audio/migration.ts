@@ -58,9 +58,10 @@ export function migrateInstrument(instrument: any): Instrument {
         ...osc,
         wave: (osc.wave as string) === 'quarterSine' ? 'saw' : osc.wave,
       }));
-      instrument.version = "0.5.0";
       // fall through
     case "0.5.0":
+      instrument.version = "0.5.1";
+    case "0.5.1":
       break;
     default:
       throw new Error("UNRECOGNIZED VERSION: " + instrument.version);
