@@ -1,6 +1,6 @@
 {
   "name": "fmsite-svkit",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "imports": {
     "#lib/*": "./src/lib/*",
     "#dj-knob/*": "./vendor/svelte-dj-knob/src/lib/*"

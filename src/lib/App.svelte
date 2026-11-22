@@ -68,7 +68,7 @@
   />
   <footer>
     <div>Fazeoid {VERSION}</div>
-    <div>Copyright © 2022 BismuthSoft</div>
+    <div>Copyright © 2026 BismuthSoft</div>
   </footer>
 </div>
 
