@@ -101,7 +101,6 @@
     display: flex;
     justify-content: space-between;
     letter-spacing: 0.2rem;
-    user-select: none;
   }
   /* latin */
   @font-face {

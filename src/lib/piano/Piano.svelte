@@ -215,7 +215,6 @@
   .whiteKey {
     display: grid;
     place-items: center;
-    user-select: none;
     transform: translate(0%, -40%);
     height: 170%;
     background: white;
@@ -233,7 +232,6 @@
   .blackKey {
     display: grid;
     place-items: center;
-    user-select: none;
     transform: translate(50%, 0%);
     height: 115%;
     z-index: 1;
@@ -249,7 +247,6 @@
     position: absolute;
     justify-self: center;
     z-index: 2;
-    user-select: none;
     font-weight: bold;
   }
   .whiteKey .keyLabel {
