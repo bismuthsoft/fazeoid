@@ -3,7 +3,7 @@ export default class AudioController {
   audioContext?: AudioContext;
   private waveNode?: AudioWorkletNode;
   private messagePort?: MessagePort;
-  private messageQueue: { name: string; values: any[] }[] = [];
+  private messageQueue: { name: string; values: unknown[] }[] = [];
 
   constructor() {}
 
@@ -18,7 +18,7 @@ export default class AudioController {
     this.pushQueue();
   }
 
-  postMessage(name: string, ...values: any[]) {
+  postMessage(name: string, ...values: unknown[]) {
     if (this.messagePort) {
       this.messagePort.postMessage([name, ...values]);
     } else {

@@ -1,20 +1,28 @@
 <script lang="ts">
-  import Knob from "$lib/Knob.svelte";
+  import Knob from "#lib/Knob.svelte";
   import type { ComponentProps } from "svelte";
   import type { Instrument } from "./audio/instrument";
 
-  export let params: Instrument;
-  export let knobProps: ComponentProps<Knob>;
-  export let portrait: boolean;
+  let {
+    params = $bindable<Instrument>(),
+    knobProps,
+    portrait,
+  }: {
+    params: Instrument;
+    knobProps: ComponentProps<typeof Knob>;
+    portrait: boolean;
+  } = $props();
 
-  $: gridArea = portrait
-    ? (row: number, column: number) => `${column}/${row}`
-    : (row: number, column: number) => `${row}/${column}`;
+  let gridArea = $derived(
+    portrait
+      ? (row: number, column: number) => `${column}/${row}`
+      : (row: number, column: number) => `${row}/${column}`,
+  );
 </script>
 
 <div class="ModulationPanel">
   {#each params.oscs as osc, oscIndex}
-    {#each osc.modulation as _, modIndex}
+    {#each osc.modulation.map((_, i) => i) as modIndex}
       <div style:grid-area={gridArea(oscIndex + 1, modIndex + 1)}>
         <Knob
           bind:value={params.oscs[oscIndex].modulation[modIndex]}

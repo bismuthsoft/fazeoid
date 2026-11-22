@@ -1,0 +1,3 @@
+[submodule "vendor/svelte-dj-knob"]
+	path = vendor/svelte-dj-knob
+	url = https://github.com/bismuthsoft/svelte-dj-knob

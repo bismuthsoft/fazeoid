@@ -1,11 +1,15 @@
 <script lang="ts">
-  import { createEventDispatcher } from "svelte";
-  const dispatch = createEventDispatcher();
+  type Props = {
+    onnoteup?: (key: number) => void;
+    onnotedown?: (key: number) => void;
+  };
 
-  let verbose = false;
+  let { onnoteup, onnotedown }: Props = $props();
+
+  let verbose = $state(false);
   // thanks to https://github.com/oscarhermoso/svelte-piano for his code
 
-  function listInputsAndOutputs(midiAccess: WebMidi.MIDIAccess) {
+  function listInputsAndOutputs(midiAccess: MIDIAccess) {
     for (const entry of midiAccess.inputs) {
       const input = entry[1];
       console.log(
@@ -39,39 +43,42 @@
       );
     }
   }
-  function onMIDIMessage(event: WebMidi.MIDIMessageEvent) {
+  function onMIDIMessage(event: MIDIMessageEvent) {
+    // the spec allows a message with no data (e.g. a closed port flushing)
+    const data = event.data;
+    if (!data) return;
+
     if (verbose) {
       let str =
         "MIDI message received at timestamp " +
         event.timeStamp +
         "[" +
-        event.data.length +
+        data.length +
         " bytes]: ";
-      for (let i = 0; i < event.data.length; i++) {
-        str += "0x" + event.data[i].toString(16) + " ";
-        event.data;
+      for (let i = 0; i < data.length; i++) {
+        str += "0x" + data[i].toString(16) + " ";
       }
       console.log(str);
     }
-    const command = event.data[0];
-    const key = event.data[1];
-    const velocity = event.data.length > 2 ? event.data[2] : 0; // a velocity value might not be included with a noteOff command
+    const command = data[0];
+    const key = data[1];
+    const velocity = data.length > 2 ? data[2] : 0; // a velocity value might not be included with a noteOff command
     switch (command) {
       case 144: // noteOn
         if (velocity > 0) {
-          dispatch("noteDown", key);
+          onnotedown?.(key);
         } else {
-          dispatch("noteUp", key);
+          onnoteup?.(key);
         }
         break;
       case 128: // noteOff
-        dispatch("noteUp", key);
+        onnoteup?.(key);
         break;
     }
   }
 
   type MidiStatus = "stopped" | "running" | "failed";
-  let status: MidiStatus = "stopped";
+  let status = $state<MidiStatus>("stopped");
 
   function midiButton() {
     if (status == "stopped") {
@@ -96,7 +103,7 @@
 
 <div>
   <button
-    on:click={midiButton}
+    onclick={midiButton}
     class="midiButton"
     disabled={status != "stopped"}
   >

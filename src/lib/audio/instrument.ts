@@ -112,7 +112,7 @@ export function removeOscillator(
     console.log("Refusing to make empty instrument");
     return params;
   }
-  let oscs = params.oscs.map(({ modulation: mod, ...rest }) => ({
+  const oscs = params.oscs.map(({ modulation: mod, ...rest }) => ({
     modulation: [...mod.slice(0, index), ...mod.slice(index + 1)],
     ...rest,
   }));

@@ -1,15 +1,16 @@
 <script lang="ts">
-  import type { Instrument, Note } from "$lib/audio/instrument";
-  import { flatEnvelope } from "$lib/audio/envelope";
-  import Voice from "$lib/audio/Voice";
+  import type { Instrument, Note } from "#lib/audio/instrument.js";
+  import { flatEnvelope } from "#lib/audio/envelope.js";
+  import Voice from "#lib/audio/Voice.js";
   import Oscilloscope from "./Oscilloscope.svelte";
 
-  export let instrument: Instrument;
-  export let zoom = 0.25; // How many periods to show
-  export let portrait: boolean;
+  let {
+    instrument,
+    zoom = 0.25, // How many periods to show
+  }: { instrument: Instrument; zoom?: number } = $props();
 
-  let resolution = 400;
-  $: sampleRate = zoom * resolution * 440;
+  const resolution = 400;
+  let sampleRate = $derived(zoom * resolution * 440);
 
   function rotateData<T>(data: T[][]): T[][] {
     return Array(data[0].length)
@@ -26,16 +27,16 @@
   }
 
   const note: Note = { note: 57, instrumentIndex: 0 };
-  $: flatInstrument = {
+  let flatInstrument = $derived({
     ...instrument,
     oscs: instrument.oscs.map((o) => ({
       ...o,
       envelope: flatEnvelope(1, 0),
     })),
-  };
+  });
 
-  $: voice = new Voice(flatInstrument, note, sampleRate);
-  $: oscData = getOscillators(voice);
+  let voice = $derived(new Voice(flatInstrument, note, sampleRate));
+  let oscData = $derived(getOscillators(voice));
 
   // Maybe useful: shifting
   // const shiftRate = 60; // FPS of shifting by 1 sample

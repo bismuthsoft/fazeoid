@@ -4,13 +4,12 @@
   import {
     ShuffleIcon,
     UploadIcon,
-    DownloadIcon,
     HelpCircleIcon,
   } from "svelte-feather-icons";
   import PresetSelector from "./PresetSelector.svelte";
-  import SaveButton from "$lib/SaveButton.svelte";
+  import SaveButton from "#lib/SaveButton.svelte";
 
-  export let params: Instrument;
+  let { params = $bindable<Instrument>() }: { params: Instrument } = $props();
 
   function randomize() {
     params = randomizeInstrument(params);
@@ -46,11 +45,11 @@
     <img alt="Fazeoid" src="/fazeoid.svg" height="100%" />
   </a>
   <PresetSelector bind:params />
-  <button title="Randomize" on:click={randomize}>
+  <button title="Randomize" onclick={randomize}>
     <ShuffleIcon />
   </button>
   <SaveButton {params} />
-  <button title="Load Instrument" on:click={uploadInstrument}>
+  <button title="Load Instrument" onclick={uploadInstrument}>
     <UploadIcon />
   </button>
   <a href="https://github.com/bismuthsoft/fazeoid#readme">

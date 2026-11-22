@@ -1,24 +1,33 @@
 <script lang="ts">
-  import knobdrag, {
-    makeValueStore,
-  } from "@bismuthsoft/svelte-dj-knob/knobdrag";
-  import Input from "@bismuthsoft/svelte-dj-knob/Input.svelte";
-  // Parameters
-  export let min = 0;
-  export let max = 10;
-  export let step = (max - min) / 1000;
-  export let value = (min + max) / 2;
+  import knobdrag from "#dj-knob/knobdrag.js";
+  import Input from "#dj-knob/Input.svelte";
 
-  const valueStore = makeValueStore(
-    value,
-    (newValue) => (value = Math.floor(newValue + 0.5))
-  );
-  $: valueStore.set(value);
-  let inputElem: any;
-  $: knobParams = { min, max, step, valueStore, inputElem };
-  // Aesthetic
-  export let bgColor = "#fff";
-  export let valueColor = "#7f9fff";
+  // Parameters
+  let {
+    min = 0,
+    max = 10,
+    step = (max - min) / 1000,
+    value = $bindable((min + max) / 2),
+    // Aesthetic
+    bgColor = "#fff",
+  }: {
+    min?: number;
+    max?: number;
+    step?: number;
+    value?: number;
+    bgColor?: string;
+  } = $props();
+
+  let inputElem = $state<HTMLInputElement | undefined>();
+  let knobParams = $derived({
+    min,
+    max,
+    step,
+    getValue: () => value,
+    // the picker is integer-only: snap whatever the drag produces
+    setValue: (newValue: number) => (value = Math.floor(newValue + 0.5)),
+    inputElem,
+  });
 </script>
 
 <div

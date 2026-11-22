@@ -1,38 +1,55 @@
-<script lang="js">
-  import knobdrag, {
-    makeValueStore,
-  } from "@bismuthsoft/svelte-dj-knob/knobdrag";
-
-  import Input from "@bismuthsoft/svelte-dj-knob/Input.svelte";
+<script lang="ts">
+  import knobdrag from "#dj-knob/knobdrag.js";
+  import Input from "#dj-knob/Input.svelte";
 
   // Parameters
-  export let min = 0;
-  export let max = 100;
-  export let step = (max - min) / 100;
-  export let value = (min + max) / 2;
-  const valueStore = makeValueStore(value, (newValue) => (value = newValue));
-  $: valueStore.set(value);
-  let inputElem;
-  $: knobParams = { min, max, step, valueStore, inputElem };
+  let {
+    min = 0,
+    max = 100,
+    step = (max - min) / 100,
+    value = $bindable((min + max) / 2),
+    // Aesthetic
+    size = "5rem",
+    fgColor = "#ffffff",
+    valueColor = "#ffffff",
+    label = undefined as string | undefined,
+    numTicks = 6,
+  }: {
+    min?: number;
+    max?: number;
+    step?: number;
+    value?: number;
+    size?: string;
+    fgColor?: string;
+    valueColor?: string;
+    label?: string;
+    numTicks?: number;
+  } = $props();
 
-  // Aesthetic
-  export let size = "5rem";
-  export let fgColor = "#ffffff";
-  export let valueColor = "#ffffff";
-  export let label = undefined;
-  export let numTicks = 6;
+  let inputElem = $state<HTMLInputElement | undefined>();
+  let knobParams = $derived({
+    min,
+    max,
+    step,
+    getValue: () => value,
+    setValue: (newValue: number) => (value = newValue),
+    inputElem,
+  });
 
   // Visual math functions
   const visualRange = 270;
   const visualStartPoint = 135;
-  const normalizeValue = (value) => (value - min) / (max - min);
-  const angleOnKnob = (normValue) => normValue * visualRange + visualStartPoint;
-  const valueOnKnob = (value) => angleOnKnob(normalizeValue(value));
-  $: ticks = Array(numTicks)
-    .fill(0)
-    .map((_, i) => ({
-      angle: angleOnKnob(numTicks === 1 ? 0.5 : i / (numTicks - 1)),
-    }));
+  const normalizeValue = (value: number) => (value - min) / (max - min);
+  const angleOnKnob = (normValue: number) =>
+    normValue * visualRange + visualStartPoint;
+  const valueOnKnob = (value: number) => angleOnKnob(normalizeValue(value));
+  let ticks = $derived(
+    Array(numTicks)
+      .fill(0)
+      .map((_, i) => ({
+        angle: angleOnKnob(numTicks === 1 ? 0.5 : i / (numTicks - 1)),
+      }))
+  );
 </script>
 
 <div class="ElegantKnob" style:width={size}>

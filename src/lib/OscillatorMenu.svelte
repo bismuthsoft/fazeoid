@@ -3,17 +3,26 @@
     type Instrument,
     addOscillator,
     removeOscillator,
-  } from "$lib/audio/instrument";
-  import { createMenu } from "svelte-headlessui";
+  } from "#lib/audio/instrument.js";
   import {
     MoreVerticalIcon,
     PlusCircleIcon,
     TrashIcon,
   } from "svelte-feather-icons";
 
-  export let params: Instrument;
-  export let oscIndex: number;
-  export let rightmostPortrait: boolean;
+  let {
+    params = $bindable<Instrument>(),
+    oscIndex,
+    rightmostPortrait,
+  }: {
+    params: Instrument;
+    oscIndex: number;
+    rightmostPortrait: boolean;
+  } = $props();
+
+  let open = $state(false);
+  let active = $state("");
+  let container: HTMLDivElement = $state()!;
 
   function addOsc(index: number) {
     params = addOscillator(params, index);
@@ -22,8 +31,6 @@
   function removeOsc(index: number) {
     params = removeOscillator(params, index);
   }
-
-  const menu = createMenu({ label: "Oscillator Menu" });
 
   const entries = [
     {
@@ -43,20 +50,38 @@
     },
   ];
 
-  function onSelect(ev: Event) {
-    const entry = entries.find((e) => e.text === ev.detail.selected);
-    entry?.action();
-  }
+  $effect(() => {
+    if (!open) return;
+    const onPointer = (e: PointerEvent) => {
+      if (!container?.contains(e.target as Node)) open = false;
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") open = false;
+    };
+    window.addEventListener("pointerdown", onPointer);
+    window.addEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("pointerdown", onPointer);
+      window.removeEventListener("keydown", onKey);
+    };
+  });
 </script>
 
-<div style:position="relative">
-  <button use:menu.button on:select={onSelect}><MoreVerticalIcon /></button>
-  <div hidden={!$menu.expanded} class="menuPopup">
-    <div use:menu.items class="menuItems" class:rightmostPortrait>
+<div style:position="relative" bind:this={container}>
+  <button onclick={() => (open = !open)}><MoreVerticalIcon /></button>
+  <div hidden={!open} class="menuPopup">
+    <div class="menuItems" class:rightmostPortrait>
       {#each entries as entry}
-        {@const active = $menu.active === entry.text}
-        <div class:entry class:active use:menu.item>
-          <svelte:component this={entry.icon} />
+        <div
+          class:entry
+          class:active={active === entry.text}
+          onmouseenter={() => (active = entry.text)}
+          onclick={() => {
+            entry.action();
+            open = false;
+          }}
+        >
+          <entry.icon />
           {entry.text}
         </div>
       {/each}

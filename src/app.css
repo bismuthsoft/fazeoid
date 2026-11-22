@@ -1,0 +1,72 @@
+body {
+  --highlight: #00a8a87f;
+  --highlight-opaque: #00bfff;
+  --highlight-gradient: radial-gradient(#6ff, #44c);
+  --background: #2030309f;
+  /* opaque form of --background, for surfaces the compositor paints on its
+     own (native <option> popups) where alpha is not reliable */
+  --background-opaque: #203030;
+  --background-hover: #000000ff;
+  margin: 0;
+  font-family: "Helvetica Neue", "TeX Gyre Heros", Roboto, Arial, sans-serif;
+  /* The whole app is a control surface: dragging a knob, a modulation cell or
+     a piano key must never start a text selection. Set once here rather than
+     per-component. */
+  user-select: none;
+}
+/* Text fields are the exception, and must say `text` rather than `auto`:
+   `auto` computes to `none` when the parent is `none`. The knobs rely on
+   this, since clicking one calls select() on its input to type a value. */
+input,
+textarea,
+select {
+  user-select: text;
+}
+button {
+  cursor: pointer;
+}
+button path {
+  stroke: white;
+}
+input,
+textarea,
+select {
+  font-family: inherit;
+}
+/* netlify deploy preview bar */
+div[data-netlify-deploy-id] {
+  display: none;
+}
+button {
+  padding: 0.5rem 0.6rem 0.3rem 0.6rem;
+}
+button,
+input,
+select,
+.controlBG {
+  transition: 0.3s;
+  border: none;
+  color: white;
+  border-radius: 0.5em;
+  background: var(--background);
+  fill: var(--background);
+}
+button:hover,
+input:hover,
+.controlBG:hover {
+  background: var(--background-hover);
+  fill: var(--background-hover);
+}
+button:active,
+input:active,
+.controlBG:active {
+  background: var(--highlight-gradient);
+  fill: var(--highlight-gradient);
+}
+button:disabled,
+input:disabled,
+.controlBG:disabled {
+  background: var(--background);
+  fill: var(--background);
+  opacity: 0.5;
+}
